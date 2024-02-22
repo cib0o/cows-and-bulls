@@ -1,98 +1,88 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-public class userInterface extends JFrame{
 
-    public static void main(String[] args) {
+public class userInterface extends JFrame implements KeyListener {
+    private char[] inputBuffer = new char[4];
+    private int inputBufferCount = 0;
+    private MyPanel panel;
 
-        SwingUtilities.invokeLater(Main::new);
-
-        final int[] cows = {0};
-        final int[] bulls = {0};
-
+    public userInterface() {
+        setTitle("Bulls and Cows");
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
         int width = screenSize.width;
         int height = screenSize.height;
+        setSize(width, height);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(null);
 
-        int cowBoundX = width/32;
-        int bullBoundX = width/4 * 3;
-        int cowBoundY = height/2 - height/8;
-        int bullBoundY = height/2 - height/8;
+        final int[] cows = {0};
+        final int[] bulls = {0};
 
+        int cowBoundX = width / 32;
+        int bullBoundX = width / 4 * 3;
+        int cowBoundY = height / 2 - height / 8;
+        int bullBoundY = height / 2 - height / 8;
 
+        panel = new MyPanel(cows, bulls, cowBoundX, cowBoundY, bullBoundX, bullBoundY, inputBuffer, inputBufferCount);
+        add(panel);
 
-        JFrame frame = new JFrame("Bulls and Cows");
-        frame.setSize(width,height);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(null);
+        addKeyListener(this);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
 
-        Button addCow = new Button("Add cow");
-        Button removeCow = new Button("Remove cow");
-        Button addBull = new Button("Add bull");
-        Button removeBull = new Button("Remove bull");
-        Button startBasic = new Button("Start Basic game");
-
-        startBasic.setBounds(100,140,100,20);
-        addCow.setBounds(100,20,100,20);
-        removeCow.setBounds(100,50,100,20);
-        addBull.setBounds(100,80,100,20);
-        removeBull.setBounds(100,110,100,20);
-
-        frame.add(startBasic);
-        frame.add(addCow);
-        frame.add(removeCow);
-        frame.add(addBull);
-        frame.add(removeBull);
-        JPanel panel = new MyPanel(cows, bulls, cowBoundX, cowBoundY, bullBoundX, bullBoundY);
-
-        addCow.addActionListener(e -> {
-            cows[0] += 1;
-            panel.repaint();
-        });
-        removeCow.addActionListener(e -> {
-            if (cows[0] != 0 ) {
-                cows[0] -= 1;
-                panel.repaint();
-            }
-        });
-        addBull.addActionListener(e -> {
-            bulls[0] += 1;
-            panel.repaint();
-        });
-        removeBull.addActionListener(e -> {
-            if (bulls[0] != 0) {
-                bulls[0] -= 1;
-                panel.repaint();
-            }
-        });
-
-
-
-        frame.add(panel);
-        frame.setVisible(true);
+        setVisible(true);
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+        char c = e.getKeyChar();
+        if (Character.isDigit(c) && inputBufferCount < inputBuffer.length) {
+            inputBuffer[inputBufferCount++] = c;
+            panel.setInputBufferCount(inputBufferCount);
+            panel.repaint();
+        }
+    }
 
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && inputBufferCount > 0) {
+            inputBuffer[--inputBufferCount] = '\0';
+            panel.setInputBufferCount(inputBufferCount);
+            panel.repaint();
+        }
+    }
 
+    @Override
+    public void keyReleased(KeyEvent e) {}
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(userInterface::new);
+    }
 }
 
-
 class MyPanel extends JPanel {
+    private int inputBufferCount;
+    private final char[] inputBuffer;
     private BufferedImage cowImage, bullImage;
     int[] cows, bulls;
     int cowBoundX, cowBoundY, bullBoundX, bullBoundY;
 
-    public MyPanel(int[] cows, int[] bulls, int cowBoundX, int cowBoundY, int bullBoundX, int bullBoundY) {
+    public MyPanel(int[] cows, int[] bulls, int cowBoundX, int cowBoundY, int bullBoundX, int bullBoundY, char[] inputBuffer, int inputBufferCount) {
         this.cows = cows;
         this.bulls = bulls;
         this.cowBoundX = cowBoundX;
         this.cowBoundY = cowBoundY;
         this.bullBoundX = bullBoundX;
         this.bullBoundY = bullBoundY;
+        this.inputBuffer = inputBuffer;
+        this.inputBufferCount = inputBufferCount;
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
@@ -111,11 +101,44 @@ class MyPanel extends JPanel {
         }
     }
 
+    public void setInputBufferCount(int count) {
+        this.inputBufferCount = count;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
+        Font numberFont = new Font(Font.SANS_SERIF, Font.BOLD, 48);
+        g.setFont(numberFont);
+
+        cows[0] = 1;
+        bulls[0] = 1;
+
+        FontMetrics metrics = g.getFontMetrics();
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        int width = screenSize.width;
+        int height = screenSize.height;
+
+
+        for(int i = 0; i<4; i++) {
+            g.setColor(Color.darkGray);
+            g.fillRect((((width / 2 )-160*2)+i*160) -5, (height / 4 * 2) - 5, 160, (150*5/3) + 10);
+            g.setColor(Color.lightGray);
+            g.fillRect(((width / 2 )-160*2)+i*160, height / 4 * 2, 150, 150*5/3);
+
+            if (i < inputBufferCount) {
+                String text = Character.toString(inputBuffer[i]);
+                int textWidth = metrics.stringWidth(text);
+                int textHeight = metrics.getHeight();
+                int x = (((width / 2 )-160*2)+i*160) + (150 - textWidth) / 2;
+                int y = (height / 4 * 2) + ((150*5/3) - textHeight) / 2 + metrics.getAscent();
+                g.setColor(Color.black);
+                g.drawString(text, x, y);
+            }
+        }
         drawAnimals(g2d, cowImage, cows[0], cowBoundX, cowBoundY);
         drawAnimals(g2d, bullImage, bulls[0], bullBoundX, bullBoundY);
     }
@@ -133,8 +156,6 @@ class MyPanel extends JPanel {
             g2d.drawImage(image, x, y, imageWidth, imageHeight, this);
         }
     }
-
-
 
 }
 
