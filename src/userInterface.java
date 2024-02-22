@@ -6,11 +6,15 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 
 public class userInterface extends JFrame implements KeyListener {
     private char[] inputBuffer = new char[4];
     private int inputBufferCount = 0;
     private MyPanel panel;
+
+    static Game g = new Game();
+
 
     public userInterface() {
         setTitle("Bulls and Cows");
@@ -56,6 +60,15 @@ public class userInterface extends JFrame implements KeyListener {
             inputBuffer[--inputBufferCount] = '\0';
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
+        } else if (e.getKeyCode() == KeyEvent.VK_ENTER && inputBufferCount == 4) {
+            int[] cowsBulls = g.enterGuess(Integer.parseInt(new String(inputBuffer)));
+            panel.setCows(cowsBulls[0]);
+            panel.setBulls(cowsBulls[1]);
+            System.out.println(cowsBulls[0] + " cows " + cowsBulls[1] + " Bulls");
+            inputBufferCount = 0;
+            Arrays.fill(inputBuffer, '\0');
+            panel.setInputBufferCount(inputBufferCount);
+            panel.repaint();
         }
     }
 
@@ -64,6 +77,7 @@ public class userInterface extends JFrame implements KeyListener {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(userInterface::new);
+        g.requestCode();
     }
 }
 
@@ -105,6 +119,13 @@ class MyPanel extends JPanel {
         this.inputBufferCount = count;
     }
 
+    public void setCows(int cows){
+        this.cows[0] = cows;
+    }
+    public void setBulls(int bulls){
+        this.bulls[0] = bulls;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -112,9 +133,6 @@ class MyPanel extends JPanel {
 
         Font numberFont = new Font(Font.SANS_SERIF, Font.BOLD, 48);
         g.setFont(numberFont);
-
-        cows[0] = 1;
-        bulls[0] = 1;
 
         FontMetrics metrics = g.getFontMetrics();
         Toolkit toolkit = Toolkit.getDefaultToolkit();

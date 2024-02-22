@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GamesEnteringTest {
@@ -36,8 +38,8 @@ public class GamesEnteringTest {
             g.playGame();
             g.enterGuess(guess);
             System.out.println("Guess should be false : ");
-            assertFalse(g.enterGuess(guess)); //checks to make sure guess is wrong
-            if (!g.enterGuess(guess)) { //if guess is wrong
+            assertFalse(Objects.equals(g.enterGuess(guess), new int[]{4, 0})); //checks to make sure guess is wrong
+            if (!Objects.equals(g.enterGuess(guess), new int[]{4, 0})) { //if guess is wrong
                 System.out.println(p + "Bulls & Cows Count:");
                 p.getBulls();
                 p.getCows();
@@ -69,8 +71,8 @@ public class GamesEnteringTest {
             g2.playGame();
             g2.enterGuess(guess);
             System.out.println("Guess should be true : ");
-            assertTrue(g2.enterGuess(guess)); //checks to make sure guess is correct
-            if (g2.enterGuess(guess)) { //if guess is true
+            assertTrue(g2.enterGuess(guess) == new int[]{4,0}); //checks to make sure guess is correct
+            if (g2.enterGuess(guess) == new int[]{4,0}) { //if guess is true
                 System.out.println(p2 + "Bulls & Cows Count:");
                 p2.getBulls();
                 p2.getCows();

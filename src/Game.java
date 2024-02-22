@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Game {
 
     //playerGameMapping;
     //currentPlayer Player;
-    ArrayList<Integer> guesses = new ArrayList<>();
+    ArrayList<String> guesses = new ArrayList<>();
+    String code;
 
     Game(Player p, String codeType) {}
     Game(Player p) {    }
@@ -16,16 +18,38 @@ public class Game {
     public void getHint() {}
     protected void loadPlayer() {}
     public static void playGame() {}
-    public Object requestCode() {return 1234;}
-    public boolean enterGuess(int guess) {
-        //If guess == solution: return true,
-        //If guess != solution: return false;
-        try {
-        } catch (Exception e){
-            throw e;
+    public Object requestCode() {
+        code = String.valueOf(1234);
+        return 1234;
+    }
+    public int[] enterGuess(int guess) {
+        int bulls = 0;
+        int cows = 0;
+        String guessStr = Integer.toString(guess);
+        guesses.add(guessStr);
+        String tempCode = code;
+        String tempGuess = guessStr;
+        for (int i = 0; i < guessStr.length(); i++) {
+            if (i < code.length() && guessStr.charAt(i) == code.charAt(i)) {
+                bulls++;
+
+                // the concatenation of x and y is just so they won't be checked again when we're counting the cows
+
+                tempGuess = tempGuess.substring(0, i) + 'X' + tempGuess.substring(i + 1);
+                tempCode = tempCode.substring(0, i) + 'Y' + tempCode.substring(i + 1);
+            }
+        }
+        for (int i = 0; i < tempGuess.length(); i++) {
+            if (tempGuess.charAt(i) != 'X') {
+                int index = tempCode.indexOf(tempGuess.charAt(i));
+                if (index != -1) {
+                    cows++;
+                    tempCode = tempCode.substring(0, index) + 'Y' + tempCode.substring(index + 1);
+                }
+            }
         }
 
-        return true;
+        return new int[]{cows, bulls};
     }
         // }
     public void undoGuess(int i) {}
