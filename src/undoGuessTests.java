@@ -29,7 +29,15 @@ public class undoGuessTests{
      * Then an error message is displayed to the player indicating a complete guess hasn’t been made yet
      */
 
-    // this is not applicable based on how we're inputting the code
+    @Test
+    public void undoNothing(){
+        Game g = new Game();
+        g.requestCode();
+        assertThrows(Exception.class, () -> {
+            g.undoGuess(1111);
+        });
+
+    }
 
     /**
      * Scenario: player wants to undo an invalid letter/number in the guess
