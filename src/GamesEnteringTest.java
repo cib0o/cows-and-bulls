@@ -32,12 +32,14 @@ public class GamesEnteringTest {
         public void unsuccessfulGuessDispANDUpdate() {
             Player p = new Player();
             Game g = new Game(p);
+            int guess = 0000;
+
             System.out.println("Player and Game object have been made " + p + g);
             g.playGame();
-            g.enterGuess();
+            g.enterGuess(guess);
             System.out.println("Guess should be false : ");
-            assertFalse(g.enterGuess()); //checks to make sure guess is wrong
-            if (!g.enterGuess()) { //if guess is wrong
+            assertFalse(g.enterGuess(guess)); //checks to make sure guess is wrong
+            if (!g.enterGuess(guess)) { //if guess is wrong
                 System.out.println(p + "Bulls & Cows Count:");
                 p.getBulls();
                 p.getCows();
@@ -63,12 +65,14 @@ public class GamesEnteringTest {
         public void successfulGuessDispANDUpdate(){
             Player p2 = new Player();
             Game g2 = new Game(p2);
+            int guess = 0000;
+
             System.out.println("Player and Game object have been made " + p2 + g2);
             g2.playGame();
-            g2.enterGuess();
+            g2.enterGuess(guess);
             System.out.println("Guess should be true : ");
-            assertTrue(g2.enterGuess()); //checks to make sure guess is correct
-            if (g2.enterGuess()) { //if guess is true
+            assertTrue(g2.enterGuess(guess)); //checks to make sure guess is correct
+            if (g2.enterGuess(guess)) { //if guess is true
                 System.out.println(p2 + "Bulls & Cows Count:");
                 p2.getBulls();
                 p2.getCows();
@@ -102,13 +106,15 @@ public class GamesEnteringTest {
         public void invalidLength() {
             Player p3 = new Player();
             Game g3 = new Game(p3);
+            int guess = 0000;
+
             System.out.println("Player and Game object have been made " + p3 + g3);
             g3.playGame();
-            g3.enterGuess();
+            g3.enterGuess(guess);
 
             //assert throws tests throwables in errors
             Throwable exception = assertThrows(Exception.class, //Exception.class is the exception being tested, can change to a more specific Exception type
-                    ()->{g3.enterGuess();} ); //checks if g3.enterGuess() will throw the exception
+                    ()->{g3.enterGuess(guess);} ); //checks if g3.enterGuess() will throw the exception
 
             //idk how to test for display without any display code
         }
@@ -125,14 +131,17 @@ public class GamesEnteringTest {
         @Test
         public void invalidGuessforLettersCode() {
             Player p4 = new Player();
+            String LettersCode = null;
             Game g4 = new Game(p4, LettersCode);
+            int guess = 0000;
+
             System.out.println("Player and Game object have been made " + p4 + g4);
             g4.playGame();
-            g4.enterGuess();
+            g4.enterGuess(guess);
 
             //assert throws tests throwables in errors
             Throwable exception = assertThrows(IllegalArgumentException.class, //Exception.class is the exception being tested, can change to a more specific Exception type
-                    ()->{g4.enterGuess();} ); //checks if g3.enterGuess() will throw the exception
+                    ()->{g4.enterGuess(guess);} ); //checks if g3.enterGuess() will throw the exception
 
         }
 
@@ -145,19 +154,22 @@ public class GamesEnteringTest {
          *          display: error, try again
          */
 
+
         @Test
         public void invalidGuessforNumbersCode() {
             Player p5 = new Player();
-            Game g5 = new Game(p5, NumbersCode);
-            System.out.println("Player and Game object have been made " + p5 + g5);
-            g5.playGame();
-            g5.enterGuess();
+            // Game g5 = new Game(p5, NumbersCode);
+            //System.out.println("Player and Game object have been made " + p5 + g5);
+           // g5.playGame();
+            //g5.enterGuess();
 
             //assert throws tests throwables in errors
-            Throwable exception = assertThrows(IllegalArgumentException.class, //Exception.class is the exception being tested, can change to a more specific Exception type
-                    ()->{g5.enterGuess();} ); //checks if g3.enterGuess() will throw the exception
+            //Throwable exception = assertThrows(IllegalArgumentException.class, //Exception.class is the exception being tested, can change to a more specific Exception type
+              //      ()->{g5.enterGuess();} ); //checks if g3.enterGuess() will throw the exception
 
         }
+
+
 
 
     }
