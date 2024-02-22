@@ -4,9 +4,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GamesEnteringTest {
-
-
-    public class GuessEnterTests {
         /**
          * Notes:
          * Game(Player p, String codeType)
@@ -174,4 +171,4 @@ public class GamesEnteringTest {
 
     }
 
-}
+
