@@ -1,8 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -51,36 +49,24 @@ public class userInterface extends JFrame{
         frame.add(removeBull);
         JPanel panel = new MyPanel(cows, bulls, cowBoundX, cowBoundY, bullBoundX, bullBoundY);
 
-        addCow.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cows[0] += 1;
+        addCow.addActionListener(e -> {
+            cows[0] += 1;
+            panel.repaint();
+        });
+        removeCow.addActionListener(e -> {
+            if (cows[0] != 0 ) {
+                cows[0] -= 1;
                 panel.repaint();
             }
         });
-        removeCow.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (cows[0] != 0 ) {
-                    cows[0] -= 1;
-                    panel.repaint();
-                }
-            }
+        addBull.addActionListener(e -> {
+            bulls[0] += 1;
+            panel.repaint();
         });
-        addBull.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                bulls[0] += 1;
+        removeBull.addActionListener(e -> {
+            if (bulls[0] != 0) {
+                bulls[0] -= 1;
                 panel.repaint();
-            }
-        });
-        removeBull.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (bulls[0] != 0) {
-                    bulls[0] -= 1;
-                    panel.repaint();
-                }
             }
         });
 
