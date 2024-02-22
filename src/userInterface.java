@@ -3,54 +3,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-
-//I DONE SOMETHING!!!
-
+import java.net.URL;
 public class userInterface extends JFrame{
-
-    // stuff for inputs.
-    private static JTextField[] digitFields;
-    public void Main() {
-        int numberOfDigits = 4;
-        digitFields = new JTextField[numberOfDigits];
-        int xPosition = 250;
-        int yPosition = 500;
-
-        for (int i = 0; i < numberOfDigits; i++) {
-            JTextField field = new JTextField(1);
-            field.setBounds(xPosition + (i * 50), yPosition, 40, 40);
-            field.setHorizontalAlignment(JTextField.CENTER);
-            field.addKeyListener(new KeyAdapter() {
-                public void keyTyped(KeyEvent e) {
-                    char input = e.getKeyChar();
-                    if ((input < '0' || input > '9') && input != '\b') {
-                        e.consume();
-                    }
-                }
-
-                public void keyPressed(KeyEvent e) {
-                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                        submitGuess();
-                    }
-                }
-            });
-            this.add(field);
-            digitFields[i] = field;
-        }
-    }
-
-    private static void submitGuess() {
-        StringBuilder guessBuilder = new StringBuilder();
-        for (JTextField field : digitFields) {
-            guessBuilder.append(field.getText());
-        }
-        System.out.println(guessBuilder);
-    }
 
     public static void main(String[] args) {
 
@@ -141,7 +97,6 @@ public class userInterface extends JFrame{
 
 class MyPanel extends JPanel {
     private BufferedImage cowImage, bullImage;
-    private boolean drawCow = true;
     int[] cows, bulls;
     int cowBoundX, cowBoundY, bullBoundX, bullBoundY;
 
@@ -161,8 +116,9 @@ class MyPanel extends JPanel {
         setBounds(0, 0, width, height);
 
         try {
-            cowImage = ImageIO.read(new File("cows-and-bulls\\src\\cow.png"));
-            bullImage = ImageIO.read(new File("cows-and-bulls\\src\\bull.png"));
+            cowImage = ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/cow.png?raw=true"));
+            bullImage = ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/bull.png?raw=true"));
+            System.out.println("Images loaded successfully.");
         } catch (IOException e) {
             System.out.println("Failed to load images");
             e.printStackTrace();
