@@ -23,9 +23,16 @@ public class Game {
         return 1234;
     }
     public int[] enterGuess(int guess) {
+
+        /**
+         * IMPORTANT: the output of this method is [cows, bulls], a won game would be [0,4]
+         */
+
         int bulls = 0;
         int cows = 0;
+        //converting both to a string to compare easier
         String guessStr = Integer.toString(guess);
+        //adding to the array of previous guesses
         guesses.add(guessStr);
         String tempCode = code;
         String tempGuess = guessStr;

@@ -12,12 +12,13 @@ public class userInterface extends JFrame implements KeyListener {
     private char[] inputBuffer = new char[4];
     private int inputBufferCount = 0;
     private MyPanel panel;
-
     static Game g = new Game();
 
 
     public userInterface() {
         setTitle("Bulls and Cows");
+
+        //ToolKit is to get the information about the monitor and other hardware things.
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
         int width = screenSize.width;
@@ -29,6 +30,7 @@ public class userInterface extends JFrame implements KeyListener {
         final int[] cows = {0};
         final int[] bulls = {0};
 
+        // This is declared like this so its proportional to every screen it's on
         int cowBoundX = width / 32;
         int bullBoundX = width / 4 * 3;
         int cowBoundY = height / 2 - height / 8;
@@ -47,6 +49,7 @@ public class userInterface extends JFrame implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         char c = e.getKeyChar();
+        // Checking if the character is a digit and that there's still space in the input buffer
         if (Character.isDigit(c) && inputBufferCount < inputBuffer.length) {
             inputBuffer[inputBufferCount++] = c;
             panel.setInputBufferCount(inputBufferCount);
@@ -56,15 +59,20 @@ public class userInterface extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        // Deleting a number when backspace is pressed and there's something to undo
         if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && inputBufferCount > 0) {
             inputBuffer[--inputBufferCount] = '\0';
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
+        // Else if enter is pressed and there are 4 numbers there, submit the guess
         } else if (e.getKeyCode() == KeyEvent.VK_ENTER && inputBufferCount == 4) {
             int[] cowsBulls = g.enterGuess(Integer.parseInt(new String(inputBuffer)));
             panel.setCows(cowsBulls[0]);
             panel.setBulls(cowsBulls[1]);
             System.out.println(cowsBulls[0] + " cows " + cowsBulls[1] + " Bulls");
+
+            //reset the input buffer
+
             inputBufferCount = 0;
             Arrays.fill(inputBuffer, '\0');
             panel.setInputBufferCount(inputBufferCount);
@@ -73,7 +81,7 @@ public class userInterface extends JFrame implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {} // this is just here because of the "implements" at the top
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(userInterface::new);
@@ -81,6 +89,7 @@ public class userInterface extends JFrame implements KeyListener {
     }
 }
 
+// new class for the panel which deals with displaying shit
 class MyPanel extends JPanel {
     private int inputBufferCount;
     private final char[] inputBuffer;
@@ -106,6 +115,8 @@ class MyPanel extends JPanel {
         setBounds(0, 0, width, height);
 
         try {
+
+            // reading from the git
             cowImage = ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/cow.png?raw=true"));
             bullImage = ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/bull.png?raw=true"));
             System.out.println("Images loaded successfully.");
@@ -115,6 +126,8 @@ class MyPanel extends JPanel {
         }
     }
 
+
+    //next 3 methods are for setting stuff outside of the panel class when the panel also needs to know about it or the indormation is in here already
     public void setInputBufferCount(int count) {
         this.inputBufferCount = count;
     }
@@ -140,7 +153,7 @@ class MyPanel extends JPanel {
         int width = screenSize.width;
         int height = screenSize.height;
 
-
+        // this for loop draws the input rectangles and the numbers that are in the input buffer
         for(int i = 0; i<4; i++) {
             g.setColor(Color.darkGray);
             g.fillRect((((width / 2 )-160*2)+i*160) -5, (height / 4 * 2) - 5, 160, (150*5/3) + 10);
@@ -161,6 +174,8 @@ class MyPanel extends JPanel {
         drawAnimals(g2d, bullImage, bulls[0], bullBoundX, bullBoundY);
     }
 
+
+    //drawing the animals in the same bounding box by finding the nearest square root rounded up and making a square of the images
     private void drawAnimals(Graphics2D g2d, BufferedImage image, int count, int boundX, int boundY) {
         int gridSize = (int) Math.ceil(Math.sqrt(count));
         int imageWidth = (gridSize > 0) ? 400 / gridSize : 0;
