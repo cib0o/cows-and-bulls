@@ -6,6 +6,10 @@ public class Game {
     Game(Player p, String codeType) {}
     Game(Player p) {    }
 
+    public Game() {
+
+    }
+
     public void getHint() {}
     protected void loadPlayer() {}
     public static void playGame() {}
