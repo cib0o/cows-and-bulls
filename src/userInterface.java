@@ -8,10 +8,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
-
-import static sun.swing.MenuItemLayoutHelper.max;
 
 public class userInterface extends JPanel implements KeyListener {
     private char[] inputBuffer = new char[4];
@@ -84,7 +81,10 @@ public class userInterface extends JPanel implements KeyListener {
             panel.repaint();
         // Else if enter is pressed and there are 4 numbers there, submit the guess
         } else if (e.getKeyCode() == KeyEvent.VK_ENTER && inputBufferCount == 4) {
-            int[] cowsBulls = g.enterGuess(Integer.parseInt(new String(inputBuffer)));
+            int[] cowsBulls = g.enterGuess(new String(inputBuffer));
+            if (cowsBulls[1] == 4){
+                System.out.println(g.guesses.size() + " is your score!");
+            }
             panel.setCows(cowsBulls[0]);
             panel.setBulls(cowsBulls[1]);
             System.out.println(cowsBulls[0] + " cows " + cowsBulls[1] + " Bulls");
@@ -193,11 +193,19 @@ class MyPanel extends JPanel {
             count++;
         }
 
-            for (int i = 0 ; i < count ; i++) {
-                int x = (width / 2 ) - 96;
+            for (int i = 0 ; i < count && i < 5; i++) {
+                int x = (width / 2 ) - 72;
                 int y = ((height / 4 * 2) + ((150 * 5 / 3)) / 2 ) - i*50 - 200;
                 g2d.setColor(Color.black);
-                g2d.drawString(userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1), x, y);
+                Font guessFont = new Font(Font.SANS_SERIF, Font.BOLD, 48);
+                g2d.setFont(guessFont);
+                g2d.drawString(userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).substring(0,4), x, y);
+
+                g2d.setColor(Color.darkGray);
+                Font guessFontCowBull = new Font(Font.SANS_SERIF, Font.BOLD, 38);
+                g2d.setFont(guessFontCowBull);
+                g2d.drawString("Cows:" + userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).charAt(4), x-170, y);
+                g2d.drawString("Bulls:" + userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).charAt(5), x+150, y);
             }
 
         drawAnimals(g2d, cowImage, cows[0], cowBoundX, cowBoundY);

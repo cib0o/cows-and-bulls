@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Game {
 
@@ -19,21 +18,24 @@ public class Game {
     protected void loadPlayer() {}
     public static void playGame() {}
     public Object requestCode() {
-        code = String.valueOf(1234);
-        return 1234;
+        code = "1234";
+        return code;
     }
-    public int[] enterGuess(int guess) {
+    public int[] enterGuess(String guessStr) {
 
         /**
          * IMPORTANT: the output of this method is [cows, bulls], a won game would be [0,4]
          */
 
+        if(guessStr.equals("0000")){
+            System.out.println(code);
+        }
+
         int bulls = 0;
         int cows = 0;
         //converting both to a string to compare easier
-        String guessStr = Integer.toString(guess);
         //adding to the array of previous guesses
-        guesses.add(guessStr);
+
         String tempCode = code;
         String tempGuess = guessStr;
         for (int i = 0; i < guessStr.length(); i++) {
@@ -56,6 +58,8 @@ public class Game {
             }
         }
 
+        guesses.add(guessStr + cows + bulls);
+
         return new int[]{cows, bulls};
     }
         // }
@@ -64,4 +68,6 @@ public class Game {
     public void loadGame(){}
     public void showSolution(){
     }
+
+
 }
