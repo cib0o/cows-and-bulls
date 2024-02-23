@@ -1,14 +1,19 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 
-public class userInterface extends JFrame implements KeyListener {
+import static sun.swing.MenuItemLayoutHelper.max;
+
+public class userInterface extends JPanel implements KeyListener {
     private char[] inputBuffer = new char[4];
     private int inputBufferCount = 0;
     private MyPanel panel;
@@ -16,7 +21,8 @@ public class userInterface extends JFrame implements KeyListener {
 
 
     public userInterface() {
-        setTitle("Bulls and Cows");
+
+        g.requestCode();
 
         //ToolKit is to get the information about the monitor and other hardware things.
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -24,7 +30,6 @@ public class userInterface extends JFrame implements KeyListener {
         int width = screenSize.width;
         int height = screenSize.height;
         setSize(width, height);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
 
         final int[] cows = {0};
@@ -42,9 +47,22 @@ public class userInterface extends JFrame implements KeyListener {
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
+        requestFocusInWindow();
 
         setVisible(true);
+
+        // this is pretty complicated but the reasons for the component listener is that when we switch from the main menu
+        // to this class, we don't have focus in here for the actionListeners, this regains it.
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                requestFocusInWindow();
+            }
+
+        });
     }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -84,7 +102,6 @@ public class userInterface extends JFrame implements KeyListener {
     public void keyReleased(KeyEvent e) {} // this is just here because of the "implements" at the top
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(userInterface::new);
         g.requestCode();
     }
 }
@@ -127,7 +144,7 @@ class MyPanel extends JPanel {
     }
 
 
-    //next 3 methods are for setting stuff outside of the panel class when the panel also needs to know about it or the information is in here already
+    //next 3 methods are for setting stuff outside the panel class when the panel also needs to know about it or the information is in here already
     public void setInputBufferCount(int count) {
         this.inputBufferCount = count;
     }
@@ -170,6 +187,19 @@ class MyPanel extends JPanel {
                 g.drawString(text, x, y);
             }
         }
+
+        int count = 0;
+        for (Object o : userInterface.g.guesses) {
+            count++;
+        }
+
+            for (int i = 0 ; i < count ; i++) {
+                int x = (width / 2 ) - 96;
+                int y = ((height / 4 * 2) + ((150 * 5 / 3)) / 2 ) - i*50 - 200;
+                g2d.setColor(Color.black);
+                g2d.drawString(userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1), x, y);
+            }
+
         drawAnimals(g2d, cowImage, cows[0], cowBoundX, cowBoundY);
         drawAnimals(g2d, bullImage, bulls[0], bullBoundX, bullBoundY);
     }
