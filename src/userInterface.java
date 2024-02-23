@@ -127,7 +127,7 @@ class MyPanel extends JPanel {
     }
 
 
-    //next 3 methods are for setting stuff outside of the panel class when the panel also needs to know about it or the indormation is in here already
+    //next 3 methods are for setting stuff outside of the panel class when the panel also needs to know about it or the information is in here already
     public void setInputBufferCount(int count) {
         this.inputBufferCount = count;
     }
