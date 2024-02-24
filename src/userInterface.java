@@ -19,7 +19,7 @@ public class userInterface extends JPanel implements KeyListener {
 
     public userInterface() {
 
-        g.requestCode();
+        g.requestCode(); //probably need to make a variable to vary between nc & lc, bandaid solution for tests
 
         //ToolKit is to get the information about the monitor and other hardware things.
         Toolkit toolkit = Toolkit.getDefaultToolkit();

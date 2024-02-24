@@ -1,16 +1,16 @@
 public class Player {
     String username;
-    int numberOfBulls;
-    int numberOfCows;
+    private int numberOfBulls;
+    private int numberOfCows;
     int codesAttempted;
     int codesDeciphered;
 
-    Player() {    }
+    Player() { numberOfBulls = 0; numberOfCows = 0;   }
 
-    protected void updateBulls(){}
-    protected void updateCows(){}
-    public void incrementCodesAttempted(){}
-    public void incrementCodesDeciphered(){}
+    protected void updateBulls(int bulls){ numberOfBulls = bulls; }
+    protected void updateCows(int cows){ numberOfCows = cows; }
+    public void incrementCodesAttempted(){codesAttempted++;}
+    public void incrementCodesDeciphered(){codesDeciphered++;}
     public int getBulls(){
         return numberOfBulls;
     }
