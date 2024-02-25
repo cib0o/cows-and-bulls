@@ -16,10 +16,13 @@ public class userInterface extends JPanel implements KeyListener {
     private MyPanel panel;
     static Game g = new Game(new Player(), "nc");
 
+    private String gameType;
 
-    public userInterface() {
 
-        g.requestCode(); //probably need to make a variable to vary between nc & lc, bandaid solution for tests
+    public userInterface(String gametype) {
+
+        g.requestCode(gametype); //probably need to make a variable to vary between nc & lc, bandaid solution for tests
+        this.gameType = gametype;
 
         //ToolKit is to get the information about the monitor and other hardware things.
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -45,7 +48,7 @@ public class userInterface extends JPanel implements KeyListener {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         requestFocusInWindow();
-        setBackground(Color.decode("#d4c8a9"));
+        setBackground(Color.decode("#cfae76"));
 
         setVisible(true);
 
@@ -66,23 +69,31 @@ public class userInterface extends JPanel implements KeyListener {
     public void keyTyped(KeyEvent e) {
         char c = e.getKeyChar();
         // Checking if the character is a digit and that there's still space in the input buffer
+        if (gameType.equals("nc")){
         if (Character.isDigit(c) && inputBufferCount < inputBuffer.length) {
             inputBuffer[inputBufferCount++] = c;
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
         }
+        } else if (Character.isAlphabetic(c) && inputBufferCount < inputBuffer.length) {
+            inputBuffer[inputBufferCount++] = c;
+            panel.setInputBufferCount(inputBufferCount);
+            panel.repaint();
+        }
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // Deleting a number when backspace is pressed and there's something to undo
+
         if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && inputBufferCount > 0) {
             inputBuffer[--inputBufferCount] = '\0';
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
-        // Else if enter is pressed and there are 4 numbers there, submit the guess
+            System.out.println("Is focus owner: " + isFocusOwner());
         } else if (e.getKeyCode() == KeyEvent.VK_ENTER && inputBufferCount == 4) {
-            int[] cowsBulls = g.enterGuess(new String(inputBuffer));
+
+            int[] cowsBulls = g.enterGuess(new String(inputBuffer).trim(), gameType);
             if (cowsBulls[1] == 4){
                 System.out.println(g.guesses.size() + " is your score!");
             }
@@ -90,10 +101,9 @@ public class userInterface extends JPanel implements KeyListener {
             panel.setBulls(cowsBulls[1]);
             System.out.println(cowsBulls[0] + " cows " + cowsBulls[1] + " Bulls");
 
-            //reset the input buffer
 
-            inputBufferCount = 0;
             Arrays.fill(inputBuffer, '\0');
+            inputBufferCount = 0;
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
         }
@@ -103,7 +113,7 @@ public class userInterface extends JPanel implements KeyListener {
     public void keyReleased(KeyEvent e) {} // this is just here because of the "implements" at the top
 
     public static void main(String[] args) {
-        g.requestCode();
+        g.requestCode("nc");
     }
 }
 
@@ -131,7 +141,7 @@ class MyPanel extends JPanel {
         int height = screenSize.height;
 
         setBounds(0, 0, width, height);
-        setBackground(Color.decode("#d4c8a9"));
+        setBackground(Color.decode("#cfae76"));
 
         try {
 

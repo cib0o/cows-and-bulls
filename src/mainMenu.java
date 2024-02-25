@@ -22,15 +22,21 @@ public class mainMenu extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel mainMenuPanel = createMainMenuPanel();
-        userInterface gameInterface = new userInterface();
 
         add(mainMenuPanel, "MainMenu");
-        add(gameInterface, "GameInterface");
 
         cardLayout.show(getContentPane(), "MainMenu");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    private void switchUserInterface(String gameType) {
+        userInterface gameInterface = new userInterface(gameType); // Create new instance with gameType
+        getContentPane().add(gameInterface, "GameInterface"); // Add to CardLayout
+        cardLayout.show(getContentPane(), "GameInterface"); // Switch to the new interface
+        getContentPane().revalidate();
+        getContentPane().repaint();
     }
 
     @Override
@@ -44,7 +50,7 @@ public class mainMenu extends JFrame{
         int height = screenSize.height;
 
         try {
-            title = ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/bulls%20and%20cows.png?raw=true"));
+            title = ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/bulls%20and%20cows.png?raw=true"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -113,9 +119,8 @@ public class mainMenu extends JFrame{
         back.setContentAreaFilled(false);
         panel.add(back);
 
-        numberGame.addActionListener(e -> cardLayout.show(getContentPane(), "GameInterface"));
-        wordGame.addActionListener(e -> cardLayout.show(getContentPane(), "GameInterface"));
-
+        numberGame.addActionListener(e -> switchUserInterface("nc"));
+        wordGame.addActionListener(e -> switchUserInterface("lc"));
 
         return panel;
     }

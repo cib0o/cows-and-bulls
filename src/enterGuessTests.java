@@ -30,17 +30,17 @@ public class enterGuessTests {
             Player p = new Player();
             Game g = new Game(p);
             String guess = "0000"; //minimum wrong guess
-            g.requestCode();
+            g.requestCode("nc");
 
-            System.out.println("Player and Game object have been made " + p + g + " " + guess + "|code:" + g.requestCode());
+            System.out.println("Player and Game object have been made " + p + g + " " + guess + "|code:" + g.requestCode("nc"));
 
-            g.enterGuess(guess);
+            g.enterGuess(guess, "nc");
 
-            assertFalse(Objects.deepEquals(g.enterGuess(guess), new int[]{0, 4})); //checks to make sure guess is wrong
+            assertFalse(Objects.deepEquals(g.enterGuess(guess, "nc"), new int[]{0, 4})); //checks to make sure guess is wrong
             System.out.print("Comparison should be false | ");
-            System.out.println(Objects.deepEquals(g.enterGuess(guess), new int[]{0,4}));
+            System.out.println(Objects.deepEquals(g.enterGuess(guess, "nc"), new int[]{0,4}));
 
-            if (!Objects.deepEquals(g.enterGuess(guess), new int[]{0,4})) { //if guess is wrong
+            if (!Objects.deepEquals(g.enterGuess(guess, "nc"), new int[]{0,4})) { //if guess is wrong
                 System.out.print(p + " Bulls & Cows Count:");
                 p.getBulls();
                 p.getCows();
@@ -72,17 +72,17 @@ public class enterGuessTests {
             Player p2 = new Player();
             Game g2 = new Game(p2);
             String guess = "1234";
-            g2.requestCode();
+            g2.requestCode("nc");
 
-            System.out.println("Player and Game object have been made " + p2 + g2 + " " + guess + " |code:" + g2.requestCode());
+            System.out.println("Player and Game object have been made " + p2 + g2 + " " + guess + " |code:" + g2.requestCode("nc"));
 
-            g2.enterGuess(guess);
+            g2.enterGuess(guess, "nc");
 
             System.out.print("Guess should be true : ");
-            System.out.println(Objects.deepEquals(g2.enterGuess(guess), new int[]{0,4})); //compares contents of obj[]
-            assertTrue(Objects.deepEquals(g2.enterGuess(guess), new int[]{0,4})); //checks to make sure guess is correct
+            System.out.println(Objects.deepEquals(g2.enterGuess(guess, "nc"), new int[]{0,4})); //compares contents of obj[]
+            assertTrue(Objects.deepEquals(g2.enterGuess(guess, "nc"), new int[]{0,4})); //checks to make sure guess is correct
 
-            if (Objects.deepEquals(g2.enterGuess(guess), new int[]{0,4})) { //if guess is true
+            if (Objects.deepEquals(g2.enterGuess(guess, "nc"), new int[]{0,4})) { //if guess is true
                 System.out.print(p2 + "Bulls & Cows Count:");
                 p2.getBulls();
                 p2.getCows();
@@ -122,7 +122,7 @@ public class enterGuessTests {
             String guess1 = "00000"; //unsucc. guess w invalid len
             String guess2 = "12345"; //successful guess but invalid len
 
-            g3.requestCode();
+            g3.requestCode("nc");
 
             System.out.println("Player and Game object have been made " + p3 + g3);
 
@@ -130,9 +130,9 @@ public class enterGuessTests {
 
             //assert throws tests throwables in errors
             Throwable exc1 = assertThrows(IndexOutOfBoundsException.class, //Exception.class is the exception being tested, can change to a more specific Exception type
-                    ()->{g3.enterGuess(guess1);} ); //checks if g3.enterGuess() will throw the exception
+                    ()->{g3.enterGuess(guess1,"nc");} ); //checks if g3.enterGuess() will throw the exception
             Throwable exc2 = assertThrows(IndexOutOfBoundsException.class,
-                    () ->{g3.enterGuess(guess2);} );
+                    () ->{g3.enterGuess(guess2, "nc");} );
 
             //See if display is shown
         }
@@ -152,13 +152,13 @@ public class enterGuessTests {
             String LettersCode = "lc";
             Game g4 = new Game(p4, LettersCode);
             String guess = "ab0d";
-            g4.requestCode();
+            g4.requestCode("nc");
 
             System.out.println("Player and Game object have been made " + p4 + g4);
 
             //assert throws tests throwables in errors
             Throwable exception = assertThrows(IllegalArgumentException.class, //Exception.class is the exception being tested, can change to a more specific Exception type
-                    ()->{g4.enterGuess(guess);} ); //checks if g3.enterGuess() will throw the exception
+                    ()->{g4.enterGuess(guess, "lc");} ); //checks if g3.enterGuess() will throw the exception
 
         }
 
@@ -183,7 +183,7 @@ public class enterGuessTests {
 
             //assert throws tests throwables in errors
             Throwable exception = assertThrows(IllegalArgumentException.class, //Exception.class is the exception being tested, can change to a more specific Exception type
-                    ()->{g5.enterGuess(guess);} ); //checks if g3.enterGuess() will throw the exception
+                    ()->{g5.enterGuess(guess, "nc");} ); //checks if g3.enterGuess() will throw the exception
 
         }
 

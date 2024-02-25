@@ -1,10 +1,13 @@
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 public class Game {
 
     //playerGameMapping;
-    String gameType = "nc"; //for choosing the gameType, defaults on NumbersCode for tests atm
+    String gameType; //for choosing the gameType, defaults on NumbersCode for tests atm
     Player player;
     ArrayList<String> guesses = new ArrayList<>();
     String code;
@@ -19,17 +22,17 @@ public class Game {
     public void getHint() {}
     protected void loadPlayer() {}
     public static void playGame() {}
-    public Object requestCode() { //temporary codeType selection
-        if (gameType == "nc") { //numbers code
+    public Object requestCode(String gameType) { //temporary codeType selection
+        if (Objects.equals(gameType, "nc")) { //numbers code
             code = "1234";
             return code;
-        } else if (gameType == "lc") { //letters code
+        } else if (Objects.equals(gameType, "lc")) { //letters code
             code = "abcd";
             return code;
         }
         return null;
     }
-    public int[] enterGuess(String guessStr) {
+    public int[] enterGuess(String guessStr, String gameType) {
 
         /**
          * IMPORTANT: the output of this method is [cows, bulls], a won game would be [0,4]

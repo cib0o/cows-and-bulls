@@ -15,8 +15,8 @@ public class undoGuessTests{
     @Test
     public void undoGuess(){
         Game g = new Game();
-        g.requestCode();
-        g.enterGuess("1234");
+        g.requestCode("nc");
+        g.enterGuess("1234", "nc");
 
         g.undoGuess(1243);
         assertTrue(g.guesses.size() == 1 && g.guesses.get(0) == "1243");
@@ -32,7 +32,7 @@ public class undoGuessTests{
     @Test
     public void undoNothing(){
         Game g = new Game();
-        g.requestCode();
+        g.requestCode("nc");
         assertThrows(Exception.class, () -> {
             g.undoGuess(1111);
         });
@@ -49,7 +49,7 @@ public class undoGuessTests{
     @Test
     public void invalidUndo(){
         Game g = new Game();
-        g.requestCode();
+        g.requestCode("nc");
         //g.enterGuess(1234);
 
         assertThrows(Exception.class, () -> {
