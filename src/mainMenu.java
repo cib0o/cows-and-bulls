@@ -3,7 +3,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class mainMenu extends JFrame{
@@ -12,6 +11,7 @@ public class mainMenu extends JFrame{
     public mainMenu() throws IOException {
         setTitle("Bulls and Cows");
         setLayout(cardLayout);
+        setBackground(Color.decode("#cfae76"));
 
         //ToolKit is to get the information about the monitor and other hardware things.
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -56,6 +56,8 @@ public class mainMenu extends JFrame{
     private JPanel createMainMenuPanel() throws IOException {
         JPanel panel = new JPanel();
         panel.setLayout(null);
+        panel.setBackground(Color.decode("#cfae76"));
+
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();

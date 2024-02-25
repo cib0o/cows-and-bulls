@@ -45,6 +45,7 @@ public class userInterface extends JPanel implements KeyListener {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         requestFocusInWindow();
+        setBackground(Color.decode("#d4c8a9"));
 
         setVisible(true);
 
@@ -130,6 +131,7 @@ class MyPanel extends JPanel {
         int height = screenSize.height;
 
         setBounds(0, 0, width, height);
+        setBackground(Color.decode("#d4c8a9"));
 
         try {
 
