@@ -78,9 +78,15 @@ public class Game {
                 }
             }
         }
-        player.updateBulls(bulls); //updates the players, bull and cow count
-        player.updateCows(cows);
+
+        /**
+        * player.updateBulls(bulls); //updates the players, bull and cow count
+        * player.updateCows(cows);
+         *   *
+         *          * this is being put into a comment while player isn't defined
+         *         */
         guesses.add(guessStr + cows + bulls);
+
 
         return new int[]{cows, bulls};
     }
@@ -90,5 +96,6 @@ public class Game {
     public void loadGame(){}
     public void showSolution(){
     }
+
 
 }
