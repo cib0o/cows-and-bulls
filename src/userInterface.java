@@ -188,25 +188,71 @@ class MyPanel extends JPanel {
             }
         }
 
+        int centerX = screenSize.width / 2;
+
+
+        int historyBoxWidth = 500;
+        int historyBoxStartX = centerX - (historyBoxWidth / 2);
+        g2d.setColor(Color.darkGray);
+        g2d.fillRect(historyBoxStartX - 5, ((height / 4 * 2) + ((150 * 5 / 3)) / 2 ) - 250 - 205, 510, 270);
+        g2d.setColor(Color.lightGray);
+        g2d.fillRect(historyBoxStartX, ((height / 4 * 2) + ((150 * 5 / 3)) / 2 ) - 250 - 200, 500, 260);
+
+
         int count = 0;
-        for (Object o : userInterface.g.guesses) {
+        for (Object ignored : userInterface.g.guesses) {
             count++;
         }
 
-            for (int i = 0 ; i < count && i < 5; i++) {
-                int x = (width / 2 ) - 72;
-                int y = ((height / 4 * 2) + ((150 * 5 / 3)) / 2 ) - i*50 - 200;
-                g2d.setColor(Color.black);
-                Font guessFont = new Font(Font.SANS_SERIF, Font.BOLD, 48);
-                g2d.setFont(guessFont);
-                g2d.drawString(userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).substring(0,4), x, y);
 
-                g2d.setColor(Color.darkGray);
-                Font guessFontCowBull = new Font(Font.SANS_SERIF, Font.BOLD, 38);
-                g2d.setFont(guessFontCowBull);
-                g2d.drawString("Cows:" + userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).charAt(4), x-170, y);
-                g2d.drawString("Bulls:" + userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).charAt(5), x+150, y);
-            }
+
+        int maxTextWidth = historyBoxWidth - 20;
+        int startY = ((height / 4 * 2) + ((150 * 5 / 3)) / 2 ) - 200;
+        g2d.setColor(Color.black);
+
+
+
+
+        for (int i = 0 ; i < userInterface.g.guesses.size() && i < 5; i++) {
+            String guessText = userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).substring(0,4);
+            Font guessFontCowBull = new Font(Font.SANS_SERIF, Font.BOLD, 38);
+
+            String cowsText = "Cows:" + userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).charAt(4);
+            String bullsText = "Bulls:" + userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).charAt(5);
+
+
+
+            int textWidthGuess = metrics.stringWidth(guessText);
+
+
+
+
+            int textWidthCows = metrics.stringWidth(cowsText);
+            int textWidthBulls = metrics.stringWidth(bullsText);
+
+            int xGuess = historyBoxStartX + (maxTextWidth - textWidthGuess) / 2 + 10;
+            int xCows = historyBoxStartX + (maxTextWidth - textWidthCows) / 4 - 50;
+            int xBulls = historyBoxStartX + 3 * (maxTextWidth - textWidthBulls) / 4 + 100;
+
+            int y = startY - i * 50;
+
+
+            g2d.setFont(numberFont);
+            g2d.setColor(Color.black);
+            g2d.drawString(guessText, xGuess, y);
+            g2d.setFont(guessFontCowBull);
+            g2d.setColor(Color.darkGray);
+            g2d.drawString(cowsText, xCows, y);
+            g2d.drawString(bullsText, xBulls, y);
+        }
+
+        int x = (width / 2 ) - 200;
+        int y = ((height / 4 * 2) + ((150 * 5 / 3)) / 2 ) - 5*50 - 220;
+
+        g2d.setColor(Color.black);
+        g.setFont(numberFont);
+        g2d.drawString("Your score is: " + userInterface.g.guesses.size(), x, y);
+
 
         drawAnimals(g2d, cowImage, cows[0], cowBoundX, cowBoundY);
         drawAnimals(g2d, bullImage, bulls[0], bullBoundX, bullBoundY);
