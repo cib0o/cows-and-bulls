@@ -3,12 +3,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class mainMenu extends JFrame{
     private final CardLayout cardLayout = new CardLayout();
 
-    public mainMenu() {
+    public mainMenu() throws IOException {
         setTitle("Bulls and Cows");
         setLayout(cardLayout);
 
@@ -52,7 +53,7 @@ public class mainMenu extends JFrame{
 
     }
 
-    private JPanel createMainMenuPanel() {
+    private JPanel createMainMenuPanel() throws IOException {
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
@@ -63,14 +64,23 @@ public class mainMenu extends JFrame{
 
         setBounds(0, 0, width, height);
 
-        JButton startButton = new JButton("Start");
+        JButton startButton = new JButton();
         startButton.setBounds(width/32 + 125, height/64 + 510 , 250,75);
         startButton.addActionListener(e -> cardLayout.show(getContentPane(), "GameInterface"));
+        startButton.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_start.png?raw=true"))));
         panel.add(startButton);
+        startButton.setBorder(BorderFactory.createEmptyBorder());
+        startButton.setContentAreaFilled(false);
+
         return panel;
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(mainMenu::new);
+        SwingUtilities.invokeLater(() -> {
+            try {
+                new mainMenu();
+            } catch (IOException e) {
+                e.printStackTrace(); }
+        });
     }
 }
