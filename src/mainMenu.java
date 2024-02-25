@@ -67,15 +67,59 @@ public class mainMenu extends JFrame{
         setBounds(0, 0, width, height);
 
         JButton startButton = new JButton();
+        JButton numberGame = new JButton();
+        JButton wordGame = new JButton();
+        JButton back = new JButton();
+
+        numberGame.setVisible(false);
+        wordGame.setVisible(false);
+        back.setVisible(false);
+
         startButton.setBounds(width/32 + 125, height/64 + 510 , 250,75);
-        startButton.addActionListener(e -> cardLayout.show(getContentPane(), "GameInterface"));
-        startButton.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_start.png?raw=true"))));
+
+        startButton.addActionListener(e -> {
+            startButton.setVisible(false);
+            numberGame.setVisible(true);
+            wordGame.setVisible(true);
+            back.setVisible(true);
+        });
+
+        back.addActionListener(e -> {
+            startButton.setVisible(true);
+            numberGame.setVisible(false);
+            wordGame.setVisible(false);
+            back.setVisible(false);
+        });
+        startButton.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_start(2).png?raw=true"))));
+        numberGame.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_number-game(1).png?raw=true"))));
+        wordGame.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_word-game(1).png?raw=true"))));
+        back.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_back.png?raw=true"))));
         panel.add(startButton);
         startButton.setBorder(BorderFactory.createEmptyBorder());
         startButton.setContentAreaFilled(false);
 
+        numberGame.setBounds(width/32 + 125, height/64 + 510 , 250,75);
+        numberGame.setBorder(BorderFactory.createEmptyBorder());
+        numberGame.setContentAreaFilled(false);
+        panel.add(numberGame);
+
+        wordGame.setBounds(width/32 + 125, height/64 + 510 + 80 , 250,75);
+        wordGame.setBorder(BorderFactory.createEmptyBorder());
+        wordGame.setContentAreaFilled(false);
+        panel.add(wordGame);
+
+        back.setBounds(width/32 + 125, height/64 + 510 + 160 , 250,75);
+        back.setBorder(BorderFactory.createEmptyBorder());
+        back.setContentAreaFilled(false);
+        panel.add(back);
+
+        numberGame.addActionListener(e -> cardLayout.show(getContentPane(), "GameInterface"));
+        wordGame.addActionListener(e -> cardLayout.show(getContentPane(), "GameInterface"));
+
+
         return panel;
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

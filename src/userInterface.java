@@ -14,7 +14,7 @@ public class userInterface extends JPanel implements KeyListener {
     private char[] inputBuffer = new char[4];
     private int inputBufferCount = 0;
     private MyPanel panel;
-    static Game g = new Game();
+    static Game g = new Game(new Player(), "nc");
 
 
     public userInterface() {
