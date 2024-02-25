@@ -24,10 +24,15 @@ public class Game {
     public static void playGame() {}
     public Object requestCode(String gameType) { //temporary codeType selection
         if (Objects.equals(gameType, "nc")) { //numbers code
-            code = "1234";
+            List<Integer> numbers = new ArrayList<>();
+            for (int i = 0 ; i < 10 ; i++){
+                numbers.add(i);
+            }
+            Collections.shuffle(numbers);
+            code = "" + numbers.get(0)+ numbers.get(1)+ numbers.get(2)+ numbers.get(3);
             return code;
         } else if (Objects.equals(gameType, "lc")) { //letters code
-            code = "abcd";
+            code = "rats";
             return code;
         }
         return null;
@@ -94,7 +99,33 @@ public class Game {
         return new int[]{cows, bulls};
     }
         // }
-    public void undoGuess(int i) {}
+        public char[] undoGuess() {
+            char[] lastGuess = new char[4];
+            if (!guesses.isEmpty()) {
+                for (int i = 0; i <4; i++){
+                lastGuess[i] = guesses.get(guesses.size() - 1).charAt(i);
+                }
+                System.out.println("removing guess " + guesses.get(guesses.size() - 1));
+                guesses.remove(guesses.size() - 1); // Remove the last guess from the list
+
+                if (!guesses.isEmpty()) {
+
+                    String lastValidGuess = guesses.get(guesses.size() - 1);
+
+                   // String guessWithoutCounts = lastValidGuess.substring(0, lastValidGuess.length() - 2);
+                    // enterGuess(guessWithoutCounts, gameType); // Re-evaluate the guess
+                } else {
+                   // player.updateBulls(0); // set to 0 if cant undo
+                    // player.updateCows(0);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No guesses to undo.", "Undo Guess", JOptionPane.INFORMATION_MESSAGE);
+                throw new IndexOutOfBoundsException(){
+
+                };
+            }
+            return lastGuess;
+        }
     public void saveGame(){}
     public void loadGame(){}
     public void showSolution(){

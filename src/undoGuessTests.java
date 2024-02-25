@@ -18,8 +18,9 @@ public class undoGuessTests{
         g.requestCode("nc");
         g.enterGuess("1234", "nc");
 
-        g.undoGuess(1243);
-        assertTrue(g.guesses.size() == 1 && g.guesses.get(0) == "1243");
+        assertTrue(g.guesses.size() == 1);
+        g.undoGuess();
+        assertTrue(g.guesses.size() == 0);
     }
 
     /**
@@ -33,9 +34,7 @@ public class undoGuessTests{
     public void undoNothing(){
         Game g = new Game();
         g.requestCode("nc");
-        assertThrows(Exception.class, () -> {
-            g.undoGuess(1111);
-        });
+        assertThrows(IndexOutOfBoundsException.class, g::undoGuess);
 
     }
 
@@ -52,11 +51,9 @@ public class undoGuessTests{
         g.requestCode("nc");
         //g.enterGuess(1234);
 
-        assertThrows(Exception.class, () -> {
-            g.undoGuess(1111);
-        });
+        assertThrows(Exception.class, g::undoGuess);
 
-        g.undoGuess(1243);
+        g.undoGuess();
         assertTrue(g.guesses.get(0) == "1243");
     }
 }

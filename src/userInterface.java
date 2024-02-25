@@ -1,10 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -23,6 +20,8 @@ public class userInterface extends JPanel implements KeyListener {
 
         g.requestCode(gametype); //probably need to make a variable to vary between nc & lc, bandaid solution for tests
         this.gameType = gametype;
+
+
 
         //ToolKit is to get the information about the monitor and other hardware things.
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -61,6 +60,22 @@ public class userInterface extends JPanel implements KeyListener {
                 requestFocusInWindow();
             }
 
+        });
+
+        JButton undo = new JButton();
+        undo.setBounds(100,100, 200,50);
+        panel.add(undo);
+        undo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                char[] lastGuess = g.undoGuess();
+                System.arraycopy(lastGuess, 0, inputBuffer, 0, lastGuess.length);
+                inputBufferCount = lastGuess.length;
+                panel.setInputBufferCount(inputBufferCount);
+                System.out.println("Guesses List: " + userInterface.g.guesses);
+                panel.repaint();
+                requestFocusInWindow();
+            }
         });
     }
 
