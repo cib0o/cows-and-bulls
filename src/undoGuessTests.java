@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 import java.util.Objects;
 
 import static java.awt.event.KeyEvent.*;
@@ -17,17 +18,31 @@ public class undoGuessTests{
      */
 
     @Test
-    public void undoGuess(){
+    public void undoGuess() {
+        Player p = new Player();
+        Game g = new Game(p);
+        g.code = "1234";
+        g.buffer[0] = '1';
+        g.checkGuess(g.buffer);
+        g.buffer[1] = '5';
+        g.checkGuess(g.buffer);
+        g.buffer[2] = '3';
+        g.checkGuess(g.buffer);
+        g.buffer[3] = '2';
+        g.checkGuess(g.buffer);
+        System.out.println("The code is: " + g.code);
+        System.out.println("should be 2 & 1 " + p.getBulls() + p.getCows());
+        assertEquals(2,p.getBulls());
 
-        userInterface u = new userInterface("nc");
 
-        KeyEvent backspacePressed = new KeyEvent(u, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_BACK_SPACE, KeyEvent.CHAR_UNDEFINED);
-        u.keyPressed(backspacePressed);
-        KeyEvent backspaceReleased = new KeyEvent(u, KeyEvent.KEY_RELEASED, System.currentTimeMillis(), 0, KeyEvent.VK_BACK_SPACE, KeyEvent.CHAR_UNDEFINED);
-        u.keyReleased(backspaceReleased);
+        g.undoGuess();
 
-
+        g.buffer = new char[]{'1','5','3','4'};
+        g.checkGuess(g.buffer);
+        System.out.println("Bulls: " + p.getBulls() + " Cows: " + p.getCows());
+        assertTrue(p.getBulls() == 3 && p.getCows() == 0);
     }
+
 
     /**
      * Scenario: player wants to undo a single letter/number in the guess when the player hasn’t guessed yet

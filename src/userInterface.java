@@ -10,11 +10,11 @@ import java.util.Arrays;
 public class userInterface extends JPanel implements KeyListener {
     char[] inputBuffer = new char[4];
     private int inputBufferCount = 0;
-    private MyPanel panel;
-    static Game g = new Game(new Player(), "nc");
+    private final MyPanel panel;
+    public static Player p = new Player();
+    private final String gameType;
 
-    private String gameType;
-
+    public static Game g = new Game(p, "nc");
 
     public userInterface(String gametype) {
 
@@ -59,23 +59,6 @@ public class userInterface extends JPanel implements KeyListener {
             public void componentShown(ComponentEvent e) {
                 requestFocusInWindow();
             }
-
-        });
-
-        JButton undo = new JButton();
-        undo.setBounds(100,100, 200,50);
-        panel.add(undo);
-        undo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                char[] lastGuess = g.undoGuess();
-                System.arraycopy(lastGuess, 0, inputBuffer, 0, lastGuess.length);
-                inputBufferCount = lastGuess.length;
-                panel.setInputBufferCount(inputBufferCount);
-                System.out.println("Guesses List: " + userInterface.g.guesses);
-                panel.repaint();
-                requestFocusInWindow();
-            }
         });
     }
 
@@ -88,12 +71,15 @@ public class userInterface extends JPanel implements KeyListener {
         if (Character.isDigit(c) && inputBufferCount < inputBuffer.length) {
             inputBuffer[inputBufferCount++] = c;
             g.buffer = inputBuffer;
+            g.checkGuess(inputBuffer);
+            System.out.println("Input buffer is: " + String.valueOf(inputBuffer));
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
         }
         } else if (Character.isAlphabetic(c) && inputBufferCount < inputBuffer.length) {
             inputBuffer[inputBufferCount++] = c;
             g.buffer = inputBuffer;
+            g.checkGuess(inputBuffer);
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
         }
@@ -103,18 +89,18 @@ public class userInterface extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && inputBufferCount > 0) {
-            if(inputBuffer.length == 0) {
+        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+            if(inputBufferCount < 1) {
                 throw new IndexOutOfBoundsException(""){
-
                 };
             }
-            }else{
 
-            inputBuffer[--inputBufferCount] = '\0';
+
+            inputBufferCount--;
+            inputBuffer = g.undoGuess();
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
-            System.out.println("Is focus owner: " + isFocusOwner());
+
         } if (e.getKeyCode() == KeyEvent.VK_ENTER && inputBufferCount == 4) {
 
             int[] cowsBulls = g.enterGuess(new String(inputBuffer).trim(), gameType);
@@ -130,14 +116,6 @@ public class userInterface extends JPanel implements KeyListener {
             inputBufferCount = 0;
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
-        } else if (e.getKeyCode() == KeyEvent.VK_CONTROL && e.getKeyCode() == KeyEvent.VK_Z){
-            char[] lastGuess = g.undoGuess();
-            System.arraycopy(lastGuess, 0, inputBuffer, 0, lastGuess.length);
-            inputBufferCount = lastGuess.length;
-            panel.setInputBufferCount(inputBufferCount);
-            System.out.println("Guesses List: " + userInterface.g.guesses);
-            panel.repaint();
-            requestFocusInWindow();
         }
 
     }
@@ -146,7 +124,7 @@ public class userInterface extends JPanel implements KeyListener {
     public void keyReleased(KeyEvent e) {} // this is just here because of the "implements" at the top
 
     public static void main(String[] args) {
-        g.requestCode("nc");
+
     }
 }
 

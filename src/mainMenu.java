@@ -32,6 +32,7 @@ public class mainMenu extends JFrame{
     }
 
     private void switchUserInterface(String gameType) {
+        Player p = new Player(); // temp before we get the log in
         userInterface gameInterface = new userInterface(gameType); // Create new instance with gameType
         getContentPane().add(gameInterface, "GameInterface"); // Add to CardLayout
         cardLayout.show(getContentPane(), "GameInterface"); // Switch to the new interface

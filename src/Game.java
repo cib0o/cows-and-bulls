@@ -90,32 +90,69 @@ public class Game {
             }
         }
 
-
-        player.updateBulls(bulls); //updates the players, bull and cow count
-        player.updateCows(cows);
-
         guesses.add(guessStr + cows + bulls);
 
 
         return new int[]{cows, bulls};
     }
-        // }
-        public char[] undoGuess() {
-            char[] lastGuess = new char[4];
-            if (!guesses.isEmpty()) {
-                for (int i = 0; i <4; i++){
-                lastGuess[i] = guesses.get(guesses.size() - 1).charAt(i);
-                }
-                System.out.println("removing guess " + guesses.get(guesses.size() - 1));
-                guesses.remove(guesses.size() - 1); // Remove the last guess from the list
 
-            } else {
-                JOptionPane.showMessageDialog(null, "No guesses to undo.", "Undo Guess", JOptionPane.INFORMATION_MESSAGE);
-                throw new IndexOutOfBoundsException(){
-
-                };
+    public void checkGuess(char[] c){
+        int bull = 0;
+        int cow = 0;
+        char lastChar = '\u0000';
+        int lastCharIndex = -1;
+        for (int i = c.length - 1; i >= 0; i--) {
+            if (c[i] != '\u0000') {
+                lastChar = c[i];
+                lastCharIndex = i;
+                break;
             }
-            return lastGuess;
+        }
+        if (lastCharIndex == -1) {
+            System.out.println("No guess has been made yet.");
+            return;
+        }
+        if (lastChar == code.charAt(lastCharIndex)) {
+            bull = 1;
+        } else {
+            for (int i = 0; i < code.length(); i++) {
+                if (i != lastCharIndex && code.charAt(i) == lastChar) {
+                    cow = 1;
+                    break;
+                }
+            }
+        }
+
+        player.updateBulls(bull);
+        player.updateCows(cow);
+
+        System.out.println("The guess was: " + String.valueOf(c) + "player stats: " + player.getCows() + player.getBulls() + "cowBulls " + cow + bull);
+
+    }
+
+        public char[] undoGuess() {
+            int bull = 0;
+            int cow = 0;
+
+            int lastNonNullIndex = -1;
+            for (int i = 0; i < buffer.length; i++) {
+                if (buffer[i] != '\0') {
+                    lastNonNullIndex = i;
+                }
+            }
+            if (lastNonNullIndex != -1) {
+                if (buffer[lastNonNullIndex] == code.charAt(lastNonNullIndex)) {
+                    bull++;
+                } else if (code.contains(String.valueOf(buffer[lastNonNullIndex]))) {
+                    cow++;
+                }
+                buffer[lastNonNullIndex] = '\0';
+                player.updateBulls(-bull);
+                player.updateCows(-cow);
+            }
+
+            System.out.println("GAME.java buffer: " + String.valueOf(buffer));
+            return buffer;
         }
     public void saveGame(){}
     public void loadGame(){}
