@@ -11,6 +11,7 @@ public class Game {
     Player player;
     ArrayList<String> guesses = new ArrayList<>();
     String code;
+    char[] buffer = new char[4];
 
     Game(Player p, String codeType) {player = p; gameType = codeType;}
     Game(Player p) { player = p;   }
@@ -49,10 +50,12 @@ public class Game {
         } else if(gameType == "lc" && guessStr.matches(".*\\d.*")){ //regex for "contains a number"
             JOptionPane.showMessageDialog(null, "Entered a number guess for a Letter Code", "Invalid guess", JOptionPane.ERROR_MESSAGE);
             throw new IllegalArgumentException();
-        } else if(gameType == "nc" && !(guessStr.matches(".*\\d.*"))){
+        } else if(gameType == "nc"){
+            try { Integer.parseInt(guessStr);
+            } catch (Exception e){
             JOptionPane.showMessageDialog(null, "Entered a letter guess for a Number Code", "Invalid guess", JOptionPane.ERROR_MESSAGE);
             throw new IllegalArgumentException();
-        }
+        }}
 
         int bulls = 0;
         int cows = 0;
@@ -87,12 +90,10 @@ public class Game {
             }
         }
 
-        /**
-        * player.updateBulls(bulls); //updates the players, bull and cow count
-        * player.updateCows(cows);
-         *   *
-         *          * this is being put into a comment while player isn't defined
-         *         */
+
+        player.updateBulls(bulls); //updates the players, bull and cow count
+        player.updateCows(cows);
+
         guesses.add(guessStr + cows + bulls);
 
 
@@ -108,16 +109,6 @@ public class Game {
                 System.out.println("removing guess " + guesses.get(guesses.size() - 1));
                 guesses.remove(guesses.size() - 1); // Remove the last guess from the list
 
-                if (!guesses.isEmpty()) {
-
-                    String lastValidGuess = guesses.get(guesses.size() - 1);
-
-                   // String guessWithoutCounts = lastValidGuess.substring(0, lastValidGuess.length() - 2);
-                    // enterGuess(guessWithoutCounts, gameType); // Re-evaluate the guess
-                } else {
-                   // player.updateBulls(0); // set to 0 if cant undo
-                    // player.updateCows(0);
-                }
             } else {
                 JOptionPane.showMessageDialog(null, "No guesses to undo.", "Undo Guess", JOptionPane.INFORMATION_MESSAGE);
                 throw new IndexOutOfBoundsException(){

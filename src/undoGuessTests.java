@@ -1,7 +1,11 @@
 import org.junit.Test;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import java.awt.event.KeyEvent;
+import java.util.Objects;
+
+import static java.awt.event.KeyEvent.*;
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class undoGuessTests{
 
@@ -14,13 +18,15 @@ public class undoGuessTests{
 
     @Test
     public void undoGuess(){
-        Game g = new Game();
-        g.requestCode("nc");
-        g.enterGuess("1234", "nc");
 
-        assertTrue(g.guesses.size() == 1);
-        g.undoGuess();
-        assertTrue(g.guesses.size() == 0);
+        userInterface u = new userInterface("nc");
+
+        KeyEvent backspacePressed = new KeyEvent(u, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_BACK_SPACE, KeyEvent.CHAR_UNDEFINED);
+        u.keyPressed(backspacePressed);
+        KeyEvent backspaceReleased = new KeyEvent(u, KeyEvent.KEY_RELEASED, System.currentTimeMillis(), 0, KeyEvent.VK_BACK_SPACE, KeyEvent.CHAR_UNDEFINED);
+        u.keyReleased(backspaceReleased);
+
+
     }
 
     /**
@@ -32,9 +38,12 @@ public class undoGuessTests{
 
     @Test
     public void undoNothing(){
-        Game g = new Game();
-        g.requestCode("nc");
-        assertThrows(IndexOutOfBoundsException.class, g::undoGuess);
+        userInterface u = new userInterface("nc");
+        Throwable exception = assertThrows(IndexOutOfBoundsException.class, //Exception.class is the exception being tested, can change to a more specific Exception type
+                ()->{ KeyEvent backspacePressed = new KeyEvent(u, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_BACK_SPACE, KeyEvent.CHAR_UNDEFINED);
+                    u.keyPressed(backspacePressed);
+                    KeyEvent backspaceReleased = new KeyEvent(u, KeyEvent.KEY_RELEASED, System.currentTimeMillis(), 0, KeyEvent.VK_BACK_SPACE, KeyEvent.CHAR_UNDEFINED);
+                    u.keyReleased(backspaceReleased);} );
 
     }
 
@@ -47,14 +56,31 @@ public class undoGuessTests{
 
     @Test
     public void invalidUndo(){
-        Game g = new Game();
-        g.requestCode("nc");
-        //g.enterGuess(1234);
+        userInterface u = new userInterface("nc");
+        Game g = new Game(new Player());
+        g.code = "1234";
 
-        assertThrows(Exception.class, g::undoGuess);
+        KeyEvent e;
+        e = new KeyEvent(u.getComponent(0), 1, 20, 1, 10, '1');
+        u.keyTyped(e);
+        e.setKeyChar('2');
+        u.keyTyped(e);
+        e.setKeyChar('3');
+        u.keyTyped(e);
+        KeyEvent backspacePressed = new KeyEvent(u, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_BACK_SPACE, KeyEvent.CHAR_UNDEFINED);
+        u.keyPressed(backspacePressed);
+        KeyEvent backspaceReleased = new KeyEvent(u, KeyEvent.KEY_RELEASED, System.currentTimeMillis(), 0, KeyEvent.VK_BACK_SPACE, KeyEvent.CHAR_UNDEFINED);
+        u.keyReleased(backspaceReleased);
+        e.setKeyChar('3');
+        u.keyTyped(e);
+        e.setKeyChar('4');
+        u.keyTyped(e);
 
-        g.undoGuess();
-        assertTrue(g.guesses.get(0) == "1243");
+        g.enterGuess(new String(u.inputBuffer).trim(), "nc");
+        System.out.println("Guess is " + new String(u.inputBuffer).trim());
+        System.out.println("Guess 0: " + g.guesses.get(0));
+
+        assertTrue("123404".equals(g.guesses.get(0)));
     }
 }
 

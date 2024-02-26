@@ -7,8 +7,8 @@ public class Player {
 
     Player() { numberOfBulls = 0; numberOfCows = 0;   }
 
-    protected void updateBulls(int bulls){ numberOfBulls = bulls; }
-    protected void updateCows(int cows){ numberOfCows = cows; }
+    protected void updateBulls(int bulls){ numberOfBulls += bulls; }
+    protected void updateCows(int cows){ numberOfCows += cows; }
     public void incrementCodesAttempted(){codesAttempted++;}
     public void incrementCodesDeciphered(){codesDeciphered++;}
     public int getBulls(){

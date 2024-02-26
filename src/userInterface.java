@@ -8,7 +8,7 @@ import java.net.URL;
 import java.util.Arrays;
 
 public class userInterface extends JPanel implements KeyListener {
-    private char[] inputBuffer = new char[4];
+    char[] inputBuffer = new char[4];
     private int inputBufferCount = 0;
     private MyPanel panel;
     static Game g = new Game(new Player(), "nc");
@@ -87,11 +87,13 @@ public class userInterface extends JPanel implements KeyListener {
         if (gameType.equals("nc")){
         if (Character.isDigit(c) && inputBufferCount < inputBuffer.length) {
             inputBuffer[inputBufferCount++] = c;
+            g.buffer = inputBuffer;
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
         }
         } else if (Character.isAlphabetic(c) && inputBufferCount < inputBuffer.length) {
             inputBuffer[inputBufferCount++] = c;
+            g.buffer = inputBuffer;
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
         }
@@ -102,11 +104,18 @@ public class userInterface extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && inputBufferCount > 0) {
+            if(inputBuffer.length == 0) {
+                throw new IndexOutOfBoundsException(""){
+
+                };
+            }
+            }else{
+
             inputBuffer[--inputBufferCount] = '\0';
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
             System.out.println("Is focus owner: " + isFocusOwner());
-        } else if (e.getKeyCode() == KeyEvent.VK_ENTER && inputBufferCount == 4) {
+        } if (e.getKeyCode() == KeyEvent.VK_ENTER && inputBufferCount == 4) {
 
             int[] cowsBulls = g.enterGuess(new String(inputBuffer).trim(), gameType);
             if (cowsBulls[1] == 4){
@@ -121,7 +130,16 @@ public class userInterface extends JPanel implements KeyListener {
             inputBufferCount = 0;
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
+        } else if (e.getKeyCode() == KeyEvent.VK_CONTROL && e.getKeyCode() == KeyEvent.VK_Z){
+            char[] lastGuess = g.undoGuess();
+            System.arraycopy(lastGuess, 0, inputBuffer, 0, lastGuess.length);
+            inputBufferCount = lastGuess.length;
+            panel.setInputBufferCount(inputBufferCount);
+            System.out.println("Guesses List: " + userInterface.g.guesses);
+            panel.repaint();
+            requestFocusInWindow();
         }
+
     }
 
     @Override
