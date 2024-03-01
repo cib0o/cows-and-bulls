@@ -37,7 +37,18 @@ public class enterGuessTests {
 
             g.enterGuess(guess, "nc");
 
-            assertFalse(Objects.deepEquals(g.enterGuess(guess, "nc"), new int[]{0, 4})); //checks to make sure guess is wrong
+            g.buffer[0] = '0';
+            g.checkGuess(g.buffer);
+            g.buffer[1] = '0';
+            g.checkGuess(g.buffer);
+            g.buffer[2] = '0';
+            g.checkGuess(g.buffer);
+            g.buffer[3] = '0';
+            g.checkGuess(g.buffer);
+
+            assertNotEquals(4, p.getBulls()); //assertFalse(Objects.deepEquals(g.enterGuess(guess, "nc"), new int[]{0, 4})); //checks to make sure guess is wrong
+
+
             System.out.print("Comparison should be false | ");
             System.out.println(Objects.deepEquals(g.enterGuess(guess, "nc"), new int[]{0,4}));
 
@@ -78,18 +89,25 @@ public class enterGuessTests {
 
             System.out.println("Player and Game object have been made " + p2 + g2 + " " + guess + " |code:" + g2.code);
 
-            g2.enterGuess(guess, "nc");
+            g2.buffer[0] = '1';
+            g2.checkGuess(g2.buffer);
+            g2.buffer[1] = '2';
+            g2.checkGuess(g2.buffer);
+            g2.buffer[2] = '3';
+            g2.checkGuess(g2.buffer);
+            g2.buffer[3] = '4';
+            g2.checkGuess(g2.buffer);
+
+            // g2.enterGuess(guess, "nc");
 
             System.out.print("Guess should be true : ");
             System.out.println(Objects.deepEquals(g2.enterGuess(guess, "nc"), new int[]{0,4})); //compares contents of obj[]
-            assertTrue(Objects.deepEquals(g2.enterGuess(guess, "nc"), new int[]{0,4}) ); //checks to make sure guess is correct
+            assertTrue(p2.getBulls() == 4 ); //checks to make sure guess is correct
 
-            if (Objects.deepEquals(g2.enterGuess(guess, "nc"), new int[]{0,4})) { //if guess is true
-                System.out.print(p2 + "Bulls & Cows Count:");
-                p2.getBulls();
-                p2.getCows();
+            if (p2.getBulls() == 4 ) { //if guess is true
+                System.out.print(p2 + "Bulls & Cows Count: " );
                 System.out.println(p2.getBulls() + " b|c " + p2.getCows());
-                assertTrue(p2.getBulls() == 16); // should be than 16
+                assertTrue(p2.getBulls() == 4); // should be 4
 
                 int dpCA = p2.getCodesAttempted(); //storing value of codesAttempted before increment
                 int dpCD = p2.getCodesDeciphered(); //storing value of codesDeciphered before inc.
