@@ -108,6 +108,16 @@ public class Game {
                 break;
             }
         }
+        if(gameType == "lc" && (("" + lastChar).matches(".*\\d.*"))){ //regex for "contains a number"
+            JOptionPane.showMessageDialog(null, "Entered a number guess for a Letter Code", "Invalid guess", JOptionPane.ERROR_MESSAGE);
+            throw new IllegalArgumentException();
+        } else if(gameType == "nc"){
+            try { Integer.parseInt("" + lastChar);
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "Entered a letter guess for a Number Code", "Invalid guess", JOptionPane.ERROR_MESSAGE);
+                throw new IllegalArgumentException();
+            }
+        }
         if (lastCharIndex == -1) {
             System.out.println("No guess has been made yet.");
             return;

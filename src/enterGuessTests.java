@@ -178,8 +178,15 @@ public class enterGuessTests {
 
             //assert throws tests throwables in errors
             Throwable exception = assertThrows(IllegalArgumentException.class, //Exception.class is the exception being tested, can change to a more specific Exception type
-                    ()->{g4.enterGuess(guess, "lc");} ); //checks if g3.enterGuess() will throw the exception
-
+                    ()->{//g4.enterGuess(guess, "lc");
+                g4.buffer[0] = 'a';
+                g4.checkGuess(g4.buffer);
+                g4.buffer[1] = 'b';
+                g4.checkGuess(g4.buffer);
+                g4.buffer[2] = '0';
+                g4.checkGuess(g4.buffer);
+                g4.buffer[3] = 'd';
+                g4.checkGuess(g4.buffer); } ); //checks if g3.enterGuess() will throw the exception
         }
 
         /**
@@ -204,12 +211,15 @@ public class enterGuessTests {
 
             //assert throws tests throwables in errors
             Throwable exception = assertThrows(IllegalArgumentException.class, //Exception.class is the exception being tested, can change to a more specific Exception type
-                    ()->{g5.enterGuess(guess, "nc");} ); //checks if g3.enterGuess() will throw the exception
-
+                    ()->{g5.enterGuess(guess, "nc");
+                        g5.buffer[0] = '1';
+                        g5.checkGuess(g5.buffer);
+                        g5.buffer[1] = '2';
+                        g5.checkGuess(g5.buffer);
+                        g5.buffer[2] = 'd';
+                        g5.checkGuess(g5.buffer);
+                        g5.buffer[3] = '4';
+                        g5.checkGuess(g5.buffer); } ); //checks if g3.enterGuess() will throw the exception
         }
-
-
-
-
     }
 
