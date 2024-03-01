@@ -25,16 +25,11 @@ public class Game {
     public static void playGame() {}
     public Object requestCode(String gameType) { //temporary codeType selection
         if (Objects.equals(gameType, "nc")) { //numbers code
-            List<Integer> numbers = new ArrayList<>();
-            for (int i = 0 ; i < 10 ; i++){
-                numbers.add(i);
-            }
-            Collections.shuffle(numbers);
-            code = "" + numbers.get(0)+ numbers.get(1)+ numbers.get(2)+ numbers.get(3);
-            return code;
+            SecretCode c = new SecretCode("nc");
+            return code = c.code;
         } else if (Objects.equals(gameType, "lc")) { //letters code
-            code = "rats";
-            return code;
+            SecretCode c = new SecretCode("lc");
+            return code = c.code;
         }
         return null;
     }
