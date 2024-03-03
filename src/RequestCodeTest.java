@@ -14,15 +14,16 @@ public class RequestCodeTest {
 	public void requestLetterCode() {
 		
 		//creation of Player and Game objects
-		Player p = new Player;
+		Player p = new Player();
 		Game g = new Game(p);
 		
-		int codes_attempted = p.getCodesAttempted; //sets codes_attempted to the value of the player's codes attempted (used to test if incrementCodesAttempted() works)
-		String code = g.requestCode("lc"); //sets codes to the value of requestCode() for a word game
+		int codes_attempted = p.getCodesAttempted(); //sets codes_attempted to the value of the player's codes attempted (used to test if incrementCodesAttempted() works)
+		String code = (String) g.requestCode("lc"); //sets codes to the value of requestCode() for a word game
 		
 		assertEquals(code.length(), 4); //checks if code is of length 4
 		assertTrue(codeInFile(code)); //checks if code is held within the word codes file
-		asserEquals(codes_attempted+1, p.getCodesAttempted); //checks that the incrementCodesAttempted() method works
+		assertTrue(distinctCharacter(code)); //checks that all individual characters in code are unique
+		assertEquals(codes_attempted+1, p.getCodesAttempted()); //checks that the incrementCodesAttempted() method works
 		
 	}
 	
@@ -31,50 +32,51 @@ public class RequestCodeTest {
 	public void requestNumberCode() {
 		
 		//creation of Player and Game objects
-		Player p = new Player;
+		Player p = new Player();
 		Game g = new Game(p);
 		
-		int codes_attempted = p.getCodesAttempted; //sets codes_attempted to the value of the player's codes attempted (used to test if incrementCodesAttempted() works)
-		int code = g.requestCode("nc"); //sets codes to the value of requestCode() for a number game
+		int codes_attempted = p.getCodesAttempted(); //sets codes_attempted to the value of the player's codes attempted (used to test if incrementCodesAttempted() works)
+		String code = (String) g.requestCode("nc"); //sets codes to the value of requestCode() for a number game
 		
 		assertEquals(String.valueOf(code).length(), 4); //checks if code is of length 4, pass if it is 4 (had to turn int into String to use length())
-		assertTrue(distinctInteger(code)); //checks that all individual numbers in code are unique
-		asserEquals(codes_attempted+1, p.getCodesAttempted); //checks that the incrementCodesAttempted() method works
+		assertTrue(distinctCharacter(code)); //checks that all individual numbers in code are unique
+		assertEquals(codes_attempted+1, p.getCodesAttempted()); //checks that the incrementCodesAttempted() method works
 		
 	}
 	
 	@Test
 	public void noWordStored() {
 		
-		Player p = new Player;
+		Player p = new Player();
 		Game g = new Game(p);
-		g.wordFile = "noFileExists.txt"; //changes file to a non-existant file (may need to change dependent on how the file is made)
+		LettersCode l = new LettersCode(p);
+		l.wordFile = "noFileExists.txt"; //changes file to a non-existant file (may need to change dependent on how the file is made)
 		
-		int codes_attempted = p.getCodesAttempted; 
-		String code = g.requestCode("lc"); 
+		int codes_attempted = p.getCodesAttempted(); 
+		String code = (String) l.generateCode(); 
 		
 		assertEquals(code, ""); //code should equal an empty string (can change this, depends on how request code is written)
 		assertEquals(code.length(), 0); //code should be of length 0 (can change this, depends on how request code is written)
-		asserEquals(codes_attempted, p.getCodesAttempted); //incrementCodesAttempted() should not run, meaning codes attempted should be 0
+		assertEquals(codes_attempted, p.getCodesAttempted()); //incrementCodesAttempted() should not run, meaning codes attempted should be 0
 		
 	}
 	
-	// checks if the code contains only distinct numbers, i.e. 1234 == True. 1123 == False, since 1 appears twice
-	private boolean distinctInteger(int code) {
+	// checks if the code contains only distinct character, i.e. 1234 == True. 1123 == False, since 1 appears twice. "able" == True. "pool" == False
+	private boolean distinctCharacter(String code) {
 		
-		Stack<Integer> distinct_numbers = new Stack<>(); //creation of Stack to store all distinct numbers in code
+		Stack<Character> distinct_character = new Stack<>(); //creation of Stack to store all distinct characters in code
 		
-		//loop to add distinct numbers to Stack, stops when o reaches 4 (max length of code) or when a non distinct number is found
+		//loop to add distinct characters to Stack, stops when o reaches 4 (max length of code) or when a non distinct character is found
 		for (int o = 0; o < 4; o++) {
-			int individual_code_int = code % 10; //returns the last number stored in code, i.e. code == 1234, individual_code_int == 4
-			code = code / 10; //divides code by 10 for use in next iteration of loop, i.e. code == 1234 -> 123
-			if (distinct_numbers.contains(individual_code_int)) { //if statement to see if current individual_code_int is stored within stack
-				return false; //should return false as this means not every number is distinct
+			char curr_char = code.charAt(o); //returns the last character stored in code, i.e. code == 1234, individual_code_int == 4
+			//code = code / 10; //divides code by 10 for use in next iteration of loop, i.e. code == 1234 -> 123
+			if (distinct_character.contains(curr_char)) { //if statement to see if current character is stored within stack
+				return false; //should return false, this means not every character is distinct
 			}
-			distinct_numbers.push(individual_code_int); //adds distinct number to Stack
+			distinct_character.push(curr_char); //adds distinct character to Stack
 		}
 		
-		return true; //only distinct numbers
+		return true; //only distinct characters
 	}
 	
 	//checks if the code provided is within the codes file containing all valid word codes 
@@ -84,7 +86,7 @@ public class RequestCodeTest {
 		
 		//reading of text file
 		try {
-			File myObj = new File("wordCodes.txt");
+			File myObj = new File("/Users/karenfraser/eclipse-workspace/bulls_and_cows/src/bulls_and_cows/ListofWords.txt");
 			Scanner myReader = new Scanner(myObj);
 
 			//loop to store all words from file into Stack, stops when the file has no more words left
