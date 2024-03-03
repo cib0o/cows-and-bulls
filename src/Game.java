@@ -23,7 +23,20 @@ public class Game {
     public void getHint() {}
     protected void loadPlayer() {}
     public static void playGame() {}
-    public Object requestCode(String gameType) { //temporary codeType selection
+    public Object requestCode(String gameType) {
+
+            SecretCode secretCode;
+            if ("nc".equals(gameType)) {
+                secretCode = new NumbersCode(player);
+            } else if ("lc".equals(gameType)) {
+                secretCode = new LettersCode(player);
+            } else {
+                return null;
+            }
+            return secretCode.generateCode();
+
+    }
+    /*public Object requestCode(String gameType) { //temporary codeType selection
         if (Objects.equals(gameType, "nc")) { //numbers code
             List<Integer> numbers = new ArrayList<>();
             for (int i = 0 ; i < 10 ; i++){
@@ -37,7 +50,7 @@ public class Game {
             return code;
         }
         return null;
-    }
+    }*/
     public int[] enterGuess(String guessStr, String gameType) {
 
         /**
