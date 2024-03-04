@@ -18,7 +18,7 @@ public class userInterface extends JPanel implements KeyListener {
 
     public userInterface(String gametype) {
 
-        g.requestCode(gametype); //probably need to make a variable to vary between nc & lc, bandaid solution for tests
+        g.requestCode(gametype);
         this.gameType = gametype;
 
 
@@ -71,6 +71,7 @@ public class userInterface extends JPanel implements KeyListener {
         if (Character.isDigit(c) && inputBufferCount < inputBuffer.length) {
             inputBuffer[inputBufferCount++] = c;
             g.buffer = inputBuffer;
+            g.gameType = gameType;
             g.checkGuess(inputBuffer);
             System.out.println("Input buffer is: " + String.valueOf(inputBuffer));
             panel.setInputBufferCount(inputBufferCount);
@@ -79,6 +80,7 @@ public class userInterface extends JPanel implements KeyListener {
         } else if (Character.isAlphabetic(c) && inputBufferCount < inputBuffer.length) {
             inputBuffer[inputBufferCount++] = c;
             g.buffer = inputBuffer;
+            g.gameType = gameType;
             g.checkGuess(inputBuffer);
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();

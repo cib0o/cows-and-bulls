@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Game {
 
     //playerGameMapping;
-    String gameType; //for choosing the gameType, defaults on NumbersCode for tests atm
+    String gameType;
     Player player;
     ArrayList<String> guesses = new ArrayList<>();
     String code;
@@ -68,6 +68,7 @@ public class Game {
             try { Integer.parseInt(guessStr);
             } catch (Exception e){
             JOptionPane.showMessageDialog(null, "Entered a letter guess for a Number Code", "Invalid guess", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Game type was " + gameType);
             throw new IllegalArgumentException();
         }}
 
@@ -129,9 +130,12 @@ public class Game {
             try { Integer.parseInt("" + lastChar);
             } catch (Exception e){
                 JOptionPane.showMessageDialog(null, "Entered a letter guess for a Number Code", "Invalid guess", JOptionPane.ERROR_MESSAGE);
+                System.out.println("Game type was " + gameType);
                 throw new IllegalArgumentException();
             }
         }
+
+        System.out.println("The code is " + code);
         if (lastCharIndex == -1) {
             System.out.println("No guess has been made yet.");
             return;

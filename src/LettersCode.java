@@ -13,12 +13,12 @@ public class LettersCode {
         this.player = player;
     }
 
-    String wordFile = "ListOfWords.txt";
+    String wordFile = "ListofWords.txt";
     
 
     public String generateCode() {
         List<String> words = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new File(wordFile))) {
+        try (Scanner scanner = new Scanner(new File("src/ListofWords.txt"))) {
             player.incrementCodesAttempted();
             while (scanner.hasNextLine()) {
                 words.add(scanner.nextLine().trim());
