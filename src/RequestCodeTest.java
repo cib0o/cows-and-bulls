@@ -1,5 +1,3 @@
-package bulls_and_cows;
-
 import static org.junit.Assert.*;
 import org.junit.Test;
 import java.io.File;

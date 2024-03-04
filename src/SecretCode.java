@@ -1,9 +1,17 @@
-public abstract class SecretCode {
+public class SecretCode {
     protected Player player;
+    String code;
 
-    public SecretCode(Player player) {
+    public SecretCode(Player player, String choice) {
         this.player = player;
-    }
 
-    public abstract String generateCode();
+        if (choice.equals("nc")) {
+            NumbersCode n = new NumbersCode(player);
+            this.code = n.generateCode();
+        } else {
+            LettersCode l = new LettersCode(player);
+            this.code = l.generateCode();
+        }
+    }
 }
+

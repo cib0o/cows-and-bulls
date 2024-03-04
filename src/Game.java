@@ -27,13 +27,14 @@ public class Game {
 
             SecretCode secretCode;
             if ("nc".equals(gameType)) {
-                secretCode = new NumbersCode(player);
+               SecretCode c = new SecretCode(player, "nc");
+               code = c.code;
             } else if ("lc".equals(gameType)) {
-                secretCode = new LettersCode(player);
-            } else {
-                return null;
+                SecretCode c = new SecretCode(player, "lc");
+                code = c.code;
             }
-            return secretCode.generateCode();
+                return null;
+
 
     }
     /*public Object requestCode(String gameType) { //temporary codeType selection

@@ -1,12 +1,13 @@
 import java.util.Random;
 
-public class NumbersCode extends SecretCode {
+public class NumbersCode {
+    Player player;
 
     public NumbersCode(Player player) {
-        super(player);
+       this.player = player;
     }
 
-    @Override
+
     public String generateCode() {
         player.incrementCodesAttempted();
         Random random = new Random();

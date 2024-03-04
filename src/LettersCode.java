@@ -5,15 +5,17 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class LettersCode extends SecretCode {
+public class LettersCode {
+
+    Player player;
 
     public LettersCode(Player player) {
-        super(player);
+        this.player = player;
     }
 
     String wordFile = "ListOfWords.txt";
     
-    @Override
+
     public String generateCode() {
         List<String> words = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(wordFile))) {
