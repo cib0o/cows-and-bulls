@@ -18,7 +18,7 @@ public class LettersCode {
 
     public String generateCode() {
         List<String> words = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new File("src/ListofWords.txt"))) {
+        try (Scanner scanner = new Scanner(new File("src/" + wordFile))) {
             player.incrementCodesAttempted();
             while (scanner.hasNextLine()) {
                 words.add(scanner.nextLine().trim());

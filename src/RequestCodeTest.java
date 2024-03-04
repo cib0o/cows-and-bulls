@@ -13,10 +13,11 @@ public class RequestCodeTest {
 		
 		//creation of Player and Game objects
 		Player p = new Player();
-		Game g = new Game(p);
+		Game g = new Game(p, "lc");
 		
 		int codes_attempted = p.getCodesAttempted(); //sets codes_attempted to the value of the player's codes attempted (used to test if incrementCodesAttempted() works)
-		String code = (String) g.requestCode("lc"); //sets codes to the value of requestCode() for a word game
+		g.requestCode("lc"); //sets codes to the value of requestCode() for a word game
+		String code = g.code;
 		
 		assertEquals(code.length(), 4); //checks if code is of length 4
 		assertTrue(codeInFile(code)); //checks if code is held within the word codes file
@@ -31,10 +32,11 @@ public class RequestCodeTest {
 		
 		//creation of Player and Game objects
 		Player p = new Player();
-		Game g = new Game(p);
+		Game g = new Game(p, "nc");
 		
 		int codes_attempted = p.getCodesAttempted(); //sets codes_attempted to the value of the player's codes attempted (used to test if incrementCodesAttempted() works)
-		String code = (String) g.requestCode("nc"); //sets codes to the value of requestCode() for a number game
+		g.requestCode("nc"); //sets codes to the value of requestCode() for a number game
+		String code = g.code;
 		
 		assertEquals(String.valueOf(code).length(), 4); //checks if code is of length 4, pass if it is 4 (had to turn int into String to use length())
 		assertTrue(distinctCharacter(code)); //checks that all individual numbers in code are unique
@@ -46,12 +48,12 @@ public class RequestCodeTest {
 	public void noWordStored() {
 		
 		Player p = new Player();
-		Game g = new Game(p);
+		Game g = new Game(p, "lc");
 		LettersCode l = new LettersCode(p);
 		l.wordFile = "noFileExists.txt"; //changes file to a non-existant file (may need to change dependent on how the file is made)
 		
 		int codes_attempted = p.getCodesAttempted(); 
-		String code = (String) l.generateCode(); 
+		String code = l.generateCode();
 		
 		assertEquals(code, ""); //code should equal an empty string (can change this, depends on how request code is written)
 		assertEquals(code.length(), 0); //code should be of length 0 (can change this, depends on how request code is written)
@@ -84,7 +86,7 @@ public class RequestCodeTest {
 		
 		//reading of text file
 		try {
-			File myObj = new File("/Users/karenfraser/eclipse-workspace/bulls_and_cows/src/bulls_and_cows/ListofWords.txt");
+			File myObj = new File("src/ListofWords.txt");
 			Scanner myReader = new Scanner(myObj);
 
 			//loop to store all words from file into Stack, stops when the file has no more words left
