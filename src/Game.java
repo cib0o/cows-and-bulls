@@ -52,6 +52,10 @@ public class Game {
         }
         return null;
     }*/
+    public String getSolution(){
+        return this.code;
+    }
+
     public int[] enterGuess(String guessStr, String gameType) {
 
         /**
@@ -135,7 +139,6 @@ public class Game {
             }
         }
 
-        System.out.println("The code is " + code);
         if (lastCharIndex == -1) {
             System.out.println("No guess has been made yet.");
             return;
@@ -184,8 +187,11 @@ public class Game {
         }
     public void saveGame(){}
     public void loadGame(){}
-    public void showSolution(){
-    }
+
+    public void showHint(){}
+
+
+
 
 
 }

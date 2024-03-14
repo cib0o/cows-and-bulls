@@ -14,14 +14,14 @@ public class userInterface extends JPanel implements KeyListener {
     public static Player p = new Player();
     private final String gameType;
 
+    private int revealCount = 0;
+
     public static Game g = new Game(p, "nc");
 
     public userInterface(String gametype) {
 
         g.requestCode(gametype);
         this.gameType = gametype;
-
-
 
         //ToolKit is to get the information about the monitor and other hardware things.
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -60,9 +60,45 @@ public class userInterface extends JPanel implements KeyListener {
                 requestFocusInWindow();
             }
         });
+
+
+        JButton show = new JButton("Show");
+        JButton hint = new JButton("Hint");
+
+        show.setVisible(true);
+        hint.setVisible(true);
+
+        show.addActionListener(e -> showSolution());
+
+        hint.addActionListener(e -> revealHint());
+
+        show.setBounds(width/32 + 125, height/64 + 510 + 160 , 30,10);
+        show.setBorder(BorderFactory.createEmptyBorder());
+        show.setContentAreaFilled(false);
+        panel.add(show);
+
+        hint.setBounds(width/32 + 125, height/64 + 510 + 160 , 60,10);
+        hint.setBorder(BorderFactory.createEmptyBorder());
+        hint.setContentAreaFilled(false);
+        panel.add(hint);
     }
 
+    private void revealHint() {
 
+        String solutionStr = userInterface.g.getSolution();
+        if (revealCount < 4) {
+            char nextChar = solutionStr.charAt(revealCount);
+            JOptionPane.showMessageDialog(null, "Hint: " + nextChar, "Hint", JOptionPane.INFORMATION_MESSAGE);
+            revealCount ++;
+        }
+    }
+
+    private void showSolution() {
+
+        String solutionStr = userInterface.g.getSolution();
+        JOptionPane.showMessageDialog(null, "The solution is: " + solutionStr, "Solution", JOptionPane.INFORMATION_MESSAGE);
+
+    }
     @Override
     public void keyTyped(KeyEvent e) {
         char c = e.getKeyChar();
