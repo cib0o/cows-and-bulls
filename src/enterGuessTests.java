@@ -27,6 +27,53 @@ public class enterGuessTests {
          */
 
         @Test
+        public void playerStatsPerc() {
+            Player pT = new Player();
+            Game g = new Game(pT);
+            g.code = "1234";
+
+            g.buffer[0] = '1';
+            g.checkGuess(g.buffer);
+            g.buffer[1] = '0';
+            g.checkGuess(g.buffer);
+            g.buffer[2] = '4';
+            g.checkGuess(g.buffer);
+            g.buffer[3] = '0';
+            g.checkGuess(g.buffer);
+            g.buffer = new char[4]; //resets the buffer to simulate a new guess
+            //System.out.print("Bulls : " + pT.getBulls() + "\n" + "Cows : " + pT.getCows() + "\n" + "Stats % : " + pT.getStats() + "\n");
+
+            pT.username = "Cib0o";
+            pT.displayStats(pT);
+
+            g.buffer[0] = '1';
+            g.checkGuess(g.buffer);
+            g.buffer[1] = '2';
+            g.checkGuess(g.buffer);
+            g.buffer[2] = '4';
+            g.checkGuess(g.buffer);
+            g.buffer[3] = '0';
+            g.checkGuess(g.buffer);
+            g.buffer = new char[4];
+            //System.out.print("Bulls : " + pT.getBulls() + "\n" + "Cows : " + pT.getCows() + "\n" + "Stats % : " + pT.getStats() + "\n");
+
+            pT.displayStats(pT);
+
+            g.buffer[0] = '0';
+            g.checkGuess(g.buffer);
+            g.buffer[1] = '0';
+            g.checkGuess(g.buffer);
+            g.buffer[2] = '0';
+            g.checkGuess(g.buffer);
+            g.buffer[3] = '0';
+            g.checkGuess(g.buffer);
+            //System.out.print("Bulls : " + pT.numberOfBulls + "\n" + "Cows : " + pT.numberOfCows + "\n" + "Stats % : " + pT.getStats() + "\n");
+
+            pT.displayStats(pT);
+
+        }
+
+        @Test
         public void unsuccessfulGuessDispANDUpdate() {
             Player p = new Player();
             Game g = new Game(p);
