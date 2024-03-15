@@ -23,25 +23,36 @@ public class Game {
     public void getHint() {}
     protected void loadPlayer() {}
     public static void playGame() {}
+
+    public String lastHint = "";
+
     private int revealCount = 0;
     public void revealHint() {
 
         String solutionStr = userInterface.g.getSolution();
-        if (revealCount < 4) {
+        if (solutionStr != null && !solutionStr.isEmpty() && revealCount < solutionStr.length()) {
             char nextChar = solutionStr.charAt(revealCount);
+            lastHint = String.valueOf(nextChar);
             JOptionPane.showMessageDialog(null, "Hint: " + nextChar, "Hint", JOptionPane.INFORMATION_MESSAGE);
-            revealCount ++;
+            revealCount++;
+        } else {
+            // when all hints have been revealed
+            JOptionPane.showMessageDialog(null, "No more hints left!!", "Hint", JOptionPane.WARNING_MESSAGE);
         }
     }
 
     public void showSolution() {
 
         String solutionStr = userInterface.g.getSolution();
-        JOptionPane.showMessageDialog(null, "The solution is: " + solutionStr, "Solution", JOptionPane.INFORMATION_MESSAGE);
-        System.exit(0); // after showing solution the game terminates for now, this should be replaced with something that returns to main menu
+        JOptionPane.showMessageDialog(null, "The solution was: " + solutionStr + " ...you lost!", "Solution", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
 
     }
-    
+
+    public String getLastHint() {
+        return lastHint;
+    }
+
     public Object requestCode(String gameType) {
 
             SecretCode secretCode;
