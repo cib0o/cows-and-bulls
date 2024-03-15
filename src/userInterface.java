@@ -14,8 +14,6 @@ public class userInterface extends JPanel implements KeyListener {
     public static Player p = new Player();
     private final String gameType;
 
-    private int revealCount = 0;
-
     public static Game g = new Game(p, "nc");
 
     public userInterface(String gametype) {
