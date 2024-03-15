@@ -79,6 +79,7 @@ public class mainMenu extends JFrame{
         JButton back = new JButton();
 
 
+
         numberGame.setVisible(false);
         wordGame.setVisible(false);
         back.setVisible(false);

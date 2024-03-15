@@ -68,18 +68,25 @@ public class userInterface extends JPanel implements KeyListener {
         show.setVisible(true);
         hint.setVisible(true);
 
-        show.addActionListener(e -> showSolution());
+        show.addActionListener(e -> {
+            showSolution();
+            requestFocusInWindow();
+        });
 
-        hint.addActionListener(e -> revealHint());
+        hint.addActionListener(e -> {
+            revealHint();
+            requestFocusInWindow();
+        }
+        );
 
-        show.setBounds(width/32 + 125, height/64 + 510 + 160 , 30,10);
+        show.setBounds(width/2 + 160, height-150 , 120,40);
         show.setBorder(BorderFactory.createEmptyBorder());
-        show.setContentAreaFilled(false);
+        show.setContentAreaFilled(true);
         panel.add(show);
 
-        hint.setBounds(width/32 + 125, height/64 + 510 + 160 , 60,10);
+        hint.setBounds(width/2 - 160, height-150 , 120,40);
         hint.setBorder(BorderFactory.createEmptyBorder());
-        hint.setContentAreaFilled(false);
+        hint.setContentAreaFilled(true);
         panel.add(hint);
     }
 
@@ -188,6 +195,7 @@ class MyPanel extends JPanel {
         Dimension screenSize = toolkit.getScreenSize();
         int width = screenSize.width;
         int height = screenSize.height;
+        setLayout(null);
 
         setBounds(0, 0, width, height);
         setBackground(Color.decode("#cfae76"));

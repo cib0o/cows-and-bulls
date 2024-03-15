@@ -59,7 +59,6 @@ public class undoGuessTests{
                     u.keyPressed(backspacePressed);
                     KeyEvent backspaceReleased = new KeyEvent(u, KeyEvent.KEY_RELEASED, System.currentTimeMillis(), 0, KeyEvent.VK_BACK_SPACE, KeyEvent.CHAR_UNDEFINED);
                     u.keyReleased(backspaceReleased);} );
-
     }
 
     /**
