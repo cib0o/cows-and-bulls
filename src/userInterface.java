@@ -90,22 +90,6 @@ public class userInterface extends JPanel implements KeyListener {
         panel.add(hint);
     }
 
-    private void revealHint() {
-
-        String solutionStr = userInterface.g.getSolution();
-        if (revealCount < 4) {
-            char nextChar = solutionStr.charAt(revealCount);
-            JOptionPane.showMessageDialog(null, "Hint: " + nextChar, "Hint", JOptionPane.INFORMATION_MESSAGE);
-            revealCount ++;
-        }
-    }
-
-    private void showSolution() {
-
-        String solutionStr = userInterface.g.getSolution();
-        JOptionPane.showMessageDialog(null, "The solution is: " + solutionStr, "Solution", JOptionPane.INFORMATION_MESSAGE);
-
-    }
     @Override
     public void keyTyped(KeyEvent e) {
         char c = e.getKeyChar();
