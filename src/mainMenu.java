@@ -78,9 +78,12 @@ public class mainMenu extends JFrame{
         JButton wordGame = new JButton();
         JButton back = new JButton();
 
+
+
         numberGame.setVisible(false);
         wordGame.setVisible(false);
         back.setVisible(false);
+
 
         startButton.setBounds(width/32 + 125, height/64 + 510 , 250,75);
 
@@ -97,6 +100,9 @@ public class mainMenu extends JFrame{
             wordGame.setVisible(false);
             back.setVisible(false);
         });
+
+
+
         startButton.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_start(2).png?raw=true"))));
         numberGame.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_number-game(1).png?raw=true"))));
         wordGame.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_word-game(1).png?raw=true"))));
@@ -119,6 +125,7 @@ public class mainMenu extends JFrame{
         back.setBorder(BorderFactory.createEmptyBorder());
         back.setContentAreaFilled(false);
         panel.add(back);
+
 
         numberGame.addActionListener(e -> switchUserInterface("nc"));
         wordGame.addActionListener(e -> switchUserInterface("lc"));

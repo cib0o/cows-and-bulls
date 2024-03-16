@@ -21,8 +21,6 @@ public class userInterface extends JPanel implements KeyListener {
         g.requestCode(gametype);
         this.gameType = gametype;
 
-
-
         //ToolKit is to get the information about the monitor and other hardware things.
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
@@ -60,8 +58,35 @@ public class userInterface extends JPanel implements KeyListener {
                 requestFocusInWindow();
             }
         });
-    }
 
+
+        JButton show = new JButton("Show");
+        JButton hint = new JButton("Hint");
+
+        show.setVisible(true);
+        hint.setVisible(true);
+
+        show.addActionListener(e -> {
+            showSolution();
+            requestFocusInWindow();
+        });
+
+        hint.addActionListener(e -> {
+            revealHint();
+            requestFocusInWindow();
+        }
+        );
+
+        show.setBounds(width/2 + 160, height-150 , 120,40);
+        show.setBorder(BorderFactory.createEmptyBorder());
+        show.setContentAreaFilled(true);
+        panel.add(show);
+
+        hint.setBounds(width/2 - 160, height-150 , 120,40);
+        hint.setBorder(BorderFactory.createEmptyBorder());
+        hint.setContentAreaFilled(true);
+        panel.add(hint);
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -152,6 +177,7 @@ class MyPanel extends JPanel {
         Dimension screenSize = toolkit.getScreenSize();
         int width = screenSize.width;
         int height = screenSize.height;
+        setLayout(null);
 
         setBounds(0, 0, width, height);
         setBackground(Color.decode("#cfae76"));

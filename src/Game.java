@@ -23,6 +23,36 @@ public class Game {
     public void getHint() {}
     protected void loadPlayer() {}
     public static void playGame() {}
+
+    public String lastHint = "";
+
+    private int revealCount = 0;
+    public void revealHint() {
+
+        String solutionStr = userInterface.g.getSolution();
+        if (solutionStr != null && !solutionStr.isEmpty() && revealCount < solutionStr.length()) {
+            char nextChar = solutionStr.charAt(revealCount);
+            lastHint = String.valueOf(nextChar);
+            JOptionPane.showMessageDialog(null, "Hint: " + nextChar, "Hint", JOptionPane.INFORMATION_MESSAGE);
+            revealCount++;
+        } else {
+            // when all hints have been revealed
+            JOptionPane.showMessageDialog(null, "No more hints left!!", "Hint", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public void showSolution() {
+
+        String solutionStr = userInterface.g.getSolution();
+        JOptionPane.showMessageDialog(null, "The solution was: " + solutionStr + " ...you lost!", "Solution", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
+
+    }
+
+    public String getLastHint() {
+        return lastHint;
+    }
+
     public Object requestCode(String gameType) {
 
             SecretCode secretCode;
@@ -52,6 +82,10 @@ public class Game {
         }
         return null;
     }*/
+    public String getSolution(){
+        return this.code;
+    }
+
     public int[] enterGuess(String guessStr, String gameType) {
 
         /**
@@ -135,7 +169,6 @@ public class Game {
             }
         }
 
-        System.out.println("The code is " + code);
         if (lastCharIndex == -1) {
             System.out.println("No guess has been made yet.");
             return;
@@ -184,8 +217,11 @@ public class Game {
         }
     public void saveGame(){}
     public void loadGame(){}
-    public void showSolution(){
-    }
+
+    public void showHint(){}
+
+
+
 
 
 }
