@@ -57,6 +57,7 @@ public class mainMenu extends JFrame{
         }
 
         g2d.drawImage(title, width/32, height/64, 500, 500, this);
+        leaderBoard(g2d);
 
     }
 
@@ -77,6 +78,7 @@ public class mainMenu extends JFrame{
         JButton numberGame = new JButton();
         JButton wordGame = new JButton();
         JButton back = new JButton();
+        JButton help = new JButton();
 
 
 
@@ -126,11 +128,34 @@ public class mainMenu extends JFrame{
         back.setContentAreaFilled(false);
         panel.add(back);
 
+        help.setBounds(width-350, height - 175, 250, 75);
+
+        panel.add(help);
+
 
         numberGame.addActionListener(e -> switchUserInterface("nc"));
         wordGame.addActionListener(e -> switchUserInterface("lc"));
 
         return panel;
+    }
+
+    public void leaderBoard(Graphics2D g){
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        int width = screenSize.width;
+        int height = screenSize.height;
+
+        g.setColor(Color.darkGray);
+        g.fillRect(width/32 + 545, height/12 - 5,460,710);
+        g.setColor(Color.lightGray);
+        g.fillRect(width/32 + 550, height/12,450,700);
+        g.setColor(Color.GRAY);
+        g.fillRect(width/32 + 550, height/12,450,100);
+
+        Font numberFont = new Font(Font.SANS_SERIF, Font.BOLD, 48);
+        g.setFont(numberFont);
+        g.setColor(Color.black);
+        g.drawString("Leaderboard", width/32 + 620, height/12 +70);
     }
 
 
