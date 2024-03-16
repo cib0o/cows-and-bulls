@@ -43,8 +43,7 @@ public class Game {
 
     public void showSolution() {
 
-        String solutionStr = userInterface.g.getSolution();
-        JOptionPane.showMessageDialog(null, "The solution was: " + solutionStr + " ...you lost!", "Solution", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "The solution was: " + code + " ...you lost!", "Solution", JOptionPane.INFORMATION_MESSAGE);
         System.exit(0);
 
     }
@@ -67,21 +66,6 @@ public class Game {
 
 
     }
-    /*public Object requestCode(String gameType) { //temporary codeType selection
-        if (Objects.equals(gameType, "nc")) { //numbers code
-            List<Integer> numbers = new ArrayList<>();
-            for (int i = 0 ; i < 10 ; i++){
-                numbers.add(i);
-            }
-            Collections.shuffle(numbers);
-            code = "" + numbers.get(0)+ numbers.get(1)+ numbers.get(2)+ numbers.get(3);
-            return code;
-        } else if (Objects.equals(gameType, "lc")) { //letters code
-            code = "rats";
-            return code;
-        }
-        return null;
-    }*/
     public String getSolution(){
         return this.code;
     }
@@ -140,6 +124,7 @@ public class Game {
         }
 
         guesses.add(guessStr + cows + bulls);
+        player.incrementGuesses();
 
 
         return new int[]{cows, bulls};

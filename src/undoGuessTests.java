@@ -1,10 +1,8 @@
 import org.junit.Test;
 
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
-import java.util.Objects;
+import java.io.IOException;
 
-import static java.awt.event.KeyEvent.*;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -52,8 +50,8 @@ public class undoGuessTests{
      */
 
     @Test
-    public void undoNothing(){
-        userInterface u = new userInterface("nc");
+    public void undoNothing() throws IOException {
+        userInterface u = new userInterface("nc", new mainMenu());
         Throwable exception = assertThrows(IndexOutOfBoundsException.class, //Exception.class is the exception being tested, can change to a more specific Exception type
                 ()->{ KeyEvent backspacePressed = new KeyEvent(u, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_BACK_SPACE, KeyEvent.CHAR_UNDEFINED);
                     u.keyPressed(backspacePressed);
@@ -69,8 +67,8 @@ public class undoGuessTests{
      */
 
     @Test
-    public void invalidUndo(){
-        userInterface u = new userInterface("nc");
+    public void invalidUndo() throws IOException {
+        userInterface u = new userInterface("nc", new mainMenu());
         Game g = new Game(new Player());
         g.code = "1234";
 

@@ -1,7 +1,7 @@
 public class Player extends Players {
     String username;
 
-    protected int numberOfGuesses; //x4 so need to /4 for any calcs
+    protected int numberOfGuesses;
     protected int numberOfBulls;
     protected int numberOfCows;
     int codesAttempted;
@@ -10,9 +10,10 @@ public class Player extends Players {
     Player() { numberOfBulls = 0; numberOfCows = 0;  numberOfGuesses = 0; }
 
     protected void updateBulls(int bulls){ numberOfBulls += bulls;}
-    protected void updateCows(int cows, int guessCount){ numberOfCows += cows; numberOfGuesses += guessCount;System.out.println("g : " + numberOfGuesses);}
+    protected void updateCows(int cows){ numberOfCows += cows;}
     public void incrementCodesAttempted(){codesAttempted++;}
     public void incrementCodesDeciphered(){codesDeciphered++;}
+    public void incrementGuesses(){numberOfGuesses++;}
     public int getBulls(){
         return numberOfBulls;
     }

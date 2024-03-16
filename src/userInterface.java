@@ -15,11 +15,14 @@ public class userInterface extends JPanel implements KeyListener {
     private final String gameType;
 
     public static Game g = new Game(p, "nc");
+    private JFrame parentFrame;
+    boolean playerWon = false;
 
-    public userInterface(String gametype) {
+    public userInterface(String gametype, JFrame parentFrame) {
 
         g.requestCode(gametype);
         this.gameType = gametype;
+        this.parentFrame = parentFrame;
 
         //ToolKit is to get the information about the monitor and other hardware things.
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -38,7 +41,7 @@ public class userInterface extends JPanel implements KeyListener {
         int cowBoundY = height / 2 - height / 8;
         int bullBoundY = height / 2 - height / 8;
 
-        panel = new MyPanel(cows, bulls, cowBoundX, cowBoundY, bullBoundX, bullBoundY, inputBuffer, inputBufferCount);
+        panel = new MyPanel(this, cows, bulls, cowBoundX, cowBoundY, bullBoundX, bullBoundY, inputBuffer, inputBufferCount);
         add(panel);
 
         addKeyListener(this);
@@ -67,12 +70,12 @@ public class userInterface extends JPanel implements KeyListener {
         hint.setVisible(true);
 
         show.addActionListener(e -> {
-            showSolution();
+            g.showSolution();
             requestFocusInWindow();
         });
 
         hint.addActionListener(e -> {
-            revealHint();
+            g.revealHint();
             requestFocusInWindow();
         }
         );
@@ -113,6 +116,10 @@ public class userInterface extends JPanel implements KeyListener {
 
     }
 
+    public boolean hasPlayerWon() {
+        return playerWon;
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
 
@@ -132,7 +139,8 @@ public class userInterface extends JPanel implements KeyListener {
 
             int[] cowsBulls = g.enterGuess(new String(inputBuffer).trim(), gameType);
             if (cowsBulls[1] == 4){
-                System.out.println(g.guesses.size() + " is your score!");
+                playerWon = true;
+                panel.repaint();
             }
             panel.setCows(cowsBulls[0]);
             panel.setBulls(cowsBulls[1]);
@@ -144,8 +152,15 @@ public class userInterface extends JPanel implements KeyListener {
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
         }
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            CardLayout cl = (CardLayout)(parentFrame.getContentPane().getLayout());
+            cl.show(parentFrame.getContentPane(), "MainMenu");
+        }
+
 
     }
+
+
 
     @Override
     public void keyReleased(KeyEvent e) {} // this is just here because of the "implements" at the top
@@ -162,8 +177,10 @@ class MyPanel extends JPanel {
     private BufferedImage cowImage, bullImage;
     int[] cows, bulls;
     int cowBoundX, cowBoundY, bullBoundX, bullBoundY;
+    private userInterface ui;
 
-    public MyPanel(int[] cows, int[] bulls, int cowBoundX, int cowBoundY, int bullBoundX, int bullBoundY, char[] inputBuffer, int inputBufferCount) {
+    public MyPanel(userInterface ui, int[] cows, int[] bulls, int cowBoundX, int cowBoundY, int bullBoundX, int bullBoundY, char[] inputBuffer, int inputBufferCount) {
+        this.ui = ui;
         this.cows = cows;
         this.bulls = bulls;
         this.cowBoundX = cowBoundX;
@@ -209,6 +226,10 @@ class MyPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
+
+        if (ui.playerWon) {
+            drawWinScreen(g);
+        } else {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
@@ -307,6 +328,17 @@ class MyPanel extends JPanel {
 
         drawAnimals(g2d, cowImage, cows[0], cowBoundX, cowBoundY);
         drawAnimals(g2d, bullImage, bulls[0], bullBoundX, bullBoundY);
+    }}
+
+    private void drawWinScreen(Graphics g) {
+        // Set the font and center the text
+        g.setFont(new Font("SansSerif", Font.BOLD, 48));
+        FontMetrics fm = g.getFontMetrics();
+        String winText = "You Won!";
+        int x = (getWidth() - fm.stringWidth(winText)) / 2;
+        int y = (getHeight() / 2) + fm.getAscent() / 4;
+
+        g.drawString(winText, x, y);
     }
 
 
@@ -326,6 +358,7 @@ class MyPanel extends JPanel {
     }
 
 }
+
 
 
 

@@ -25,6 +25,7 @@ public class mainMenu extends JFrame{
 
         add(mainMenuPanel, "MainMenu");
 
+
         cardLayout.show(getContentPane(), "MainMenu");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,7 +34,7 @@ public class mainMenu extends JFrame{
 
     private void switchUserInterface(String gameType) {
         Player p = new Player(); // temp before we get the log in
-        userInterface gameInterface = new userInterface(gameType); // Create new instance with gameType
+        userInterface gameInterface = new userInterface(gameType, this); // Create new instance with gameType
         getContentPane().add(gameInterface, "GameInterface"); // Add to CardLayout
         cardLayout.show(getContentPane(), "GameInterface"); // Switch to the new interface
         getContentPane().revalidate();
@@ -57,7 +58,9 @@ public class mainMenu extends JFrame{
         }
 
         g2d.drawImage(title, width/32, height/64, 500, 500, this);
-        leaderBoard(g2d);
+        drawLeaderboard(g);
+        revalidate();
+
 
     }
 
@@ -65,6 +68,8 @@ public class mainMenu extends JFrame{
         JPanel panel = new JPanel();
         panel.setLayout(null);
         panel.setBackground(Color.decode("#cfae76"));
+
+
 
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -94,6 +99,9 @@ public class mainMenu extends JFrame{
             numberGame.setVisible(true);
             wordGame.setVisible(true);
             back.setVisible(true);
+            Timer timer = new Timer(1, ae -> testRepaint());
+            timer.setRepeats(false);
+            timer.start();
         });
 
         back.addActionListener(e -> {
@@ -101,6 +109,9 @@ public class mainMenu extends JFrame{
             numberGame.setVisible(false);
             wordGame.setVisible(false);
             back.setVisible(false);
+            Timer timer = new Timer(1, ae -> testRepaint());
+            timer.setRepeats(false);
+            timer.start();
         });
 
 
@@ -129,7 +140,6 @@ public class mainMenu extends JFrame{
         panel.add(back);
 
         help.setBounds(width-350, height - 175, 250, 75);
-
         panel.add(help);
 
 
@@ -139,7 +149,23 @@ public class mainMenu extends JFrame{
         return panel;
     }
 
-    public void leaderBoard(Graphics2D g){
+    public void testRepaint(){
+        System.out.println("Im repainting!");
+        repaint();
+        revalidate();
+    }
+
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            try {
+                new mainMenu();
+            } catch (IOException e) {
+                e.printStackTrace(); }
+        });
+    }
+
+    public void drawLeaderboard(Graphics g){
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
         int width = screenSize.width;
@@ -156,15 +182,5 @@ public class mainMenu extends JFrame{
         g.setFont(numberFont);
         g.setColor(Color.black);
         g.drawString("Leaderboard", width/32 + 620, height/12 +70);
-    }
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                new mainMenu();
-            } catch (IOException e) {
-                e.printStackTrace(); }
-        });
     }
 }
