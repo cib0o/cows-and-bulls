@@ -48,7 +48,6 @@ public class Game {
     public void showSolution() {
 
         JOptionPane.showMessageDialog(null, "The solution was: " + code + " ...you lost!", "Solution", JOptionPane.INFORMATION_MESSAGE);
-        System.exit(0);
 
     }
 

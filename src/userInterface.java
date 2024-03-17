@@ -81,6 +81,8 @@ public class userInterface extends JPanel implements KeyListener {
         show.addActionListener(e -> {
             g.showSolution();
             requestFocusInWindow();
+            CardLayout cl = (CardLayout)(parentFrame.getContentPane().getLayout());
+            cl.show(parentFrame.getContentPane(), "MainMenu");
         });
 
         hint.addActionListener(e -> {
@@ -127,10 +129,6 @@ public class userInterface extends JPanel implements KeyListener {
             panel.repaint();
         }
 
-    }
-
-    public boolean hasPlayerWon() {
-        return playerWon;
     }
 
     @Override
