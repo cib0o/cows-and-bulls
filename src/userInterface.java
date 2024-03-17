@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 
@@ -17,12 +18,19 @@ public class userInterface extends JPanel implements KeyListener {
     public static Game g = new Game(p, "nc");
     private JFrame parentFrame;
     boolean playerWon = false;
+    JButton show;
+    JButton hint;
 
-    public userInterface(String gametype, JFrame parentFrame) {
+    public userInterface(String gametype, JFrame parentFrame, Player player) throws IOException {
 
         g.requestCode(gametype);
         this.gameType = gametype;
         this.parentFrame = parentFrame;
+        this.p = player;
+        g.guesses.clear();
+        g.lastHint = null;
+        g.revealCount = 0;
+
 
         //ToolKit is to get the information about the monitor and other hardware things.
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -72,9 +80,8 @@ public class userInterface extends JPanel implements KeyListener {
         });
 
 
-        JButton show = new JButton("Show");
-        JButton hint = new JButton("Hint");
-        JButton save = new JButton();
+       show = new JButton();
+        hint = new JButton();
 
         show.setVisible(true);
         hint.setVisible(true);
@@ -90,19 +97,16 @@ public class userInterface extends JPanel implements KeyListener {
         }
         );
 
-        save.addActionListener(e -> {
-            g.saveGame();
-            requestFocusInWindow();
-        } );
-        
-        show.setBounds(width/2 + 160, height-150 , 120,40);
+        show.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_give-up.png?raw=true"))));
+        show.setBounds(width/2 + 50, height-150 , 250,75);
         show.setBorder(BorderFactory.createEmptyBorder());
-        show.setContentAreaFilled(true);
+        show.setContentAreaFilled(false);
         panel.add(show);
 
-        hint.setBounds(width/2 - 160, height-150 , 120,40);
+        hint.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_hint.png?raw=true"))));
+        hint.setBounds(width/2 - 300, height-150 , 250,75);
         hint.setBorder(BorderFactory.createEmptyBorder());
-        hint.setContentAreaFilled(true);
+        hint.setContentAreaFilled(false);
         panel.add(hint);
 
         save.setBounds(width/2 - 50, height-100 , 250,75);
@@ -250,6 +254,8 @@ class MyPanel extends JPanel {
 
         if (ui.playerWon) {
             drawWinScreen(g);
+            ui.show.setVisible(false);
+            ui.hint.setVisible(false);
         } else {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
@@ -352,14 +358,31 @@ class MyPanel extends JPanel {
     }}
 
     private void drawWinScreen(Graphics g) {
+
+
         // Set the font and center the text
+        g.setColor(getBackground());
+        g.fillRect(0,0,getWidth(),getHeight());
+        g.setColor(Color.black);
         g.setFont(new Font("SansSerif", Font.BOLD, 48));
         FontMetrics fm = g.getFontMetrics();
-        String winText = "You Won!";
+        String winText = "WINNER WINNER CHICKEN DINNER!";
         int x = (getWidth() - fm.stringWidth(winText)) / 2;
-        int y = (getHeight() / 2) + fm.getAscent() / 4;
+        int y = (getHeight() / 6) + fm.getAscent() / 4;
 
         g.drawString(winText, x, y);
+        g.setFont(new Font("SansSerif", Font.BOLD, 24));
+
+        y = (getHeight() / 5) + fm.getAscent() / 4;
+
+        g.drawString("Press esc to go back.",x,y);
+
+        g.setFont(new Font("SansSerif", Font.BOLD, 18));
+        y = (getHeight() / 4) + fm.getAscent() / 4;
+        g.drawString("The code was: " + ui.g.code,x,y);
+
+        bulls[0] = 1;
+        drawAnimals((Graphics2D) g, bullImage, bulls[0], getWidth()/2 - 200, y+100);
     }
 
 
