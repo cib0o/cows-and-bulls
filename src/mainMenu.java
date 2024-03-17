@@ -302,6 +302,7 @@ public class mainMenu extends JFrame{
             g.drawString("Attempted: " + p.getCodesAttempted(), width/32 + 560, height/12 +750 + 48);
             g.drawString("Solved: " + p.getCodesDeciphered(), width/32 + 560, height/12 +750 + 70);
             g.drawString("Guesses: " + p.numberOfGuesses, width/32 + 560, height/12 +750 + 94);
+            g.drawString("Accuracy: " + p.getStats(), width/32 + 560, height/12 +750 + 116);
         }
     }
 

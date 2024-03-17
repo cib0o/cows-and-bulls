@@ -109,10 +109,6 @@ public class userInterface extends JPanel implements KeyListener {
         hint.setContentAreaFilled(false);
         panel.add(hint);
 
-        save.setBounds(width/2 - 50, height-100 , 250,75);
-        save.setBorder(BorderFactory.createEmptyBorder());
-        save.setContentAreaFilled(true);
-        panel.add(save);
         
     }
 
