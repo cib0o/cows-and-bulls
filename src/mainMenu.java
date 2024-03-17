@@ -255,11 +255,11 @@ public class mainMenu extends JFrame{
         if (this.p == null){
             g.drawString("Not Logged in.", width/32 + 680, height/12 +820);
         } else{
-            g.drawString("Bulls: " + p.getBulls(), width/32 + 600, height/12 +750);
-            g.drawString("Cows: " + p.getCows(), width/32 + 600, height/12 +750 + 24);
-            g.drawString("Attempted: " + p.getCodesAttempted(), width/32 + 600, height/12 +750 + 48);
-            g.drawString("Solved: " + p.getCodesDeciphered(), width/32 + 600, height/12 +750 + 70);
-            g.drawString("Guesses: " + p.numberOfGuesses, width/32 + 600, height/12 +750 + 94);
+            g.drawString("Bulls: " + p.getBulls(), width/32 + 560, height/12 +750);
+            g.drawString("Cows: " + p.getCows(), width/32 + 560, height/12 +750 + 24);
+            g.drawString("Attempted: " + p.getCodesAttempted(), width/32 + 560, height/12 +750 + 48);
+            g.drawString("Solved: " + p.getCodesDeciphered(), width/32 + 560, height/12 +750 + 70);
+            g.drawString("Guesses: " + p.numberOfGuesses, width/32 + 560, height/12 +750 + 94);
         }
     }
 
