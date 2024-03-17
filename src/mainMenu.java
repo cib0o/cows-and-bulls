@@ -84,13 +84,16 @@ public class mainMenu extends JFrame{
         JButton wordGame = new JButton();
         JButton back = new JButton();
         JButton help = new JButton();
+        JButton loadGame = new JButton();
+        
 
 
 
         numberGame.setVisible(false);
         wordGame.setVisible(false);
         back.setVisible(false);
-
+        wordGame.setVisible(false);
+        loadGame.setVisible(false);
 
         startButton.setBounds(width/32 + 125, height/64 + 510 , 250,75);
 
@@ -120,6 +123,7 @@ public class mainMenu extends JFrame{
         numberGame.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_number-game(1).png?raw=true"))));
         wordGame.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_word-game(1).png?raw=true"))));
         back.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_back.png?raw=true"))));
+        loadGame.setIcon(new ImageIcon("src/Images/LoadGame.png"));
         panel.add(startButton);
         startButton.setBorder(BorderFactory.createEmptyBorder());
         startButton.setContentAreaFilled(false);
@@ -139,12 +143,26 @@ public class mainMenu extends JFrame{
         back.setContentAreaFilled(false);
         panel.add(back);
 
+
+        loadGame.setBounds(width/32 + 350, height/64 + 510 , 250,75);
+        loadGame.setBorder(BorderFactory.createEmptyBorder());
+        loadGame.setContentAreaFilled(false);
+        panel.add(loadGame);
+
+        
         help.setBounds(width-350, height - 175, 250, 75);
         panel.add(help);
 
 
         numberGame.addActionListener(e -> switchUserInterface("nc"));
         wordGame.addActionListener(e -> switchUserInterface("lc"));
+        loadGame.addActionListener(e -> { 
+        	File file = new File("src/savedGame.txt");
+            if (file.exists()) {
+            	switchUserInterface("load");
+            } else {
+            	JOptionPane.showMessageDialog(panel, "There is no saved game data to load.", "Error!", JOptionPane.ERROR_MESSAGE);
+            }
 
         return panel;
     }
