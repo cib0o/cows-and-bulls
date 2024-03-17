@@ -38,7 +38,6 @@ public class mainMenu extends JFrame{
     }
 
     private void switchUserInterface(String gameType) throws IOException {
-        System.out.println("MAKING GAME WITH " + p.username);
 
         gameInterface = new userInterface(gameType, this, p); // Create new instance with gameType
         getContentPane().add(gameInterface, "GameInterface"); // Add to CardLayout
@@ -183,14 +182,24 @@ public class mainMenu extends JFrame{
 
         numberGame.addActionListener(e -> {
             try {
-                switchUserInterface("nc");
+                if (p != null) {
+                    switchUserInterface("nc");
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "Please log in!");
+                }
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         });
         wordGame.addActionListener(e -> {
             try {
-                switchUserInterface("lc");
+                if (p != null) {
+                    switchUserInterface("lc");
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "Please log in!");
+                }
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -295,7 +304,7 @@ public class mainMenu extends JFrame{
         int i =0;
 
         for (Player l : players){
-            g.drawString((i + 1) + ": " + l.username, width/32 + 550, height/12 + 200 + i*24);
+            g.drawString((i + 1) + ": " + l.username, width/32 + 560, height/12 + 200 + i*24);
             g.drawString( "" + l.getCodesDeciphered(), width/32 + 700, height/12 + 200 + i*24);
             g.drawString( "" + l.getBulls(), width/32 + 850, height/12 + 200 + i*24);
             g.drawString( "" + l.getCows(), width/32 + 950, height/12 + 200 + i*24);

@@ -166,11 +166,30 @@ public class userInterface extends JPanel implements KeyListener {
             panel.repaint();
         }
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            try {
-                g.saveGame();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+
+            Object[] options = {"Save game", "Cancel"};
+
+            int choice = JOptionPane.showOptionDialog(null,
+                    "Save game?",
+                    "save",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            switch (choice){
+                case 0:
+                    try {
+                        g.saveGame(playerWon);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    break;
+                case 1:
+                    break;
             }
+
             CardLayout cl = (CardLayout)(parentFrame.getContentPane().getLayout());
             cl.show(parentFrame.getContentPane(), "MainMenu");
         }
@@ -252,6 +271,8 @@ class MyPanel extends JPanel {
         } else {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+
+
 
         Font numberFont = new Font(Font.SANS_SERIF, Font.BOLD, 48);
         g.setFont(numberFont);
@@ -344,6 +365,11 @@ class MyPanel extends JPanel {
         g2d.setColor(Color.black);
         g.setFont(numberFont);
         g2d.drawString("Your score is: " + userInterface.g.guesses.size(), x, y);
+
+            numberFont = new Font(Font.SANS_SERIF, Font.BOLD, 24);
+            g.setFont(numberFont);
+            g.setColor(Color.black);
+            g.drawString("Press esc to save or quit.", 100, 100);
 
 
         drawAnimals(g2d, cowImage, cows[0], cowBoundX, cowBoundY);

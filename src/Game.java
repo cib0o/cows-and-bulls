@@ -205,7 +205,10 @@ public class Game {
             return buffer;
         }
 
-    public void saveGame() throws IOException {
+    public void saveGame(boolean won) throws IOException {
+        if (won){
+            return;
+        }
         String saveData = code;
         for(int i = 0; i < 5; i++){
             saveData += guesses.get(guesses.size() - 5 + i);
