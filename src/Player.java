@@ -42,6 +42,7 @@ public class Player extends Players {
 
                 if (!found) {
                     System.out.println("Username not found: " + username);
+                    createAccount(username);
 
                 } else {
                     System.out.println("Player: " + this.username + " number of guesses: " + this.numberOfGuesses);
@@ -90,7 +91,7 @@ public class Player extends Players {
         }
 
         public float getStats() {
-            return ((float) (numberOfCows + numberOfBulls) / (numberOfGuesses)) * 100; //returns the % of cows and bulls per guess
+            return ((float) (numberOfCows + numberOfBulls) / ((numberOfGuesses)*4)) * 100; //returns the % of cows and bulls per char of guess
         }
 
     }

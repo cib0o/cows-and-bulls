@@ -193,7 +193,7 @@ public class Game {
                 }
                 buffer[lastNonNullIndex] = '\0';
                 player.updateBulls(-bull);
-                player.updateCows(-cow);
+                player.updateCows(cow);
             }
 
             System.out.println("GAME.java buffer: " + String.valueOf(buffer));
