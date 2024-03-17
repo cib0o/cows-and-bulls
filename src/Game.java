@@ -26,7 +26,7 @@ public class Game {
 
     public String lastHint = "";
 
-    private int revealCount = 0;
+    public int revealCount = 0;
     public void revealHint() {
 
         String solutionStr = userInterface.g.getSolution();
