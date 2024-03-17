@@ -199,40 +199,12 @@ public class Game {
             System.out.println("GAME.java buffer: " + String.valueOf(buffer));
             return buffer;
         }
-    
+
     public void saveGame(){
-    	
-    	try {
-    		 File file = new File("src/savedGame.txt");
-             if (file.exists()) {
-                 int option = JOptionPane.showConfirmDialog(null, "A saved game already exists. Do you want to overwrite it?", "Save Game", JOptionPane.YES_NO_OPTION);
-                 if (option == JOptionPane.NO_OPTION) {
-                     return;
-                 }
-             }
-    		
-    		BufferedWriter writer = new BufferedWriter(new FileWriter("src/savedGame.txt"));
-    		
-    		writer.write(gameType + "\n");
-    		writer.write(code + "\n");
-    		
-    		for(int i = 0; i < guesses.size(); i++) {
-    			writer.write(guesses.get(i).substring(0, 4));
-    			if (i+1 < guesses.size()) {
-    				writer.write("\n");
-    			}
-    		}
-    		
-    		writer.close();
-    		
-    	} catch (IOException e) {
-    		
-    		e.printStackTrace();
-    		
-    	}
-    	
+
+
     }
-    
+
     public void loadGame(String allGuesses){
 
         String filePath = "src/players.txt";

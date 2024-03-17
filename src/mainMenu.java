@@ -214,13 +214,14 @@ public class mainMenu extends JFrame{
                     String[] parts = line.split(" ");
                     if (parts[0].equalsIgnoreCase(this.p.username)) {
                         String gameData = parts[6];
-                        String code = gameData.substring(0, 4);
-                        String allGuesses = gameData.substring(4);
-
-                        if (code ==  "-1"){
+                        String code = "";
+                        try {
+                            code = gameData.substring(0, 4);
+                        } catch (StringIndexOutOfBoundsException re){
                             JOptionPane.showMessageDialog(this,"No saved game!");
                             return;
                         }
+                        String allGuesses = gameData.substring(4);
 
 
                         boolean isNumeric = code.chars().allMatch(Character::isDigit);
