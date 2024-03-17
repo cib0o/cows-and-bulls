@@ -12,7 +12,7 @@ public class userInterface extends JPanel implements KeyListener {
     private int inputBufferCount = 0;
     private final MyPanel panel;
     public static Player p = new Player();
-    private final String gameType;
+    private String gameType;
 
     public static Game g = new Game(p, "nc");
     private JFrame parentFrame;
@@ -44,6 +44,15 @@ public class userInterface extends JPanel implements KeyListener {
         panel = new MyPanel(this, cows, bulls, cowBoundX, cowBoundY, bullBoundX, bullBoundY, inputBuffer, inputBufferCount);
         add(panel);
 
+        if (gameType == "load") {
+        	gameType = g.loadGame();
+        	if (gameType == "error") {
+        		JOptionPane.showMessageDialog(panel, "Corrupt save file :( \nQuitting game.",
+        	               "Error!", JOptionPane.ERROR_MESSAGE);
+        		System.exit(-1);
+        	}
+        }
+        
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -65,6 +74,7 @@ public class userInterface extends JPanel implements KeyListener {
 
         JButton show = new JButton("Show");
         JButton hint = new JButton("Hint");
+        JButton save = new JButton();
 
         show.setVisible(true);
         hint.setVisible(true);
@@ -80,6 +90,11 @@ public class userInterface extends JPanel implements KeyListener {
         }
         );
 
+        save.addActionListener(e -> {
+            g.saveGame();
+            requestFocusInWindow();
+        } );
+        
         show.setBounds(width/2 + 160, height-150 , 120,40);
         show.setBorder(BorderFactory.createEmptyBorder());
         show.setContentAreaFilled(true);
@@ -89,6 +104,12 @@ public class userInterface extends JPanel implements KeyListener {
         hint.setBorder(BorderFactory.createEmptyBorder());
         hint.setContentAreaFilled(true);
         panel.add(hint);
+
+        save.setBounds(width/2 - 50, height-100 , 250,75);
+        save.setBorder(BorderFactory.createEmptyBorder());
+        save.setContentAreaFilled(true);
+        panel.add(save);
+        
     }
 
     @Override
