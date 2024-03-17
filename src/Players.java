@@ -12,7 +12,8 @@ public class Players{
             BufferedReader reader = new BufferedReader(new FileReader(pListTxtFile));
             String line;
             while ((line = reader.readLine()) != null ) {
-                playersList.add(new Player(line.split(" ",1 ).toString()));
+                String[] parts = line.split(" ");
+                playersList.add(new Player(parts[0]));
                 //players[i] = new Player(reader.readLine().split(" ", 1).toString());
             }
             reader.close();
@@ -36,6 +37,8 @@ public class Players{
                 playersList.remove(n);
             }
         }
+
+        System.out.println(playersList.get(1));
 
         return playersList;
     }

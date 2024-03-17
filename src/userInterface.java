@@ -15,14 +15,14 @@ public class userInterface extends JPanel implements KeyListener {
     public static Player p = new Player();
     private String gameType;
 
-    public static Game g = new Game(p, "nc");
+    public static Game g;
     private JFrame parentFrame;
     boolean playerWon = false;
     JButton show;
     JButton hint;
 
     public userInterface(String gametype, JFrame parentFrame, Player player) throws IOException {
-
+        g = new Game(player, "nc");
         g.requestCode(gametype);
         this.gameType = gametype;
         this.parentFrame = parentFrame;
@@ -166,6 +166,11 @@ public class userInterface extends JPanel implements KeyListener {
             panel.repaint();
         }
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            try {
+                g.saveGame();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             CardLayout cl = (CardLayout)(parentFrame.getContentPane().getLayout());
             cl.show(parentFrame.getContentPane(), "MainMenu");
         }

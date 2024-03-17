@@ -1,6 +1,11 @@
 import javax.swing.*;
 import java.awt.List;
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Game {
@@ -12,7 +17,7 @@ public class Game {
     String code;
     char[] buffer = new char[4];
 
-    Game(Player p, String codeType) {player = p; gameType = codeType;}
+    Game(Player p, String codeType) {this.player = p; gameType = codeType;}
     Game(Player p) { player = p;   }
 
     public Game() {
@@ -200,10 +205,47 @@ public class Game {
             return buffer;
         }
 
-    public void saveGame(){
-
-
+    public void saveGame() throws IOException {
+        String saveData = code;
+        for(int i = 0; i < 5; i++){
+            saveData += guesses.get(guesses.size() - 5 + i);
+        }
+        System.out.println(saveData);
+        System.out.println("THE PLAYER PLAYING IS " + player.username);
+        updatePlayerData("src/players.txt", player.username, saveData);
     }
+
+    public static void updatePlayerData(String filePath, String playerName, String newGameData) throws IOException {
+        Path path = Paths.get(filePath);
+        System.out.println("Updating player data in file: " + filePath); // Debugging
+
+        ArrayList<String> lines = (ArrayList<String>) Files.readAllLines(path, StandardCharsets.UTF_8);
+        boolean foundPlayer = false; // Debugging
+
+        for (String line : lines) {
+            System.out.println("Checking line: " + line); // Debugging
+            if (line.contains(playerName)) {
+                foundPlayer = true; // Debugging
+                System.out.println("Found player line: " + line); // Debugging
+                String[] parts = line.split(" ", 7);
+                if (parts.length > 6) {
+                    parts[6] = newGameData;
+                    String updatedLine = String.join(" ", parts);
+                    System.out.println("Updated line to: " + updatedLine); // Debugging
+                    lines.set(lines.indexOf(line), updatedLine);
+                }
+            }
+        }
+
+        if (!foundPlayer) {
+            System.out.println("Player not found in file."); // Debugging
+        } else {
+            Files.write(path, lines, StandardCharsets.UTF_8);
+            System.out.println("File updated."); // Debugging
+        }
+    }
+
+
 
     public void loadGame(String allGuesses){
 
@@ -227,7 +269,7 @@ public class Game {
                         guesses.add(guess);
                     }
                     this.guesses.clear();
-                    for (int i = 0; i <4 ; i++){
+                    for (int i = 0; i <5 ; i++){
                         this.guesses.add(guesses.get(i));
                     }
                     break;

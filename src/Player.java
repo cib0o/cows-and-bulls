@@ -42,7 +42,7 @@ public class Player extends Players {
 
                 if (!found) {
                     System.out.println("Username not found: " + username);
-                    createAccount(username);
+                   // createAccount(username);
 
                 } else {
                     System.out.println("Player: " + this.username + " number of guesses: " + this.numberOfGuesses);

@@ -2,10 +2,11 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class mainMenu extends JFrame{
     private final CardLayout cardLayout = new CardLayout();
@@ -37,6 +38,8 @@ public class mainMenu extends JFrame{
     }
 
     private void switchUserInterface(String gameType) throws IOException {
+        System.out.println("MAKING GAME WITH " + p.username);
+
         gameInterface = new userInterface(gameType, this, p); // Create new instance with gameType
         getContentPane().add(gameInterface, "GameInterface"); // Add to CardLayout
         cardLayout.show(getContentPane(), "GameInterface"); // Switch to the new interface
@@ -63,7 +66,11 @@ public class mainMenu extends JFrame{
         }
 
         g2d.drawImage(title, width/32, height/64, 500, 500, this);
-        drawLeaderboard(g);
+        try {
+            drawLeaderboard(g);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         drawPersonalStats(g);
 
         Font numberFont = new Font(Font.SANS_SERIF, Font.BOLD, 18);
@@ -97,10 +104,7 @@ public class mainMenu extends JFrame{
         JButton numberGame = new JButton();
         JButton wordGame = new JButton();
         JButton back = new JButton();
-        JButton help = new JButton();
-
         JButton loadGame = new JButton();
-
         JButton login = new JButton();
 
 
@@ -145,7 +149,7 @@ public class mainMenu extends JFrame{
 
         loadGame.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_load.png?raw=true"))));
         login.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_login.png?raw=true"))));
-        help.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_help.png?raw=true"))));
+
 
         panel.add(startButton);
         startButton.setBorder(BorderFactory.createEmptyBorder());
@@ -170,11 +174,6 @@ public class mainMenu extends JFrame{
         loadGame.setBorder(BorderFactory.createEmptyBorder());
         loadGame.setContentAreaFilled(false);
         panel.add(loadGame);
-
-        help.setBounds(width-350, height - 175, 250, 75);
-        help.setBorder(BorderFactory.createEmptyBorder());
-        help.setContentAreaFilled(false);
-        panel.add(help);
 
         login.setBounds(width - 350, 75, 250, 75);
         login.setBorder(BorderFactory.createEmptyBorder());
@@ -266,7 +265,7 @@ public class mainMenu extends JFrame{
         });
     }
 
-    public void drawLeaderboard(Graphics g){
+    public void drawLeaderboard(Graphics g) throws FileNotFoundException {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
         int width = screenSize.width;
@@ -289,6 +288,19 @@ public class mainMenu extends JFrame{
         g.setColor(Color.black);
         g.drawString("Name |  Won Games  |  Bulls  |  Cows", width/32 + 565, height/12 +150);
         g.drawString("--------------------------------------------------------", width/32 + 550, height/12 +170);
+
+        Players p = new Players();
+        java.util.List<Player> players = p.leaderboard();
+
+        int i =0;
+
+        for (Player l : players){
+            g.drawString((i + 1) + ": " + l.username, width/32 + 550, height/12 + 200 + i*24);
+            g.drawString( "" + l.getCodesDeciphered(), width/32 + 700, height/12 + 200 + i*24);
+            g.drawString( "" + l.getBulls(), width/32 + 850, height/12 + 200 + i*24);
+            g.drawString( "" + l.getCows(), width/32 + 950, height/12 + 200 + i*24);
+            i++;
+        }
     }
 
     public void drawPersonalStats(Graphics g){
