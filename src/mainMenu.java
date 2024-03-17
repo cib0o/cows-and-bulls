@@ -2,15 +2,15 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class mainMenu extends JFrame{
     private final CardLayout cardLayout = new CardLayout();
     public Player p = null;
+    public userInterface gameInterface;
 
     public mainMenu() throws IOException {
         setTitle("Bulls and Cows");
@@ -37,7 +37,7 @@ public class mainMenu extends JFrame{
     }
 
     private void switchUserInterface(String gameType) throws IOException {
-        userInterface gameInterface = new userInterface(gameType, this, p); // Create new instance with gameType
+        gameInterface = new userInterface(gameType, this, p); // Create new instance with gameType
         getContentPane().add(gameInterface, "GameInterface"); // Add to CardLayout
         cardLayout.show(getContentPane(), "GameInterface"); // Switch to the new interface
         getContentPane().revalidate();
@@ -119,6 +119,7 @@ public class mainMenu extends JFrame{
             numberGame.setVisible(true);
             wordGame.setVisible(true);
             back.setVisible(true);
+            loadGame.setVisible(true);
             Timer timer = new Timer(1, ae -> testRepaint());
             timer.setRepeats(false);
             timer.start();
@@ -128,6 +129,7 @@ public class mainMenu extends JFrame{
             startButton.setVisible(true);
             numberGame.setVisible(false);
             wordGame.setVisible(false);
+            loadGame.setVisible(false);
             back.setVisible(false);
             Timer timer = new Timer(1, ae -> testRepaint());
             timer.setRepeats(false);
@@ -141,7 +143,7 @@ public class mainMenu extends JFrame{
         wordGame.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_word-game(1).png?raw=true"))));
         back.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_back.png?raw=true"))));
 
-        loadGame.setIcon(new ImageIcon("src/Images/LoadGame.png"));
+        loadGame.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_load.png?raw=true"))));
         login.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_login.png?raw=true"))));
         help.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_help.png?raw=true"))));
 
@@ -159,18 +161,16 @@ public class mainMenu extends JFrame{
         wordGame.setContentAreaFilled(false);
         panel.add(wordGame);
 
-        back.setBounds(width/32 + 125, height/64 + 510 + 160 , 250,75);
+        back.setBounds(width/32 + 125, height/64 + 510 + 240 , 250,75);
         back.setBorder(BorderFactory.createEmptyBorder());
         back.setContentAreaFilled(false);
         panel.add(back);
 
-
-        loadGame.setBounds(width/32 + 350, height/64 + 510 , 250,75);
+        loadGame.setBounds(width/32 + 125, height/64 + 510 + 160 , 250,75);
         loadGame.setBorder(BorderFactory.createEmptyBorder());
         loadGame.setContentAreaFilled(false);
         panel.add(loadGame);
 
-        
         help.setBounds(width-350, height - 175, 250, 75);
         help.setBorder(BorderFactory.createEmptyBorder());
         help.setContentAreaFilled(false);
@@ -198,33 +198,48 @@ public class mainMenu extends JFrame{
         });
         login.addActionListener(e -> login());
 
-
-        numberGame.addActionListener(e -> {
-            try {
-                switchUserInterface("nc");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-        wordGame.addActionListener(e -> {
-            try {
-                switchUserInterface("lc");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
         loadGame.addActionListener(e -> {
-            File file = new File("src/savedGame.txt");
-            if (file.exists()) {
-                try {
-                    switchUserInterface("load");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            } else {
-                JOptionPane.showMessageDialog(panel, "There is no saved game data to load.", "Error!", JOptionPane.ERROR_MESSAGE);
+
+            if (this.p == null){
+                JOptionPane.showMessageDialog(this,"Not logged in!");
+                return;
             }
 
+            String filePath = "src/players.txt";
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(" ");
+                    if (parts[0].equalsIgnoreCase(this.p.username)) {
+                        String gameData = parts[6];
+                        String code = gameData.substring(0, 4);
+                        String allGuesses = gameData.substring(4);
+
+
+                        boolean isNumeric = code.chars().allMatch(Character::isDigit);
+                        boolean isAlphabetic = code.chars().allMatch(Character::isLetter);
+
+
+                        try {
+                            if (isNumeric) {
+                                switchUserInterface("nc");
+                                userInterface.g.loadGame(allGuesses);
+                            } else if (isAlphabetic) {
+                                switchUserInterface("lc");
+                                userInterface.g.loadGame(allGuesses);
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Invalid game data format.");
+                            }
+                        } catch (IOException ef) {
+                            ef.printStackTrace();
+                        }
+                    }
+                }
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         });
         return panel;
     }
@@ -312,6 +327,25 @@ public class mainMenu extends JFrame{
             this.p = new Player(input);
             repaint();
             return;
+        } else{
+            Object[] options = {"Create Account", "Cancel"};
+
+            int choice = JOptionPane.showOptionDialog(null,
+                    "Account does not exist, create a new one?",
+                    "Create account",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            switch (choice){
+                case 1:
+                    this.p = new Player(input);
+                    return;
+                case 2:
+                    return;
+            }
         }
 System.out.println("PLAYER doES NOT EXIST");
     }

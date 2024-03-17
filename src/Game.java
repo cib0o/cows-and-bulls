@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.List;
 import java.io.*;
 import java.util.*;
 
@@ -232,29 +233,40 @@ public class Game {
     	
     }
     
-    public String loadGame(){
-    	
-    	try {
-  	      
-    		File file = new File("src/savedGame.txt");
-  	    	Scanner scanner = new Scanner(file);
-  	      
-  	    	gameType = scanner.nextLine();
-  	    	code =  scanner.nextLine();
-  	    	
-  	    	while (scanner.hasNextLine()) {
-  	    		enterGuess(scanner.nextLine(), gameType);
-  	    	}
-  	      
-  	    	scanner.close();
-  	      
-  	    } catch (NoSuchElementException | FileNotFoundException e) {
-  	    	gameType = "error";
-  	    	e.printStackTrace();
-  	    }
-    	
-    	return gameType;
-    	
+    public void loadGame(String allGuesses){
+
+        String filePath = "src/players.txt";
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(" ");
+
+                    String gameData = parts[6];
+                    String code = gameData.substring(0, 4);
+
+
+
+                    this.code = code;
+                    ArrayList<String> guesses = new ArrayList<>();
+                    for (int i = 0; i < allGuesses.length(); i += 6) {
+                        String guess = allGuesses.substring(i, i + 6);
+                        guesses.add(guess);
+                    }
+                    this.guesses.clear();
+                    for (int i = 0; i <4 ; i++){
+                        this.guesses.add(guesses.get(i));
+                    }
+                    break;
+                }
+
+        } catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
     }
 
     public void showHint(){}

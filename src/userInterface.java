@@ -52,14 +52,6 @@ public class userInterface extends JPanel implements KeyListener {
         panel = new MyPanel(this, cows, bulls, cowBoundX, cowBoundY, bullBoundX, bullBoundY, inputBuffer, inputBufferCount);
         add(panel);
 
-        if (gameType == "load") {
-        	gameType = g.loadGame();
-        	if (gameType == "error") {
-        		JOptionPane.showMessageDialog(panel, "Corrupt save file :( \nQuitting game.",
-        	               "Error!", JOptionPane.ERROR_MESSAGE);
-        		System.exit(-1);
-        	}
-        }
         
         addKeyListener(this);
         setFocusable(true);
