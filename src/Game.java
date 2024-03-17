@@ -200,8 +200,64 @@ public class Game {
             System.out.println("GAME.java buffer: " + String.valueOf(buffer));
             return buffer;
         }
-    public void saveGame(){}
-    public void loadGame(){}
+    
+    public void saveGame(){
+    	
+    	try {
+    		 File file = new File("src/savedGame.txt");
+             if (file.exists()) {
+                 int option = JOptionPane.showConfirmDialog(null, "A saved game already exists. Do you want to overwrite it?", "Save Game", JOptionPane.YES_NO_OPTION);
+                 if (option == JOptionPane.NO_OPTION) {
+                     return;
+                 }
+             }
+    		
+    		BufferedWriter writer = new BufferedWriter(new FileWriter("src/savedGame.txt"));
+    		
+    		writer.write(gameType + "\n");
+    		writer.write(code + "\n");
+    		
+    		for(int i = 0; i < guesses.size(); i++) {
+    			writer.write(guesses.get(i).substring(0, 4));
+    			if (i+1 < guesses.size()) {
+    				writer.write("\n");
+    			}
+    		}
+    		
+    		writer.close();
+    		
+    	} catch (IOException e) {
+    		
+    		e.printStackTrace();
+    		
+    	}
+    	
+    }
+    
+    public String loadGame(){
+    	
+    	try {
+  	      
+    		File file = new File("src/savedGame.txt");
+  	    	Scanner scanner = new Scanner(file);
+  	      
+  	    	gameType = scanner.nextLine();
+  	    	code =  scanner.nextLine();
+  	    	
+  	    	while (scanner.hasNextLine()) {
+  	    		enterGuess(scanner.nextLine(), gameType);
+  	    	}
+  	      
+  	    	scanner.close();
+  	      
+  	    } catch (NoSuchElementException | FileNotFoundException e) {
+  	    	gameType = "error";
+  	    	e.printStackTrace();
+  	    }
+    	
+    	return gameType;
+    	
+    }
 
     public void showHint(){}
 
