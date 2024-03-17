@@ -217,6 +217,11 @@ public class mainMenu extends JFrame{
                         String code = gameData.substring(0, 4);
                         String allGuesses = gameData.substring(4);
 
+                        if (code ==  "-1"){
+                            JOptionPane.showMessageDialog(this,"No saved game!");
+                            return;
+                        }
+
 
                         boolean isNumeric = code.chars().allMatch(Character::isDigit);
                         boolean isAlphabetic = code.chars().allMatch(Character::isLetter);
