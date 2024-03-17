@@ -367,10 +367,12 @@ public class mainMenu extends JFrame{
                     options[0]);
 
             switch (choice){
-                case 1:
+                case 0:
+                    System.out.println("case 1");
                     this.p = new Player(input);
                     return;
-                case 2:
+                case 1:
+                    System.out.println("case 2");
                     return;
             }
         }

@@ -1,3 +1,5 @@
+import org.junit.platform.commons.util.StringUtils;
+
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
@@ -47,12 +49,29 @@ public class Players{
         //write to file
         //then call player object with new file
 
+        if (username.contains(" ")) {
+            //doesnt allow account creation if username has a space
+            JOptionPane.showMessageDialog(null, "Enter a username without a space");
+            return;
+        }
+
         try {
             BufferedWriter addtoFile = new BufferedWriter(new FileWriter(pListTxtFile, true));
-            addtoFile.write(username + " 0 0 0 0 0 -1");
+            System.out.println("ca - file found");
+
+            if(StringUtils.isBlank(String.valueOf(new BufferedReader(new FileReader(pListTxtFile)).readLine()))) {
+                addtoFile.newLine();
+                System.out.println("new line taken");
+            }
+
+            addtoFile.append(username + " 0 0 0 0 0 -1");
+
+            System.out.println("ca-account created");
             addtoFile.close();
 
-            Player p = new Player(username);
+            new Player(username);
+
+            JOptionPane.showMessageDialog(null, "Account made " + username);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -1,12 +1,12 @@
 import org.junit.
         jupiter.api.Test;
 
-import java.lang.module.FindException;
+import java.io.IOException;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class enterGuessTests {
+public class cibooTests {
 
         /**
          * Correct code is : 1234
@@ -31,6 +31,7 @@ public class enterGuessTests {
             Player pT = new Player();
             Game g = new Game(pT);
             g.code = "1234";
+            pT.username = "Cib0o";
 
             g.buffer[0] = '1';
             g.checkGuess(g.buffer);
@@ -43,7 +44,7 @@ public class enterGuessTests {
             g.buffer = new char[4]; //resets the buffer to simulate a new guess
             //System.out.print("Bulls : " + pT.getBulls() + "\n" + "Cows : " + pT.getCows() + "\n" + "Stats % : " + pT.getStats() + "\n");
 
-            pT.username = "Cib0o";
+            g.enterGuess("1040","nc");
             pT.displayStats(pT);
 
             g.buffer[0] = '1';
@@ -56,7 +57,7 @@ public class enterGuessTests {
             g.checkGuess(g.buffer);
             g.buffer = new char[4];
             //System.out.print("Bulls : " + pT.getBulls() + "\n" + "Cows : " + pT.getCows() + "\n" + "Stats % : " + pT.getStats() + "\n");
-
+            g.enterGuess("1240","nc");
             pT.displayStats(pT);
 
             g.buffer[0] = '0';
@@ -67,10 +68,26 @@ public class enterGuessTests {
             g.checkGuess(g.buffer);
             g.buffer[3] = '0';
             g.checkGuess(g.buffer);
+
+            g.enterGuess("0000","nc");
             //System.out.print("Bulls : " + pT.numberOfBulls + "\n" + "Cows : " + pT.numberOfCows + "\n" + "Stats % : " + pT.getStats() + "\n");
 
             pT.displayStats(pT);
 
+        }
+
+        @Test
+        public void updateStats() throws IOException {
+            Player pTs = new Player("cib0o");
+            Game g = new Game(pTs);
+
+            pTs.numberOfGuesses= 642345;
+            pTs.numberOfCows = 42;
+            pTs.numberOfBulls = 12;
+            pTs.codesAttempted = 1342;
+            pTs.codesDeciphered = 2;
+
+            pTs.updateStats();
         }
 
         @Test
