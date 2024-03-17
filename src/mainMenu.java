@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -198,17 +199,33 @@ public class mainMenu extends JFrame{
         login.addActionListener(e -> login());
 
 
-        numberGame.addActionListener(e -> switchUserInterface("nc"));
-        wordGame.addActionListener(e -> switchUserInterface("lc"));
-        loadGame.addActionListener(e -> { 
-        	File file = new File("src/savedGame.txt");
+        numberGame.addActionListener(e -> {
+            try {
+                switchUserInterface("nc");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        wordGame.addActionListener(e -> {
+            try {
+                switchUserInterface("lc");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        loadGame.addActionListener(e -> {
+            File file = new File("src/savedGame.txt");
             if (file.exists()) {
-            	switchUserInterface("load");
+                try {
+                    switchUserInterface("load");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             } else {
-            	JOptionPane.showMessageDialog(panel, "There is no saved game data to load.", "Error!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(panel, "There is no saved game data to load.", "Error!", JOptionPane.ERROR_MESSAGE);
             }
 
-
+        });
         return panel;
     }
 
