@@ -33,7 +33,7 @@ public class Game {
     public int revealCount = 0;
     public void revealHint() {
 
-        String solutionStr = userInterface.g.getSolution();
+        String solutionStr = getSolution();
         if (solutionStr != null && !solutionStr.isEmpty() && revealCount < solutionStr.length()) {
             char nextChar = solutionStr.charAt(revealCount);
             lastHint = String.valueOf(nextChar);
@@ -257,10 +257,10 @@ public class Game {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(" ");
 
-                    String gameData = parts[6];
+                    String gameData = allGuesses;
                     String code = gameData.substring(0, 4);
+                allGuesses = allGuesses.substring(4);
 
 
 

@@ -220,7 +220,8 @@ public class mainMenu extends JFrame{
 
                 while ((line = reader.readLine()) != null) {
                     String[] parts = line.split(" ");
-                    if (parts[0].equalsIgnoreCase(this.p.username)) {
+                    if (parts[0].equalsIgnoreCase(p.username)) {
+                        System.out.println("THE PARSED THING IS " + parts[6]);
                         String gameData = parts[6];
                         String code = "";
                         try {
@@ -229,7 +230,7 @@ public class mainMenu extends JFrame{
                             JOptionPane.showMessageDialog(this,"No saved game!");
                             return;
                         }
-                        String allGuesses = gameData.substring(4);
+                        String allGuesses = gameData;
 
 
                         boolean isNumeric = code.chars().allMatch(Character::isDigit);
@@ -370,6 +371,7 @@ public class mainMenu extends JFrame{
                 case 0:
                     System.out.println("case 1");
                     this.p = new Player(input);
+
                     return;
                 case 1:
                     System.out.println("case 2");

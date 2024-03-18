@@ -165,27 +165,30 @@ public class userInterface extends JPanel implements KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 
-            Object[] options = {"Save game", "Cancel"};
+            if(!playerWon) {
 
-            int choice = JOptionPane.showOptionDialog(null,
-                    "Save game?",
-                    "save",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[0]);
+                Object[] options = {"Save game", "Cancel"};
 
-            switch (choice){
-                case 0:
-                    try {
-                        g.saveGame(playerWon);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    break;
-                case 1:
-                    break;
+                int choice = JOptionPane.showOptionDialog(null,
+                        "Save game?",
+                        "save",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+
+                switch (choice) {
+                    case 0:
+                        try {
+                            g.saveGame(playerWon);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        break;
+                    case 1:
+                        break;
+                }
             }
 
             CardLayout cl = (CardLayout)(parentFrame.getContentPane().getLayout());
@@ -396,7 +399,7 @@ class MyPanel extends JPanel {
 
         g.setFont(new Font("SansSerif", Font.BOLD, 18));
         y = (getHeight() / 4) + fm.getAscent() / 4;
-        g.drawString("The code was: " + ui.g.code,x,y);
+        g.drawString("The code was: " + ui.g.code + "\n and your score was: " + ui.g.guesses.size(),x,y);
 
         bulls[0] = 1;
         drawAnimals((Graphics2D) g, bullImage, bulls[0], getWidth()/2 - 200, y+100);

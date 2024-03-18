@@ -34,8 +34,9 @@ public class Players{
             }
         }
 
-        if(playersList.size() >= 10) {
-            for (int n=playersList.size()-1; n > 10; n--) {
+        if(playersList.size() > 10) {
+            System.out.println("REMOVING PLAYERS");
+            for (int n=playersList.size()-1; n >= 10; n--) {
                 playersList.remove(n);
             }
         }
@@ -59,12 +60,13 @@ public class Players{
             BufferedWriter addtoFile = new BufferedWriter(new FileWriter(pListTxtFile, true));
             System.out.println("ca - file found");
 
-            if(StringUtils.isBlank(String.valueOf(new BufferedReader(new FileReader(pListTxtFile)).readLine()))) {
+            if(StringUtils.isBlank(String.valueOf(new BufferedReader
+                    (new FileReader(pListTxtFile)).readLine()))) {
                 addtoFile.newLine();
                 System.out.println("new line taken");
             }
 
-            addtoFile.append(username + " 0 0 0 0 0 -1");
+            addtoFile.append(username + " 0 0 0 0 0 -1 \n");
 
             System.out.println("ca-account created");
             addtoFile.close();
