@@ -137,8 +137,8 @@ public class Player extends Players {
             return codesDeciphered;
         }
 
-        public float getStats() {
-            return ((float) (numberOfCows + numberOfBulls) / ((numberOfGuesses)*4)) * 100; //returns the % of cows and bulls per char of guess
+        public float getStats() { //was *4 now *8 cbto8
+            return ((float) (numberOfCows + numberOfBulls) / ((numberOfGuesses)*8)) * 100; //returns the % of cows and bulls per char of guess
         }
 
     }
