@@ -16,9 +16,19 @@ public class LettersCode {
     String wordFile = "ListofWords.txt";
     
 
-    public String generateCode() {
+    public String generateCode(int length) {
         List<String> words = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File("src/" + wordFile))) {
+            player.incrementCodesAttempted();
+            while (scanner.hasNextLine()) {
+                words.add(scanner.nextLine().trim());
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + e.getMessage());
+            return "";
+        }
+
+        try (Scanner scanner = new Scanner(new File("src/" + "wordList10Let"))) {
             player.incrementCodesAttempted();
             while (scanner.hasNextLine()) {
                 words.add(scanner.nextLine().trim());

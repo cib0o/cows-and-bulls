@@ -8,11 +8,11 @@ public class NumbersCode {
     }
 
 
-    public String generateCode() {
+    public String generateCode(int length) {
         player.incrementCodesAttempted();
         Random random = new Random();
         String code = "";
-        while (code.length() < 8) { //was <4 cbto8
+        while (code.length() < length) {
             int nextDigit = random.nextInt(10);
             String digitStr = Integer.toString(nextDigit);
             if (!code.contains(digitStr)) {
