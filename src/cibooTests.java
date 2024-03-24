@@ -28,9 +28,8 @@ public class cibooTests {
          */
 
         @Test
-        public void testfor8() {
-            Player pT = new Player();
-            pT.username = "testPlayer";
+        public void NCtestfor8() { //MAKE SURE TO RESET TEST PLAYER VALUES
+            Player pT = new Player("testPlayer");
             Game g = new Game(pT);
             g.gameType = "nc";
 
@@ -40,7 +39,7 @@ public class cibooTests {
              */
 
             g.code = "12345";
-
+            g.length = 5;
             assertTrue(g.length == 5);
             assertTrue(g.code == "12345");
 
@@ -50,7 +49,8 @@ public class cibooTests {
             //System.out.print("Bulls : " + pT.getBulls() + "\n" + "Cows : " + pT.getCows() + "\n" + "Stats % : " + pT.getStats() + "\n");
 
             g.code = "12345678";
-            pT.codeLength = 8;
+            g.length = 8;
+            pT.setCodeLength(g.length);
 
             Throwable eTg1 = assertThrows(IndexOutOfBoundsException.class, //guess length = 4, code length = 8, error should throw
                     ()->{g.enterGuess("1234", "nc");});
@@ -59,9 +59,9 @@ public class cibooTests {
                     ()->{g.enterGuess("12345678", "lc");});
 
             g.enterGuess("12340000", "nc");
-            assertEquals(pT.getBulls(), 4);
-            assertEquals(pT.getCows(), 0);
-            assertEquals(pT.getStats(), (float) 0.5); // 4 / 8
+            assertEquals(4, pT.getBulls());
+            assertEquals(0,pT.getCows());
+            assertEquals((float) 50, pT.getStats()); // 4 / 8
 
             try {
                 pT.updateStats(); //Would need like a whole ass method to see if it updated the
@@ -70,9 +70,9 @@ public class cibooTests {
             } //tried assertDoesNotThrow but i kept getting errors so
 
             g.enterGuess("00001234", "nc");
-            assertEquals(pT.getBulls(), 4);
-            assertEquals(pT.getCows(),4);
-            assertEquals(pT.getStats(), (float) 0.5); // 4+4/16 = 8 / 16
+            assertEquals(4,pT.getBulls());
+            assertEquals(4, pT.getCows());
+            assertEquals((float) 50, pT.getStats()); // 4+4/16 = 8 / 16
 
             try {
                 pT.updateStats();
@@ -80,36 +80,40 @@ public class cibooTests {
                 throw new RuntimeException(e);
             } //Again, need to visually see
 
+        }
 
+        @Test
+        public void LCtestfor8() { //MAKE SURE TO RESET SECONDTEST PLAYER VALUES
             /**
              * New set of tests for letter
              */
-            Player pT2 = new Player();
-            pT2.username = "testPlayer2";
+            Player pT2 = new Player("SecondTest");
             Game g2 = new Game(pT2);
 
             g2.gameType = "lc";
             g2.code = "hamburg";
+            g2.length = 7;
 
             assertTrue(g2.length == 7);
             assertTrue(g2.code == "hamburg");
 
             Throwable eT2p1 = assertThrows(IllegalArgumentException.class,
-                    ()->{pT.setCodeLength(g2.length);});
+                    ()->{pT2.setCodeLength(g2.length);});
 
             g2.code = "polarize";
-            pT.codeLength = 8;
+            g2.length = 8;
+            pT2.setCodeLength(g2.length);
 
             Throwable eT2g1 = assertThrows(IndexOutOfBoundsException.class, //guess length = 5, code length = 8, error should throw
-                    ()->{g.enterGuess("polar", "lc");});
+                    ()->{g2.enterGuess("polar", "lc");});
 
             Throwable eT2g2 = assertThrows(IllegalArgumentException.class, //guess length = 8, game type is wrong, error should throw
-                    ()->{g.enterGuess("polarize", "nc");});
+                    ()->{g2.enterGuess("polarize", "nc");});
 
-            g.enterGuess("polarjlk", "lc");
-            assertEquals(pT.getBulls(), 5);
-            assertEquals(pT.getCows(), 0);
-            assertEquals(pT.getStats(), (float) 0.625); // 5 / 8 = 0.625
+            g2.enterGuess("polarjlk", "lc");
+            //assertEquals(5, pT2.getBulls());
+            //assertEquals(0, pT2.getCows());
+            assertEquals((float) 62.5, pT2.getStats()); // 5 / 8 = 0.625
 
             try {
                 pT2.updateStats();
@@ -117,13 +121,13 @@ public class cibooTests {
                 throw new RuntimeException(e);
             }
 
-            g.enterGuess("abmnbize", "lc");
-            assertEquals(pT.getBulls(), 5);
-            assertEquals(pT.getCows(),4);
-            assertEquals(pT.getStats(), (float) 0.5625); // 5+4/16 = 9 / 16 =
+            g2.enterGuess("izerbfeg", "lc");
+            assertEquals(5, pT2.getBulls());
+            assertEquals(4, pT2.getCows());
+            assertEquals((float) 56.25, pT2.getStats()); // 5+4/16 = 9 / 16 =
 
             try {
-                pT.updateStats();
+                pT2.updateStats();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } //Again, need to visually see

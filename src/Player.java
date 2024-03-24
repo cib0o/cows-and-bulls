@@ -148,6 +148,7 @@ public class Player extends Players {
 
         }
         public float getStats() { //was *4 now *8 cbto8
+            System.out.println("c:" + numberOfCows + "|b:" + numberOfBulls + "|g:" + numberOfGuesses + "|cL: " + codeLength);
             return ((float) (numberOfCows + numberOfBulls) / ((numberOfGuesses)*codeLength)) * 100; //returns the % of cows and bulls per char of guess
         }
 

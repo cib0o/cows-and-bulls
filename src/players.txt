@@ -11,4 +11,6 @@ lmnop 12 4 32 34 56 -1
 poopy 0 0 0 0 0 -1
 kiiiwii 0 0 0 0 0 -1 
 kiiwii# 0 0 0 0 0 -1 
-kiiwii] 0 0 0 0 0 -1 
+kiiwii] 0 0 0 0 0 -1
+testPlayer 0 0 0 0 0 -1
+SecondTest 0 0 0 0 0 -1

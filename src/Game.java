@@ -87,15 +87,15 @@ public class Game {
          */
 
         if(guessStr.length() !=length){
-            JOptionPane.showMessageDialog(null, "Invalid guess length. Please try again", "Invalid guess", JOptionPane.ERROR_MESSAGE); //pop up window of error
+            JOptionPane.showMessageDialog(null, "Invalid guess length. Please try again", ("Invalid guess:" + guessStr), JOptionPane.ERROR_MESSAGE); //pop up window of error
             throw new IndexOutOfBoundsException();
         } else if(gameType == "lc" && guessStr.matches(".*\\d.*")){ //regex for "contains a number"
-            JOptionPane.showMessageDialog(null, "Entered a number guess for a Letter Code", "Invalid guess", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Entered a number guess for a Letter Code", ("Invalid guess:" + guessStr), JOptionPane.ERROR_MESSAGE);
             throw new IllegalArgumentException();
         } else if(gameType == "nc"){
             try { Integer.parseInt(guessStr);
             } catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Entered a letter guess for a Number Code", "Invalid guess", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Entered a letter guess for a Number Code", ("Invalid guess:" + guessStr), JOptionPane.ERROR_MESSAGE);
             System.out.println("Game type was " + gameType);
             throw new IllegalArgumentException();
         }}
@@ -132,10 +132,13 @@ public class Game {
                 }
             }
         }
+        System.out.println(guessStr + "c: " + cows + "|b: " + bulls);
 
         guesses.add(guessStr + cows + bulls);
         player.incrementGuesses();
 
+        player.updateCows(cows);
+        player.updateBulls(bulls);
 
         return new int[]{cows, bulls};
     }
