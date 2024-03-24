@@ -214,7 +214,7 @@ public class Game {
         if (won){
             return;
         }
-        String saveData = code;
+        String saveData = length + code;
         for(int i = 0; i < 5; i++){
             saveData += guesses.get(guesses.size() - 5 + i);
         }
@@ -255,41 +255,49 @@ public class Game {
 
 
 
-    public void loadGame(String allGuesses){
-
-        String filePath = "src/players.txt";
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-
-                    String gameData = allGuesses;
-                    String code = gameData.substring(0, 4);
-                allGuesses = allGuesses.substring(4);
-
-
-
-                    this.code = code;
-                    ArrayList<String> guesses = new ArrayList<>();
-                    for (int i = 0; i < allGuesses.length(); i += 6) {
-                        String guess = allGuesses.substring(i, i + 6);
-                        guesses.add(guess);
-                    }
-                    this.guesses.clear();
-                    for (int i = 0; i <5 ; i++){
-                        this.guesses.add(guesses.get(i));
-                    }
-                    break;
-                }
-
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+    public void loadGame(String allGuesses) {
+        if (allGuesses == null || allGuesses.isEmpty()) {
+            System.out.println("Invalid input string.");
+            return;
         }
 
+
+        int gameLengthIndicator = Character.getNumericValue(allGuesses.charAt(0));
+        int codeLength, guessLength;
+        if (gameLengthIndicator == 8) {
+            codeLength = 8;
+            guessLength = 10;
+        } else {
+            codeLength = 4;
+            guessLength = 6;
+        }
+
+        if (allGuesses.length() < 1 + codeLength) {
+            System.out.println("Input string too short for code.");
+            return;
+        }
+
+
+        this.code = allGuesses.substring(1, 1 + codeLength);
+
+
+        allGuesses = allGuesses.substring(1 + codeLength);
+
+        this.guesses.clear();
+
+
+        while (!allGuesses.isEmpty() && allGuesses.length() >= guessLength) {
+            String guess = allGuesses.substring(0, guessLength);
+            guesses.add(guess);
+            allGuesses = allGuesses.substring(guessLength);
+            System.out.println("Looping in the load");
+            System.out.println(allGuesses);
+        }
+        System.out.println("Loaded code: " + this.code);
+        System.out.println("Loaded guesses: " + String.join(", ", this.guesses));
     }
+
+
 
     public void showHint(){}
 

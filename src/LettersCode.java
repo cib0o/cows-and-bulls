@@ -13,46 +13,32 @@ public class LettersCode {
         this.player = player;
     }
 
-    String wordFile = "ListofWords.txt";
-    
+
 
     public String generateCode(int length) {
+        System.out.println("I AM AT LEAST TRYING TO GENERATE A LETTER CODE");
         List<String> words = new ArrayList<>();
-        if (length != 4) {
-            try (Scanner scanner = new Scanner(new File("src/" + wordFile))) {
-                player.incrementCodesAttempted();
-                while (scanner.hasNextLine()) {
-                    words.add(scanner.nextLine().trim());
-                }
-            } catch (FileNotFoundException e) {
-                System.err.println("File not found: " + e.getMessage());
-                return "";
-            }
-        }
-        try (Scanner scanner = new Scanner(new File("src/" + "wordList10Let"))) {
-            player.incrementCodesAttempted();
-            while (scanner.hasNextLine()) {
-                words.add(scanner.nextLine().trim());
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found: " + e.getMessage());
-            return "";
-        }
+        try {
 
-        try (Scanner scanner = new Scanner(new File("src/" + "wordList10Let"))) {
-            player.incrementCodesAttempted();
+            Scanner scanner = new Scanner(new File(length == 4? "src/4LetterIsograms.txt":"src/ListofWords.txt"));
             while (scanner.hasNextLine()) {
-                words.add(scanner.nextLine().trim());
+                String word = scanner.nextLine().trim();
+                if (word.length() == length) {
+                    words.add(word);
+                }
             }
+            scanner.close();
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + e.getMessage());
             return "";
         }
 
         if (!words.isEmpty()) {
+            System.out.println("IF THIS IS NOT BLANK THEN IT WORKS: " + words.get(new Random().nextInt(words.size())));
             return words.get(new Random().nextInt(words.size()));
         } else {
-            return "";
+            return ""; // No words of the desired length were found
         }
     }
+
 }

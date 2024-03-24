@@ -275,7 +275,8 @@ public class mainMenu extends JFrame{
                         String gameData = parts[6];
                         String code = "";
                         try {
-                            code = gameData.substring(0, 4);
+                            this.length = Character.getNumericValue(gameData.charAt(0));
+                            code = gameData.substring(1, length +1);
                         } catch (StringIndexOutOfBoundsException re){
                             JOptionPane.showMessageDialog(this,"No saved game!");
                             return;
@@ -289,6 +290,7 @@ public class mainMenu extends JFrame{
 
                         try {
                             if (isNumeric) {
+                                System.out.println("I called the method to load game");
                                 switchUserInterface("nc");
                                 userInterface.g.loadGame(allGuesses);
                             } else if (isAlphabetic) {
@@ -454,9 +456,6 @@ System.out.println("PLAYER doES NOT EXIST");
         return false;
     }
 
-        public void createAccount(){
-
-    }
 
     //[player][bulls][cows][attempted][solved][guesses][save]
 }

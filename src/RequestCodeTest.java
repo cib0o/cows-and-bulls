@@ -50,7 +50,7 @@ public class RequestCodeTest {
 		Player p = new Player();
 		Game g = new Game(p, "lc",4);
 		LettersCode l = new LettersCode(p);
-		l.wordFile = "noFileExists.txt"; //changes file to a non-existant file (may need to change dependent on how the file is made)
+		l.generateCode(5); //changes file to a non-existant file (may need to change dependent on how the file is made)
 		
 		int codes_attempted = p.getCodesAttempted(); 
 		String code = l.generateCode(4);

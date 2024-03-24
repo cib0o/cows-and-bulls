@@ -151,7 +151,7 @@ public class userInterface extends JPanel implements KeyListener {
         } if (e.getKeyCode() == KeyEvent.VK_ENTER && inputBufferCount == length) {
 
             int[] cowsBulls = g.enterGuess(new String(inputBuffer).trim(), gameType);
-            if (cowsBulls[1] == 4){
+            if (cowsBulls[1] == 4 && length ==4 || cowsBulls[1] == 8){
                 playerWon = true;
                 panel.repaint();
             }
@@ -277,7 +277,7 @@ class MyPanel extends JPanel {
 
 
 
-        Font numberFont = new Font(Font.SANS_SERIF, Font.BOLD, 48);
+        Font numberFont = new Font(Font.SANS_SERIF, Font.BOLD, 38);
         g.setFont(numberFont);
 
         FontMetrics metrics = g.getFontMetrics();
@@ -289,18 +289,18 @@ class MyPanel extends JPanel {
         // this for loop draws the input rectangles and the numbers that are in the input buffer
         for(int i = 0; i<ui.length; i++) {
             g.setColor(Color.darkGray);
-            g.fillRect((((width / 2 )-160*2)+i*160) -5, (height / 4 * 2) - 5, 160, (150*5/3) + 10);
+            g.fillRect((((width / 2 )-160*2)+i*160) -5 - (ui.length==8?300:0), (height / 4 * 2) - 5, 160, (150*5/3) + 10);
             g.setColor(Color.lightGray);
-            g.fillRect(((width / 2 )-160*2)+i*160, height / 4 * 2, 150, 150*5/3);
+            g.fillRect(((width / 2 )-160*2)+i*160- (ui.length==8?300:0), height / 4 * 2, 150, 150*5/3);
 
             if (i < inputBufferCount) {
                 String text = Character.toString(inputBuffer[i]);
                 int textWidth = metrics.stringWidth(text);
                 int textHeight = metrics.getHeight();
-                int x = (((width / 2 )-160*2)+i*160) + (150 - textWidth) / 2;
+                int x = ((((width / 2 )-160*2)+i*160) + (150 - textWidth) / 2 )- (ui.length==8?300:0);
                 int y = (height / 4 * 2) + ((150*5/3) - textHeight) / 2 + metrics.getAscent();
                 g.setColor(Color.black);
-                g.drawString(text, x, y);
+                g.drawString(text, x + 20, y);
             }
         }
 
@@ -367,7 +367,7 @@ class MyPanel extends JPanel {
 
         g2d.setColor(Color.black);
         g.setFont(numberFont);
-        g2d.drawString("Your score is: " + userInterface.g.guesses.size(), x, y);
+        g2d.drawString("Your score is: " + userInterface.g.guesses.size(), x + 10, y);
 
             numberFont = new Font(Font.SANS_SERIF, Font.BOLD, 24);
             g.setFont(numberFont);
@@ -418,7 +418,7 @@ class MyPanel extends JPanel {
             int row = i / gridSize;
             int col = i % gridSize;
             int x = boundX + col * imageWidth;
-            int y = boundY + row * imageHeight - 200;
+            int y = boundY + row * imageHeight - (ui.playerWon?0:250);
             g2d.drawImage(image, x, y, imageWidth, imageHeight, this);
         }
     }

@@ -28,14 +28,14 @@ public class Player extends Players {
             this.username = null;
             String filePath = "src/players.txt";
 
-            System.out.println("ive reached player constructor");
+          //  System.out.println("ive reached player constructor");
 
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
                 String line;
                 boolean notFound = true;
 
                 while ((line = reader.readLine()) != null) {
-                    System.out.println("looping");
+                   // System.out.println("looping");
                     String[] parts = line.split(" ");
                     if (parts[0].equalsIgnoreCase(username)) {
                         this.username = parts[0];
