@@ -16,13 +16,14 @@ public class Game {
     ArrayList<String> guesses = new ArrayList<>();
     String code;
     char[] buffer = new char[4];
-    int length;
+    public int length;
 
     Game(Player p, String codeType, int length) {
         this.player = p;
         this.gameType = codeType;
         this.length = length;
         this.buffer = new char[this.length];
+        p.setCodeLength(length);
     }
     Game(Player p) { player = p;   }
 

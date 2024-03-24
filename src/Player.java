@@ -16,6 +16,8 @@ public class Player extends Players {
     int codesAttempted;
     int codesDeciphered;
 
+    int codeLength;
+
     Player() {
         numberOfBulls = 0;
         numberOfCows = 0;
@@ -137,8 +139,16 @@ public class Player extends Players {
             return codesDeciphered;
         }
 
+        protected void setCodeLength(int length) {
+            if (length == 4 || length == 8 ) {
+                codeLength = length;
+            } else {
+                throw new IllegalArgumentException("Something went really wrong lol");
+            }
+
+        }
         public float getStats() { //was *4 now *8 cbto8
-            return ((float) (numberOfCows + numberOfBulls) / ((numberOfGuesses)*8)) * 100; //returns the % of cows and bulls per char of guess
+            return ((float) (numberOfCows + numberOfBulls) / ((numberOfGuesses)*codeLength)) * 100; //returns the % of cows and bulls per char of guess
         }
 
     }

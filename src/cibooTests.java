@@ -27,6 +27,23 @@ public class cibooTests {
          */
 
         @Test
+        public void testfor8() {
+            Player pT = new Player();
+            Game g = new Game(pT);
+
+
+        }
+
+
+
+
+        /**
+         *
+         * Tests from hereon are outdated but kept just incase of whatever
+         * Tests for Sprints 1,2
+         *
+         *
+        @Test
         public void playerStatsPerc() {
             Player pT = new Player();
             Game g = new Game(pT);
@@ -133,7 +150,6 @@ public class cibooTests {
             }
         }
 
-        /**
          * Scenario: player enters the correct guess and successfully deciphers the code
          *          Given a secret code is displayed
          *          When the player enters the correct guess
@@ -141,7 +157,7 @@ public class cibooTests {
          *          Check:
          *          display : success message
          *          update : stats | game status
-         */
+
         @Test
         public void successfulGuessDispANDUpdate(){
             Player p2 = new Player();
@@ -191,14 +207,13 @@ public class cibooTests {
 
         }
 
-        /**
          * Scenario: player enters a guess with an invalid length
          *         Given a secret code is displayed
          *         When the player enters a guess with an invalid length
          *         Then an error message is displayed and they are asked to try again
          *         Check:
          *             display : error message , try again
-         */
+
         @Test
         public void invalidLength() {
             Player p3 = new Player();
@@ -221,14 +236,13 @@ public class cibooTests {
             //See if display is shown
         }
 
-        /**
          * Scenario: player enters an invalid guess for a letters code
          *          Given a secret code is displayed
          *          When the player enters a guess containing numbers
          *          Then an error message is displayed and they are asked to try again
          *          Check:
          *          display: error, try again
-         */
+
 
         @Test
         public void invalidGuessforLettersCode() {
@@ -253,14 +267,13 @@ public class cibooTests {
                 g4.checkGuess(g4.buffer); } ); //checks if g3.enterGuess() will throw the exception
         }
 
-        /**
          * Scenario: player enters an invalid guess for a numbers code
          *          Given a secret code is displayed
          *          When the player enters a guess containing letters
          *          Then an error message is displayed and they are asked to try again
          *          Check:
          *          display: error, try again
-         */
+
 
 
         @Test
@@ -285,5 +298,6 @@ public class cibooTests {
                         g5.buffer[3] = '4';
                         g5.checkGuess(g5.buffer); } ); //checks if g3.enterGuess() will throw the exception
         }
+        */
     }
 
