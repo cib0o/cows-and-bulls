@@ -65,10 +65,10 @@ public class Game {
 
             SecretCode secretCode;
             if ("nc".equals(gameType)) {
-               SecretCode c = new SecretCode(player, "nc");
+               SecretCode c = new SecretCode(player, "nc",length);
                code = c.code;
             } else if ("lc".equals(gameType)) {
-                SecretCode c = new SecretCode(player, "lc");
+                SecretCode c = new SecretCode(player, "lc",length);
                 code = c.code;
             }
                 return null;
@@ -85,7 +85,7 @@ public class Game {
          * IMPORTANT: the output of this method is [cows, bulls], a won game would be [0,4]
          */
 
-        if(guessStr.length() != 4){
+        if(guessStr.length() !=length){
             JOptionPane.showMessageDialog(null, "Invalid guess length. Please try again", "Invalid guess", JOptionPane.ERROR_MESSAGE); //pop up window of error
             throw new IndexOutOfBoundsException();
         } else if(gameType == "lc" && guessStr.matches(".*\\d.*")){ //regex for "contains a number"

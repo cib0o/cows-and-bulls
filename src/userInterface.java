@@ -148,7 +148,7 @@ public class userInterface extends JPanel implements KeyListener {
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
 
-        } if (e.getKeyCode() == KeyEvent.VK_ENTER && inputBufferCount == 4) {
+        } if (e.getKeyCode() == KeyEvent.VK_ENTER && inputBufferCount == length) {
 
             int[] cowsBulls = g.enterGuess(new String(inputBuffer).trim(), gameType);
             if (cowsBulls[1] == 4){
@@ -334,7 +334,7 @@ class MyPanel extends JPanel {
             Font guessFontCowBull = new Font(Font.SANS_SERIF, Font.BOLD, 38);
 
             String cowsText = "Cows:" + userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).charAt(ui.length);
-            String bullsText = "Bulls:" + userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).charAt(ui.length-1);
+            String bullsText = "Bulls:" + userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).charAt(ui.length+1);
 
 
 
@@ -418,7 +418,7 @@ class MyPanel extends JPanel {
             int row = i / gridSize;
             int col = i % gridSize;
             int x = boundX + col * imageWidth;
-            int y = boundY + row * imageHeight;
+            int y = boundY + row * imageHeight - 200;
             g2d.drawImage(image, x, y, imageWidth, imageHeight, this);
         }
     }

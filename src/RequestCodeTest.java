@@ -53,7 +53,7 @@ public class RequestCodeTest {
 		l.wordFile = "noFileExists.txt"; //changes file to a non-existant file (may need to change dependent on how the file is made)
 		
 		int codes_attempted = p.getCodesAttempted(); 
-		String code = l.generateCode();
+		String code = l.generateCode(4);
 		
 		assertEquals(code, ""); //code should equal an empty string (can change this, depends on how request code is written)
 		assertEquals(code.length(), 0); //code should be of length 0 (can change this, depends on how request code is written)
