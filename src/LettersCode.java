@@ -39,6 +39,16 @@ public class LettersCode {
             return "";
         }
 
+        try (Scanner scanner = new Scanner(new File("src/" + "wordList10Let"))) {
+            player.incrementCodesAttempted();
+            while (scanner.hasNextLine()) {
+                words.add(scanner.nextLine().trim());
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + e.getMessage());
+            return "";
+        }
+
         if (!words.isEmpty()) {
             return words.get(new Random().nextInt(words.size()));
         } else {
