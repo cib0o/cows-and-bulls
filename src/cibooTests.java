@@ -1,3 +1,4 @@
+import com.sun.source.tree.AssertTree;
 import org.junit.
         jupiter.api.Test;
 
@@ -29,9 +30,103 @@ public class cibooTests {
         @Test
         public void testfor8() {
             Player pT = new Player();
+            pT.username = "testPlayer";
             Game g = new Game(pT);
+            g.gameType = "nc";
 
 
+            /**
+             * Test for non 8 length code
+             */
+
+            g.code = "12345";
+
+            assertTrue(g.length == 5);
+            assertTrue(g.code == "12345");
+
+            Throwable eTp1 = assertThrows(IllegalArgumentException.class,
+                    ()->{pT.setCodeLength(g.length);});
+
+            //System.out.print("Bulls : " + pT.getBulls() + "\n" + "Cows : " + pT.getCows() + "\n" + "Stats % : " + pT.getStats() + "\n");
+
+            g.code = "12345678";
+            pT.codeLength = 8;
+
+            Throwable eTg1 = assertThrows(IndexOutOfBoundsException.class, //guess length = 4, code length = 8, error should throw
+                    ()->{g.enterGuess("1234", "nc");});
+
+            Throwable eTg2 = assertThrows(IllegalArgumentException.class, //guess length = 4, game type is wrong, error should throw
+                    ()->{g.enterGuess("12345678", "lc");});
+
+            g.enterGuess("12340000", "nc");
+            assertEquals(pT.getBulls(), 4);
+            assertEquals(pT.getCows(), 0);
+            assertEquals(pT.getStats(), (float) 0.5); // 4 / 8
+
+            try {
+                pT.updateStats(); //Would need like a whole ass method to see if it updated the
+            } catch (IOException e) { //text file properly so probably best just look at it so this isnt too clunky.
+                throw new RuntimeException(e);
+            } //tried assertDoesNotThrow but i kept getting errors so
+
+            g.enterGuess("00001234", "nc");
+            assertEquals(pT.getBulls(), 4);
+            assertEquals(pT.getCows(),4);
+            assertEquals(pT.getStats(), (float) 0.5); // 4+4/16 = 8 / 16
+
+            try {
+                pT.updateStats();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } //Again, need to visually see
+
+
+            /**
+             * New set of tests for letter
+             */
+            Player pT2 = new Player();
+            pT2.username = "testPlayer2";
+            Game g2 = new Game(pT2);
+
+            g2.gameType = "lc";
+            g2.code = "hamburg";
+
+            assertTrue(g2.length == 7);
+            assertTrue(g2.code == "hamburg");
+
+            Throwable eT2p1 = assertThrows(IllegalArgumentException.class,
+                    ()->{pT.setCodeLength(g2.length);});
+
+            g2.code = "polarize";
+            pT.codeLength = 8;
+
+            Throwable eT2g1 = assertThrows(IndexOutOfBoundsException.class, //guess length = 5, code length = 8, error should throw
+                    ()->{g.enterGuess("polar", "lc");});
+
+            Throwable eT2g2 = assertThrows(IllegalArgumentException.class, //guess length = 8, game type is wrong, error should throw
+                    ()->{g.enterGuess("polarize", "nc");});
+
+            g.enterGuess("polarjlk", "lc");
+            assertEquals(pT.getBulls(), 5);
+            assertEquals(pT.getCows(), 0);
+            assertEquals(pT.getStats(), (float) 0.625); // 5 / 8 = 0.625
+
+            try {
+                pT2.updateStats();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            g.enterGuess("abmnbize", "lc");
+            assertEquals(pT.getBulls(), 5);
+            assertEquals(pT.getCows(),4);
+            assertEquals(pT.getStats(), (float) 0.5625); // 5+4/16 = 9 / 16 =
+
+            try {
+                pT.updateStats();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } //Again, need to visually see
         }
 
 
@@ -59,7 +154,7 @@ public class cibooTests {
             g.buffer[3] = '0';
             g.checkGuess(g.buffer);
             g.buffer = new char[4]; //resets the buffer to simulate a new guess
-            //System.out.print("Bulls : " + pT.getBulls() + "\n" + "Cows : " + pT.getCows() + "\n" + "Stats % : " + pT.getStats() + "\n");
+
 
             g.enterGuess("1040","nc");
             pT.displayStats(pT);
