@@ -234,7 +234,7 @@ public class cibooTests {
         public void invalidGuessforLettersCode() {
             Player p4 = new Player();
             String LettersCode = "lc";
-            Game g4 = new Game(p4, LettersCode);
+            Game g4 = new Game(p4, LettersCode,4);
             String guess = "ab0d";
             g4.requestCode("nc");
 
@@ -267,7 +267,7 @@ public class cibooTests {
         public void invalidGuessforNumbersCode() {
             Player p5 = new Player();
             String NumbersCode = "nc";
-            Game g5 = new Game(p5, NumbersCode);
+            Game g5 = new Game(p5, NumbersCode,4);
             String guess = "12d4";
             g5.requestCode("nc");
 

@@ -12,6 +12,8 @@ public class mainMenu extends JFrame{
     private final CardLayout cardLayout = new CardLayout();
     public Player p = null;
     public userInterface gameInterface;
+    int length;
+    String gameType;
 
     public mainMenu() throws IOException {
         setTitle("Bulls and Cows");
@@ -39,7 +41,7 @@ public class mainMenu extends JFrame{
 
     private void switchUserInterface(String gameType) throws IOException {
 
-        gameInterface = new userInterface(gameType, this, p); // Create new instance with gameType
+        gameInterface = new userInterface(gameType, this, p,length); // Create new instance with gameType
         getContentPane().add(gameInterface, "GameInterface"); // Add to CardLayout
         cardLayout.show(getContentPane(), "GameInterface"); // Switch to the new interface
         getContentPane().revalidate();
@@ -105,6 +107,8 @@ public class mainMenu extends JFrame{
         JButton back = new JButton();
         JButton loadGame = new JButton();
         JButton login = new JButton();
+        JButton length4 = new JButton();
+        JButton length8 = new JButton();
 
 
 
@@ -114,6 +118,8 @@ public class mainMenu extends JFrame{
         back.setVisible(false);
         wordGame.setVisible(false);
         loadGame.setVisible(false);
+        length8.setVisible(false);
+        length4.setVisible(false);
 
         startButton.setBounds(width/32 + 125, height/64 + 510 , 250,75);
 
@@ -134,9 +140,63 @@ public class mainMenu extends JFrame{
             wordGame.setVisible(false);
             loadGame.setVisible(false);
             back.setVisible(false);
+            length8.setVisible(false);
+            length4.setVisible(false);
             Timer timer = new Timer(1, ae -> testRepaint());
             timer.setRepeats(false);
             timer.start();
+        });
+
+        numberGame.addActionListener(e -> {
+            if (p != null) {
+                gameType="nc";
+                numberGame.setVisible(false);
+                wordGame.setVisible(false);
+                loadGame.setVisible(false);
+                length8.setVisible(true);
+                length4.setVisible(true);
+                back.setVisible(true);
+                Timer timer = new Timer(1, ae -> testRepaint());
+                timer.setRepeats(false);
+                timer.start();
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Please log in!");
+            }
+        });
+        wordGame.addActionListener(e -> {
+            if (p != null) {
+                gameType="lc";
+                numberGame.setVisible(false);
+                wordGame.setVisible(false);
+                loadGame.setVisible(false);
+                length8.setVisible(true);
+                length4.setVisible(true);
+                back.setVisible(true);
+                Timer timer = new Timer(1, ae -> testRepaint());
+                timer.setRepeats(false);
+                timer.start();
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Please log in!");
+            }
+        });
+
+        length4.addActionListener(e->{
+            this.length = 4;
+            try {
+                switchUserInterface(gameType);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        length8.addActionListener(e->{
+            this.length = 8;
+            try {
+                switchUserInterface(gameType);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
 
@@ -148,6 +208,9 @@ public class mainMenu extends JFrame{
 
         loadGame.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_load.png?raw=true"))));
         login.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_login.png?raw=true"))));
+
+        length4.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_length.png?raw=true"))));
+        length8.setIcon(new ImageIcon(ImageIO.read(new URL("https://github.com/cib0o/cows-and-bulls/blob/master/src/Images/button_length8.png?raw=true"))));
 
 
         panel.add(startButton);
@@ -163,6 +226,16 @@ public class mainMenu extends JFrame{
         wordGame.setBorder(BorderFactory.createEmptyBorder());
         wordGame.setContentAreaFilled(false);
         panel.add(wordGame);
+
+        length4.setBounds(width/32 + 125, height/64 + 510, 250,75);
+        length4.setBorder(BorderFactory.createEmptyBorder());
+        length4.setContentAreaFilled(false);
+        panel.add(length4);
+
+        length8.setBounds(width/32 + 125, height/64 + 510 + 80 , 250,75);
+        length8.setBorder(BorderFactory.createEmptyBorder());
+        length8.setContentAreaFilled(false);
+        panel.add(length8);
 
         back.setBounds(width/32 + 125, height/64 + 510 + 240 , 250,75);
         back.setBorder(BorderFactory.createEmptyBorder());
@@ -180,30 +253,7 @@ public class mainMenu extends JFrame{
         panel.add(login);
 
 
-        numberGame.addActionListener(e -> {
-            try {
-                if (p != null) {
-                    switchUserInterface("nc");
-                }
-                else{
-                    JOptionPane.showMessageDialog(this, "Please log in!");
-                }
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-        wordGame.addActionListener(e -> {
-            try {
-                if (p != null) {
-                    switchUserInterface("lc");
-                }
-                else{
-                    JOptionPane.showMessageDialog(this, "Please log in!");
-                }
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+
         login.addActionListener(e -> login());
 
         loadGame.addActionListener(e -> {

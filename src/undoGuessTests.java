@@ -51,7 +51,7 @@ public class undoGuessTests{
 
     @Test
     public void undoNothing() throws IOException {
-        userInterface u = new userInterface("nc", new mainMenu(), new Player());
+        userInterface u = new userInterface("nc", new mainMenu(), new Player(),4);
         Throwable exception = assertThrows(IndexOutOfBoundsException.class, //Exception.class is the exception being tested, can change to a more specific Exception type
                 ()->{ KeyEvent backspacePressed = new KeyEvent(u, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_BACK_SPACE, KeyEvent.CHAR_UNDEFINED);
                     u.keyPressed(backspacePressed);
@@ -68,7 +68,7 @@ public class undoGuessTests{
 
     @Test
     public void invalidUndo() throws IOException {
-        userInterface u = new userInterface("nc", new mainMenu(), new Player());
+        userInterface u = new userInterface("nc", new mainMenu(), new Player(),4);
         Game g = new Game(new Player());
         g.code = "1234";
 

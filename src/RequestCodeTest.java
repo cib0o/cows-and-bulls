@@ -13,7 +13,7 @@ public class RequestCodeTest {
 		
 		//creation of Player and Game objects
 		Player p = new Player();
-		Game g = new Game(p, "lc");
+		Game g = new Game(p, "lc",4);
 		
 		int codes_attempted = p.getCodesAttempted(); //sets codes_attempted to the value of the player's codes attempted (used to test if incrementCodesAttempted() works)
 		g.requestCode("lc"); //sets codes to the value of requestCode() for a word game
@@ -32,7 +32,7 @@ public class RequestCodeTest {
 		
 		//creation of Player and Game objects
 		Player p = new Player();
-		Game g = new Game(p, "nc");
+		Game g = new Game(p, "nc",4);
 		
 		int codes_attempted = p.getCodesAttempted(); //sets codes_attempted to the value of the player's codes attempted (used to test if incrementCodesAttempted() works)
 		g.requestCode("nc"); //sets codes to the value of requestCode() for a number game
@@ -48,7 +48,7 @@ public class RequestCodeTest {
 	public void noWordStored() {
 		
 		Player p = new Player();
-		Game g = new Game(p, "lc");
+		Game g = new Game(p, "lc",4);
 		LettersCode l = new LettersCode(p);
 		l.wordFile = "noFileExists.txt"; //changes file to a non-existant file (may need to change dependent on how the file is made)
 		

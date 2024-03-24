@@ -9,7 +9,7 @@ import java.net.URL;
 import java.util.Arrays;
 
 public class userInterface extends JPanel implements KeyListener {
-    char[] inputBuffer = new char[4];
+    char[] inputBuffer = new char[8];
     private int inputBufferCount = 0;
     private final MyPanel panel;
     public static Player p = new Player();
@@ -20,9 +20,11 @@ public class userInterface extends JPanel implements KeyListener {
     boolean playerWon = false;
     JButton show;
     JButton hint;
+    int length;
 
-    public userInterface(String gametype, JFrame parentFrame, Player player) throws IOException {
-        g = new Game(player, "nc");
+    public userInterface(String gametype, JFrame parentFrame, Player player,int length) throws IOException {
+        this.length=length;
+        g = new Game(player, "nc",length);
         g.requestCode(gametype);
         this.gameType = gametype;
         this.parentFrame = parentFrame;
@@ -111,7 +113,7 @@ public class userInterface extends JPanel implements KeyListener {
         char c = e.getKeyChar();
         // Checking if the character is a digit and that there's still space in the input buffer
         if (gameType.equals("nc")){
-        if (Character.isDigit(c) && inputBufferCount < inputBuffer.length) {
+        if (Character.isDigit(c) && inputBufferCount < inputBuffer.length && inputBufferCount < length) {
             inputBuffer[inputBufferCount++] = c;
             g.buffer = inputBuffer;
             g.gameType = gameType;
@@ -120,7 +122,7 @@ public class userInterface extends JPanel implements KeyListener {
             panel.setInputBufferCount(inputBufferCount);
             panel.repaint();
         }
-        } else if (Character.isAlphabetic(c) && inputBufferCount < inputBuffer.length) {
+        } else if (Character.isAlphabetic(c) && inputBufferCount < inputBuffer.length&& inputBufferCount < length) {
             inputBuffer[inputBufferCount++] = c;
             g.buffer = inputBuffer;
             g.gameType = gameType;
@@ -285,7 +287,7 @@ class MyPanel extends JPanel {
         int height = screenSize.height;
 
         // this for loop draws the input rectangles and the numbers that are in the input buffer
-        for(int i = 0; i<4; i++) {
+        for(int i = 0; i<ui.length; i++) {
             g.setColor(Color.darkGray);
             g.fillRect((((width / 2 )-160*2)+i*160) -5, (height / 4 * 2) - 5, 160, (150*5/3) + 10);
             g.setColor(Color.lightGray);
@@ -328,11 +330,11 @@ class MyPanel extends JPanel {
 
 
         for (int i = 0 ; i < userInterface.g.guesses.size() && i < 5; i++) {
-            String guessText = userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).substring(0,4);
+            String guessText = userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).substring(0,ui.length);
             Font guessFontCowBull = new Font(Font.SANS_SERIF, Font.BOLD, 38);
 
-            String cowsText = "Cows:" + userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).charAt(4);
-            String bullsText = "Bulls:" + userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).charAt(5);
+            String cowsText = "Cows:" + userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).charAt(ui.length);
+            String bullsText = "Bulls:" + userInterface.g.guesses.get(userInterface.g.guesses.size() - i - 1).charAt(ui.length-1);
 
 
 

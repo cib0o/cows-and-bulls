@@ -7,7 +7,7 @@ public class HintSolTest {
     @Test
     public void testRevealHintNum() {
        Player p = new Player();
-        Game game = new Game(p, "nc");
+        Game game = new Game(p, "nc",4);
         game.code = "1234";
         game.revealHint();
         String LastHint = game.getLastHint();
@@ -18,7 +18,7 @@ public class HintSolTest {
     @Test
     public void testShowSolutionNum() {
         Player p = new Player();
-        Game game = new Game(p, "nc");
+        Game game = new Game(p, "nc",4);
         game.code = "1234";
         String solution = game.getSolution();
         assertNotNull(solution, "solution shouldn't be null");
@@ -28,7 +28,7 @@ public class HintSolTest {
     @Test
     public void testRevealHintLet() {
         Player p = new Player();
-        Game game = new Game(p, "lc");
+        Game game = new Game(p, "lc",4);
         game.code = "bert";
         game.revealHint();
         String LastHint = game.getLastHint();
@@ -39,7 +39,7 @@ public class HintSolTest {
     @Test
     public void testShowSolutionLet() {
         Player p = new Player();
-        Game game = new Game(p, "lc");
+        Game game = new Game(p, "lc",4);
         game.code = "bert";
         String solution = game.getSolution();
         assertNotNull(solution, "solution shouldn't be empty");
