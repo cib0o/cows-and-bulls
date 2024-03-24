@@ -26,6 +26,7 @@ public class userInterface extends JPanel implements KeyListener {
         this.length=length;
         g = new Game(player, "nc",length);
         g.requestCode(gametype);
+        p.incrementCodesAttempted();
         this.gameType = gametype;
         this.parentFrame = parentFrame;
         this.p = player;
@@ -152,6 +153,8 @@ public class userInterface extends JPanel implements KeyListener {
 
             int[] cowsBulls = g.enterGuess(new String(inputBuffer).trim(), gameType);
             if (cowsBulls[1] == 4 && length ==4 || cowsBulls[1] == 8){
+                p.incrementCodesDeciphered();
+
                 playerWon = true;
                 panel.repaint();
             }

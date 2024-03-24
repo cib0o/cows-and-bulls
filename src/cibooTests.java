@@ -48,6 +48,9 @@ public class cibooTests {
 
             //System.out.print("Bulls : " + pT.getBulls() + "\n" + "Cows : " + pT.getCows() + "\n" + "Stats % : " + pT.getStats() + "\n");
 
+
+
+
             g.code = "12345678";
             g.length = 8;
             pT.setCodeLength(g.length);
@@ -58,21 +61,48 @@ public class cibooTests {
             Throwable eTg2 = assertThrows(IllegalArgumentException.class, //guess length = 4, game type is wrong, error should throw
                     ()->{g.enterGuess("12345678", "lc");});
 
+            /**
+            char[] guess = new char[]{'1', '2', '3', '4', '0', '0', '0', '0'};
+            for (char c : g.buffer) {
+                g.buffer[c] = guess[c];
+                g.checkGuess(g.buffer);
+            }
+             */
+
             g.enterGuess("12340000", "nc");
+            pT.incrementCodesAttempted();
             assertEquals(4, pT.getBulls());
             assertEquals(0,pT.getCows());
             assertEquals((float) 50, pT.getStats()); // 4 / 8
 
+            //g.buffer = new char[8]; //resets the buffer to simulate a new guess
             try {
                 pT.updateStats(); //Would need like a whole ass method to see if it updated the
             } catch (IOException e) { //text file properly so probably best just look at it so this isnt too clunky.
                 throw new RuntimeException(e);
             } //tried assertDoesNotThrow but i kept getting errors so
 
+            /**
+            char[] guess2 = new char[]{'0', '0', '0', '0', '1', '2', '3', '4'};
+            for (char c : g.buffer) {
+                g.buffer[c] = guess[c];
+                g.checkGuess(g.buffer);
+            }
+             */
+
             g.enterGuess("00001234", "nc");
             assertEquals(4,pT.getBulls());
             assertEquals(4, pT.getCows());
             assertEquals((float) 50, pT.getStats()); // 4+4/16 = 8 / 16
+
+
+            g.enterGuess("99999999", "nc");
+            g.enterGuess("12345678", "nc");
+
+            pT.incrementCodesDeciphered();
+            assertEquals(4, pT.numberOfGuesses);
+            assertEquals(1, pT.getCodesAttempted());
+            assertEquals(1, pT.getCodesDeciphered());
 
             try {
                 pT.updateStats();
@@ -111,8 +141,9 @@ public class cibooTests {
                     ()->{g2.enterGuess("polarize", "nc");});
 
             g2.enterGuess("polarjlk", "lc");
-            //assertEquals(5, pT2.getBulls());
-            //assertEquals(0, pT2.getCows());
+            pT2.incrementCodesAttempted();
+            assertEquals(5, pT2.getBulls());
+            assertEquals(0, pT2.getCows());
             assertEquals((float) 62.5, pT2.getStats()); // 5 / 8 = 0.625
 
             try {
@@ -126,11 +157,22 @@ public class cibooTests {
             assertEquals(4, pT2.getCows());
             assertEquals((float) 56.25, pT2.getStats()); // 5+4/16 = 9 / 16 =
 
+
+            g2.enterGuess("mmmmmmmm", "lc");
+            g2.enterGuess("polarize", "lc");
+
+            pT2.incrementCodesDeciphered();
+
+            assertEquals(4, pT2.numberOfGuesses);
+            assertEquals(1, pT2.getCodesAttempted());
+            assertEquals(1, pT2.getCodesDeciphered());
+
             try {
                 pT2.updateStats();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } //Again, need to visually see
+
         }
 
 

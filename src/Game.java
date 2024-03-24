@@ -72,6 +72,7 @@ public class Game {
                 SecretCode c = new SecretCode(player, "lc",length);
                 code = c.code;
             }
+
                 return null;
 
 
@@ -140,6 +141,7 @@ public class Game {
         player.updateCows(cows);
         player.updateBulls(bulls);
 
+
         return new int[]{cows, bulls};
     }
 
@@ -184,6 +186,7 @@ public class Game {
 
         player.updateBulls(bull);
         player.updateCows(cow);
+        player.incrementGuesses();
 
         System.out.println("The guess was: " + String.valueOf(c) + "player stats: " + player.getCows() + player.getBulls() + "cowBulls " + cow + bull);
 
